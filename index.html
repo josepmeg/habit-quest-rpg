@@ -14,39 +14,59 @@
 
     <div id="main-content" class="max-w-7xl mx-auto space-y-8">
         <header class="card rounded-lg p-6">
-            <div class="flex justify-center items-center mb-6 relative">
-                <h1 class="font-rpg text-2xl md:text-4xl text-center text-yellow-400">HabitQuest RPG</h1>
-                <button id="info-modal-btn" class="absolute right-0 btn bg-gray-700 hover:bg-gray-600 rounded-full p-2">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-                </button>
+            <div class="text-center mb-6">
+                <h1 class="font-rpg text-2xl md:text-4xl text-yellow-400">HabitQuest RPG</h1>
             </div>
-            <div class="grid grid-cols-3 items-start gap-4">
-                <div id="player-card" class="text-center space-y-4">
+        
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
+        
+                <div id="player-column" class="flex-1 w-full text-center space-y-3">
+                    <h2 class="font-rpg text-xl md:text-2xl text-blue-400">
+                        <span id="player-name" class="cursor-pointer hover:text-blue-300">Player</span> — Lvl: <span id="player-level">1</span>
+                    </h2>
                     <div class="relative inline-block">
                         <img src="assets/player.png" class="pixel-art w-[35vw] h-auto max-w-32 md:max-w-40">
-                        <span id="player-level" class="absolute -bottom-2 -right-2 font-rpg text-lg bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center border-2 border-gray-800">1</span>
-                        <button id="player-stats-modal-btn" class="absolute top-0 right-0 btn bg-gray-700 hover:bg-gray-600 rounded-full p-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm2 1v1h8V6H6z" clip-rule="evenodd"></path></svg></button>
-                        <button id="inventory-modal-btn" class="absolute top-0 left-0 btn bg-gray-700 hover:bg-gray-600 rounded-full p-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2V4z"></path><path fill-rule="evenodd" d="M3 8a3 3 0 013-3h8a3 3 0 013 3v6a3 3 0 01-3 3H6a3 3 0 01-3-3V8zm3-1a1 1 0 00-1 1v6a1 1 0 001 1h8a1 1 0 001-1V8a1 1 0 00-1-1H6z" clip-rule="evenodd"></path></svg></button>
                     </div>
-                    <h2 class="font-rpg text-xl md:text-2xl text-blue-400">Player</h2>
+        
                     <div class="space-y-2 px-2">
-                        <div><span class="text-sm font-bold text-green-400">HP</span><div class="progress-bar-bg rounded-full"><div id="player-hp-bar" class="progress-bar-fill h-4 rounded-full hp-gradient"></div></div><span id="player-hp-text" class="text-xs"></span></div>
+                        <div><span class="text-sm font-bold text-green-400">HP</span><div class="progress-bar-bg rounded-full"><div id="player-hp-bar" class="progress-bar-fill h-6 rounded-full hp-gradient"></div></div><span id="player-hp-text" class="text-xs"></span></div>
                         <div><span class="text-sm font-bold text-blue-400">MP</span><div class="progress-bar-bg rounded-full"><div id="player-mp-bar" class="progress-bar-fill h-4 rounded-full mp-gradient"></div></div><span id="player-mp-text" class="text-xs"></span></div>
                         <div><span class="text-sm font-bold text-purple-400">EXP</span><div class="progress-bar-bg rounded-full"><div id="player-exp-bar" class="progress-bar-fill h-4 rounded-full exp-gradient"></div></div><span id="player-exp-text" class="text-xs"></span></div>
-                        <div class="flex items-center justify-center gap-2 pt-1"><svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L10 10.586 7.707 8.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3z"></path></svg><span id="player-luck-text" class="text-sm font-bold text-yellow-400"></span></div>
+                    </div>
+                    
+                    <div class="flex justify-center items-center gap-4 pt-2">
+                        <button id="inventory-modal-btn" title="Inventory" class="btn bg-gray-700 hover:bg-gray-600 rounded-full p-3">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2V4z"></path><path fill-rule="evenodd" d="M3 8a3 3 0 013-3h8a3 3 0 013 3v6a3 3 0 01-3 3H6a3 3 0 01-3-3V8zm3-1a1 1 0 00-1 1v6a1 1 0 001 1h8a1 1 0 001-1V8a1 1 0 00-1-1H6z" clip-rule="evenodd"></path></svg>
+                        </button>
+                         <button id="player-stats-modal-btn" title="History" class="btn bg-gray-700 hover:bg-gray-600 rounded-full p-3">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                        </button>
+                        <button id="info-modal-btn" title="Info" class="btn bg-gray-700 hover:bg-gray-600 rounded-full p-3">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        </button>
                     </div>
                 </div>
-                <div class="text-center pt-12"><span class="font-rpg text-4xl md:text-6xl text-red-500">VS</span></div>
-                <div id="boss-card" class="text-center space-y-4">
-                     <div class="relative inline-block">
+        
+                <div class="hidden md:flex items-center justify-center">
+                    <span class="font-rpg text-4xl lg:text-6xl text-red-500">VS</span>
+                </div>
+        
+                <div id="boss-column" class="flex-1 w-full text-center space-y-3">
+                     <h2 id="boss-name" class="font-rpg text-xl md:text-2xl text-red-500"></h2>
+                    <div class="relative inline-block">
                         <img src="assets/ifrit.png" class="pixel-art w-[35vw] h-auto max-w-32 md:max-w-40">
-                        <button id="boss-modal-btn" class="absolute top-0 right-0 btn bg-gray-700 hover:bg-gray-600 rounded-full p-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 4a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1zm0 6a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1zm0 6a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1z"></path></svg></button>
                     </div>
-                    <h2 id="boss-name" class="font-rpg text-xl md:text-2xl text-red-500"></h2>
+        
                     <div class="space-y-2 px-2">
                         <div><span class="text-sm font-bold text-red-400">HP</span><div class="progress-bar-bg rounded-full"><div id="boss-hp-bar" class="progress-bar-fill h-6 rounded-full bg-red-600"></div></div><span id="boss-hp-text" class="text-xs"></span></div>
                     </div>
+        
+                    <div class="flex justify-center items-center gap-4 pt-2" style="height: 56px;"> <button id="boss-modal-btn" title="Manage Bosses" class="btn bg-gray-700 hover:bg-gray-600 rounded-full p-3">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M2 4a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1zm0 6a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1zm0 6a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1z"></path></svg>
+                        </button>
+                    </div>
                 </div>
+        
             </div>
         </header>
 
@@ -77,3 +97,4 @@
     <script src="script.js" defer></script>
 </body>
 </html>
+
