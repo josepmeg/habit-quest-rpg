@@ -344,6 +344,38 @@ function renderUI() {
     renderTaskCounters();
     renderHistory();
     renderInventory();
+    renderAttributes();
+}
+
+// Add this new function to script.js
+
+function renderAttributes() {
+    const { player } = gameState;
+    const attributesContent = document.getElementById('attributes-content');
+    const totalLuck = (player.base_luck || 5) + Math.floor((player.training_streak || 0) / 3);
+
+    const attributesHtml = `
+        <ul class="space-y-2 text-gray-300">
+            <li class="flex items-center gap-3">
+                <span class="text-xl">⚔️</span>
+                <span>Attack: <span class="font-bold text-white">${player.attack}</span></span>
+            </li>
+            <li class="flex items-center gap-3">
+                <span class="text-xl">❤️</span>
+                <span>Max HP: <span class="font-bold text-white">${player.max_hp}</span></span>
+            </li>
+            <li class="flex items-center gap-3">
+                <span class="text-xl">🔷</span>
+                <span>Max MP: <span class="font-bold text-white">${player.max_mp}</span></span>
+            </li>
+            <li class="flex items-center gap-3">
+                <span class="text-xl">🍀</span>
+                <span>Luck: <span class="font-bold text-white">${totalLuck}</span></span>
+            </li>
+        </ul>
+    `;
+
+    attributesContent.innerHTML = attributesHtml;
 }
 
 function renderBossModals() {
