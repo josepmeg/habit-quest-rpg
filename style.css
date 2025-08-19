@@ -26,3 +26,4 @@ body { font-family: 'Inter', sans-serif; background-color: #111827; color: #F9FA
 .calendar-day.workout-done { background-color: #22C55E; }
 .calendar-day.today { box-shadow: 0 0 0 2px #FACC15; }
 .pixel-art { image-rendering: pixelated; }
+.action-bar { min-height: 56px; }
