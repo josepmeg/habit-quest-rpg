@@ -322,8 +322,6 @@ function renderUI() {
     document.getElementById('player-mp-text').textContent = `${player.mp} / ${player.max_mp}`;
     document.getElementById('player-exp-bar').style.width = `${(player.exp / player.exp_to_next_level) * 100}%`;
     document.getElementById('player-exp-text').textContent = `${player.exp} / ${player.exp_to_next_level}`;
-    const totalLuck = (player.base_luck || 5) + Math.floor((player.training_streak || 0) / 3);
-    document.getElementById('player-luck-text').textContent = `LUCK: ${totalLuck}`;
     document.getElementById('boss-name').textContent = current_boss.name;
     document.getElementById('boss-hp-bar').style.width = `${(current_boss.hp / current_boss.max_hp) * 100}%`;
     document.getElementById('boss-hp-text').textContent = `${current_boss.hp} / ${current_boss.max_hp}`;
