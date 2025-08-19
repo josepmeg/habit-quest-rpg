@@ -306,6 +306,7 @@ function renderUI() {
     if (!gameState || !gameState.player) return;
     const { player, current_boss, dailyLog } = gameState;
     document.getElementById('player-level').textContent = player.level;
+    document.getElementById('player-name').textContent = player.name;
     document.getElementById('player-hp-bar').style.width = `${(player.hp / player.max_hp) * 100}%`;
     document.getElementById('player-hp-text').textContent = `${player.hp} / ${player.max_hp}`;
     document.getElementById('player-mp-bar').style.width = `${(player.mp / player.max_mp) * 100}%`;
