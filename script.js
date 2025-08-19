@@ -80,6 +80,7 @@ function setupEventListeners() {
     setupCollapsible('workout-toggle', 'workout-content', 'workout-arrow');
     setupCollapsible('habits-toggle', 'daily-habits-content', 'habits-arrow');
     setupCollapsible('quests-toggle', 'quests-content', 'quests-arrow');
+    setupCollapsible('attributes-toggle', 'attributes-content', 'attributes-arrow');
     document.getElementById('attack-btn').addEventListener('click', () => handleAttack('normal'));
     document.getElementById('special-attack-btn').addEventListener('click', () => handleAttack('special'));
     document.body.addEventListener('change', e => e.target.matches('input[type="checkbox"][data-task-id]') && handleTaskToggle(e.target.dataset.taskId, e.target.checked));
