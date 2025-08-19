@@ -100,6 +100,15 @@ function setupEventListeners() {
     document.getElementById('add-quest-form').addEventListener('submit', handleAddQuest);
     document.getElementById('quest-list').addEventListener('click', e => e.target.matches('.complete-quest-btn') && handleCompleteQuest(parseInt(e.target.dataset.questIndex)));
     document.getElementById('inventory-content').addEventListener('click', e => e.target.matches('.use-item-btn') && useItem(e.target.dataset.itemId));
+    document.getElementById('player-name').addEventListener('click', () => {
+        const newName = prompt("Enter your character's name:", gameState.player.name);
+        if (newName && newName.trim() !== '') {
+            gameState.player.name = newName.trim();
+            saveGameData();
+            renderUI();
+            showNotification("Character name updated!", 'success');
+        }
+    });
 }
 
 function handleAttack(attackType) {
