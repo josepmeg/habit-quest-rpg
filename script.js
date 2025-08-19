@@ -339,11 +339,19 @@ function renderUI() {
 
 function renderBossModals() {
     const queueList = document.getElementById('boss-queue-list');
-    if (!gameState.boss_queue || gameState.boss_queue.length === 0) { queueList.innerHTML = `<li class="text-gray-400">No bosses in the queue.</li>`; } 
-    else { queueList.innerHTML = gameState.boss_queue.map((boss, index) => `<li class="flex justify-between items-center bg-gray-700 p-2 rounded-md"><span>${index + 1}. ${boss.name} (${boss.hp} HP)</span></li>`).join(''); }
+    if (!gameState.boss_queue || gameState.boss_queue.length === 0) { 
+        queueList.innerHTML = `<li class="text-gray-400">No bosses in the queue.</li>`; 
+    } else { 
+        queueList.innerHTML = gameState.boss_queue.map((boss, index) => `<li class="flex justify-between items-center bg-gray-700 p-2 rounded-md"><span>${index + 1}. ${boss.name} (${boss.hp} HP)</span></li>`).join(''); 
+    }
+
     const defeatedList = document.getElementById('defeated-boss-list');
-    if (!gameState.defeated_bosses || gameState.defeated_besses.length === 0) { defeatedList.innerHTML = `<li class="text-gray-400">No bosses defeated yet.</li>`; }
-    else { defeatedList.innerHTML = gameState.defeated_bosses.map(name => `<li class="text-gray-400 p-2">✔️ ${name}</li>`).join(''); }
+    // The typo was in the next line: "defeated_besses" is now correctly "defeated_bosses"
+    if (!gameState.defeated_bosses || gameState.defeated_bosses.length === 0) { 
+        defeatedList.innerHTML = `<li class="text-gray-400">No bosses defeated yet.</li>`; 
+    } else { 
+        defeatedList.innerHTML = gameState.defeated_bosses.map(name => `<li class="text-gray-400 p-2">✔️ ${name}</li>`).join(''); 
+    }
 }
 
 function renderQuests() {
