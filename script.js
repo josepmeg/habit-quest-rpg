@@ -120,6 +120,22 @@ function setupEventListeners() {
             showNotification("Character name updated!", 'success');
         }
     });
+
+    const historyContent = document.getElementById('history-content');
+    if (historyContent) {
+        historyContent.addEventListener('click', (e) => {
+            if (e.target.matches('.clickable-day')) {
+                showDailySummary(e.target.dataset.date);
+            }
+        });
+    }
+
+    const summaryModal = document.getElementById('summary-modal');
+    if (summaryModal) {
+        document.getElementById('summary-modal-close').addEventListener('click', () => summaryModal.style.display = 'none');
+        summaryModal.querySelector('.modal-overlay').addEventListener('click', () => summaryModal.style.display = 'none');
+    }
+    
 }
 
 function handleAttack(attackType) {
@@ -450,7 +466,6 @@ function renderHistory() {
     const year = todayObj.getFullYear();
     const month = todayObj.getMonth();
 
-    // Create a reliable "today" string using local date parts
     const todayStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(todayObj.getDate()).padStart(2, '0')}`;
 
     const monthName = todayObj.toLocaleString('default', { month: 'long' });
@@ -462,8 +477,8 @@ function renderHistory() {
         <div class="grid grid-cols-7 gap-2 text-center text-xs font-rpg">
             <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
         </div>
-        <div class="grid grid-cols-7 gap-1 text-center text-sm">
-    `;
+        <div id="calendar-grid" class="grid grid-cols-7 gap-1 text-center text-sm">
+    `; // Added id="calendar-grid"
 
     for (let i = 0; i < firstDay; i++) {
         calendarHtml += `<div></div>`;
@@ -479,16 +494,66 @@ function renderHistory() {
         }
         
         let dayClasses = 'calendar-day w-full aspect-square rounded-md flex items-center justify-center';
-        if (isWorkoutDone) dayClasses += ' workout-done';
-        
-        // Use our new reliable "today" string for the check
+        let dataAttribute = '';
+        if (isWorkoutDone) {
+            dayClasses += ' workout-done clickable-day';
+            dataAttribute = `data-date="${dateStr}"`; // Add data-date attribute
+        }
         if (dateStr === todayStr) dayClasses += ' today';
 
-        calendarHtml += `<div class="${dayClasses}">${day}</div>`;
+        calendarHtml += `<div class="${dayClasses}" ${dataAttribute}>${day}</div>`;
     }
 
     calendarHtml += `</div>`;
     historyContent.innerHTML = calendarHtml;
+}
+
+function showDailySummary(dateStr) {
+    let logData = null;
+    if (dateStr === gameState.dailyLog.date) {
+        logData = gameState.dailyLog;
+    } else {
+        logData = gameState.history.find(h => h.date === dateStr);
+    }
+
+    if (!logData) return;
+
+    const modal = document.getElementById('summary-modal');
+    const titleEl = document.getElementById('summary-modal-title');
+    const contentEl = document.getElementById('summary-modal-content');
+
+    const date = new Date(dateStr + 'T00:00:00');
+    titleEl.textContent = `Summary for ${date.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
+
+    let contentHtml = '';
+
+    const completedWorkouts = WORKOUT_TASKS.filter(task => logData.completed_tasks.includes(task.id));
+    const completedHabits = DAILY_HABITS.filter(task => logData.completed_tasks.includes(task.id));
+
+    if (completedWorkouts.length > 0) {
+        contentHtml += '<h4 class="font-rpg text-yellow-400 text-sm">Workout Details</h4><ul class="list-disc list-inside text-gray-400 space-y-1">';
+        completedWorkouts.forEach(task => {
+            let details = '';
+            if (logData.workout_details && logData.workout_details[task.id]) {
+                details = Object.entries(logData.workout_details[task.id])
+                    .map(([key, value]) => `${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`)
+                    .join(', ');
+            }
+            contentHtml += `<li>${task.name}${details ? ` <span class="text-xs">(${details})</span>` : ''}</li>`;
+        });
+        contentHtml += '</ul>';
+    }
+
+    if (completedHabits.length > 0) {
+        contentHtml += '<h4 class="font-rpg text-green-400 text-sm mt-4">Habits Completed</h4><ul class="list-disc list-inside text-gray-400 space-y-1">';
+        completedHabits.forEach(task => {
+            contentHtml += `<li>${task.name}</li>`;
+        });
+        contentHtml += '</ul>';
+    }
+    
+    contentEl.innerHTML = contentHtml;
+    modal.style.display = 'flex';
 }
 
 function renderInventory() {
