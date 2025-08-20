@@ -164,7 +164,7 @@ function handleAttack(attackType) {
         if (gameState.boss_queue && gameState.boss_queue.length > 0) {
             gameState.current_boss = gameState.boss_queue.shift();
         } else {
-            gameState.current_boss = { name: "Ifrit (Respawned)", hp: 300, max_hp: 300, ability: "Burn" };
+            gameState.current_boss = { name: "Ifrit (Respawned)", hp: 300, max_hp: 300, ability: "Burn", image: "assets/ifrit.png" };
         }
     }
     saveGameData();
