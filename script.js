@@ -5,8 +5,7 @@ const initialGameState = {
     defeated_bosses: [],
     quests: [],
     history: [],
-    dailyLog: { date: new Date().toISOString().split('T')[0], completed_tasks: [], workout_details: {}, attack_performed: false }
-
+    dailyLog: { date: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0], completed_tasks: [], workout_details: {}, attack_performed: false }
 };
 let gameState = JSON.parse(JSON.stringify(initialGameState));
 
