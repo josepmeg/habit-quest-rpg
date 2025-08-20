@@ -147,13 +147,13 @@ function handleAttack(attackType) {
     const streakBonus = 1 + (0.1 * Math.max(0, gameState.player.training_streak - 1));
     const totalDamage = Math.round(gameState.player.attack * streakBonus * damageMultiplier);
     gameState.current_boss.hp = Math.max(0, gameState.current_boss.hp - totalDamage);
-    document.getElementById('boss-card').classList.add('character-shake');
-    setTimeout(() => document.getElementById('boss-card').classList.remove('character-shake'), 500);
+    document.getElementById('boss-column').classList.add('character-shake');
+    setTimeout(() => document.getElementById('boss-column').classList.remove('character-shake'), 500);
 
     if (gameState.current_boss.ability && gameState.current_boss.ability.toLowerCase() === 'burn') {
         gameState.player.hp = Math.max(0, gameState.player.hp - 5);
-        document.getElementById('player-card').classList.add('character-shake');
-        setTimeout(() => document.getElementById('player-card').classList.remove('character-shake'), 500);
+        document.getElementById('player-column').classList.add('character-shake');
+        setTimeout(() => document.getElementById('player-column').classList.remove('character-shake'), 500);
     }
 
     updatePersonalBests();
