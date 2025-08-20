@@ -27,3 +27,5 @@ body { font-family: 'Inter', sans-serif; background-color: #111827; color: #F9FA
 .calendar-day.today { box-shadow: 0 0 0 2px #FACC15; }
 .pixel-art { image-rendering: pixelated; }
 .action-bar { min-height: 56px; }
+.clickable-day { cursor: pointer; transition: background-color 0.2s; }
+.clickable-day:hover { background-color: #374151; }
