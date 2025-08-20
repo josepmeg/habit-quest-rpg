@@ -1,5 +1,5 @@
 const initialGameState = {
-    player: { name: 'Player', level: 1, hp: 100, max_hp: 100, mp: 50, max_mp: 50, attack: 5, base_luck: 5, exp: 0, exp_to_next_level: 100, training_streak: 0, personal_bests: {}, inventory: [] },
+    player: { name: 'Player', settings: { background: 1 }, level: 1, hp: 100, max_hp: 100, mp: 50, max_mp: 50, attack: 5, base_luck: 5, exp: 0, exp_to_next_level: 100, training_streak: 0, personal_bests: {}, inventory: [] },
     current_boss: { name: "Ifrit", hp: 300, max_hp: 300, ability: "Burn", image: "assets/ifrit.png" },
     boss_queue: [],
     defeated_bosses: [],
@@ -38,9 +38,13 @@ function loadGameData() {
             gameState.current_boss.image = 'assets/ifrit.png'; // Default image
         }
         if (!gameState.player.inventory) gameState.player.inventory = [];
+        if (gameState.player && !gameState.player.settings) {
+            gameState.player.settings = { background: 1 }; // Add settings for older saves
+        }
     } else {
         gameState = JSON.parse(JSON.stringify(initialGameState));
     }
+    applySettings();
     const today = new Date().toISOString().split('T')[0];
     if (gameState.dailyLog.date !== today) {
         resetDailyTasks();
@@ -51,6 +55,14 @@ function loadGameData() {
 
 function saveGameData() {
     localStorage.setItem('habitQuestRpgGame', JSON.stringify(gameState));
+}
+
+function applySettings() {
+    if (gameState.player.settings && gameState.player.settings.background) {
+        const bgNumber = gameState.player.settings.background;
+        const imageUrl = `assets/backgrounds/background ${bgNumber}.jpg`;
+        document.body.style.backgroundImage = `url('${imageUrl}')`;
+    }
 }
 
 function populateTaskLists() {
@@ -134,6 +146,18 @@ function setupEventListeners() {
     if (summaryModal) {
         document.getElementById('summary-modal-close').addEventListener('click', () => summaryModal.style.display = 'none');
         summaryModal.querySelector('.modal-overlay').addEventListener('click', () => summaryModal.style.display = 'none');
+    }
+
+    const bgSwitcher = document.getElementById('background-switcher');
+    if (bgSwitcher) {
+        bgSwitcher.addEventListener('click', (e) => {
+            if (e.target.matches('button[data-bg]')) {
+                const bgNumber = e.target.dataset.bg;
+                gameState.player.settings.background = parseInt(bgNumber, 10);
+                applySettings();
+                saveGameData();
+            }
+        });
     }
     
 }
