@@ -5,7 +5,8 @@ const initialGameState = {
     defeated_bosses: [],
     quests: [],
     history: [],
-    dailyLog: { date: new Date().toISOString().split('T')[0], completed_tasks: [], workout_details: {} }
+    dailyLog: { date: new Date().toISOString().split('T')[0], completed_tasks: [], workout_details: {}, attack_performed: false }
+
 };
 let gameState = JSON.parse(JSON.stringify(initialGameState));
 
@@ -314,7 +315,8 @@ function resetDailyTasks() {
     const today = new Date().toISOString().split('T')[0];
     const yesterdayWorkoutCompleted = WORKOUT_TASKS.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id));
     if (!yesterdayWorkoutCompleted) gameState.player.training_streak = 0;
-    gameState.dailyLog = { date: today, completed_tasks: [], workout_details: {} };
+    gameState.dailyLog = { date: today, completed_tasks: [], workout_details: {}, attack_performed: false };
+
     saveGameData();
     renderUI();
 }
