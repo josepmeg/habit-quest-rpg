@@ -1,6 +1,6 @@
 const initialGameState = {
     player: { name: 'Player', level: 1, hp: 100, max_hp: 100, mp: 50, max_mp: 50, attack: 5, base_luck: 5, exp: 0, exp_to_next_level: 100, training_streak: 0, personal_bests: {}, inventory: [] },
-    current_boss: { name: "Ifrit", hp: 300, max_hp: 300, ability: "Burn" },
+    current_boss: { name: "Ifrit", hp: 300, max_hp: 300, ability: "Burn", image: "assets/ifrit.png" },
     boss_queue: [],
     defeated_bosses: [],
     quests: [],
@@ -254,7 +254,11 @@ function handleAddBoss(e) {
     const hp = parseInt(e.target.elements['new-boss-hp'].value);
     const ability = e.target.elements['new-boss-ability'].value.trim();
     if (name && hp > 0) {
-        gameState.boss_queue.push({ name, max_hp: hp, hp, ability });
+        // Auto-generate image path from name (e.g., "Ice Queen" -> "ice-queen.png")
+        const imageName = name.toLowerCase().replace(/\s+/g, '-') + '.png';
+        const imagePath = `assets/${imageName}`;
+
+        gameState.boss_queue.push({ name, max_hp: hp, hp, ability, image: imagePath });
         e.target.reset();
         saveGameData();
         renderBossModals();
@@ -324,6 +328,7 @@ function renderUI() {
     document.getElementById('player-exp-bar').style.width = `${(player.exp / player.exp_to_next_level) * 100}%`;
     document.getElementById('player-exp-text').textContent = `${player.exp} / ${player.exp_to_next_level}`;
     document.getElementById('boss-name').textContent = current_boss.name;
+    document.getElementById('boss-image').src = current_boss.image; 
     document.getElementById('boss-hp-bar').style.width = `${(current_boss.hp / current_boss.max_hp) * 100}%`;
     document.getElementById('boss-hp-text').textContent = `${current_boss.hp} / ${current_boss.max_hp}`;
     [...WORKOUT_TASKS, ...DAILY_HABITS].forEach(task => { const checkbox = document.getElementById(`task-${task.id}`); if (checkbox) checkbox.checked = dailyLog.completed_tasks.includes(task.id); });
@@ -355,24 +360,28 @@ function renderAttributes() {
     const totalLuck = (player.base_luck || 5) + Math.floor((player.training_streak || 0) / 3);
 
     const attributesHtml = `
-        <ul class="space-y-2 text-gray-300">
-            <li class="flex items-center gap-3">
-                <span class="text-xl">⚔️</span>
-                <span>Attack: <span class="font-bold text-white">${player.attack}</span></span>
-            </li>
-            <li class="flex items-center gap-3">
-                <span class="text-xl">❤️</span>
-                <span>Max HP: <span class="font-bold text-white">${player.max_hp}</span></span>
-            </li>
-            <li class="flex items-center gap-3">
-                <span class="text-xl">🔷</span>
-                <span>Max MP: <span class="font-bold text-white">${player.max_mp}</span></span>
-            </li>
-            <li class="flex items-center gap-3">
-                <span class="text-xl">🍀</span>
-                <span>Luck: <span class="font-bold text-white">${totalLuck}</span></span>
-            </li>
-        </ul>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div class="card p-2 rounded-md">
+                <span class="text-2xl">⚔️</span>
+                <p class="text-xs text-gray-400">Attack</p>
+                <p class="font-bold text-white">${player.attack}</p>
+            </div>
+            <div class="card p-2 rounded-md">
+                <span class="text-2xl">❤️</span>
+                <p class="text-xs text-gray-400">Max HP</p>
+                <p class="font-bold text-white">${player.max_hp}</p>
+            </div>
+            <div class="card p-2 rounded-md">
+                <span class="text-2xl">🔷</span>
+                <p class="text-xs text-gray-400">Max MP</p>
+                <p class="font-bold text-white">${player.max_mp}</p>
+            </div>
+            <div class="card p-2 rounded-md">
+                <span class="text-2xl">🍀</span>
+                <p class="text-xs text-gray-400">Luck</p>
+                <p class="font-bold text-white">${totalLuck}</p>
+            </div>
+        </div>
     `;
 
     attributesContent.innerHTML = attributesHtml;
