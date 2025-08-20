@@ -500,11 +500,19 @@ function updateAttackButtonState() {
     const workoutCompleted = WORKOUT_TASKS.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id));
     const attackBtn = document.getElementById('attack-btn');
     const specialAttackBtn = document.getElementById('special-attack-btn');
-    
-    attackBtn.disabled = !workoutCompleted;
-    document.getElementById('attack-message').textContent = workoutCompleted ? `Ready! Current Streak: ${gameState.player.training_streak || 0}` : "Complete a workout to attack.";
 
-    specialAttackBtn.disabled = !workoutCompleted || gameState.player.mp < SPECIAL_ATTACK.mp_cost;
+    const canAttack = workoutCompleted && !gameState.dailyLog.attack_performed;
+
+    attackBtn.disabled = !canAttack;
+    specialAttackBtn.disabled = !canAttack || gameState.player.mp < SPECIAL_ATTACK.mp_cost;
+
+    let message = "Complete a workout to attack.";
+    if (workoutCompleted && !gameState.dailyLog.attack_performed) {
+        message = `Ready! Current Streak: ${gameState.player.training_streak || 0}`;
+    } else if (gameState.dailyLog.attack_performed) {
+        message = "You have already attacked today.";
+    }
+    document.getElementById('attack-message').textContent = message;
     document.getElementById('special-attack-message').textContent = `Cost: ${SPECIAL_ATTACK.mp_cost} MP`;
 }
 
