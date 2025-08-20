@@ -105,6 +105,13 @@ function setupEventListeners() {
     document.getElementById('add-quest-form').addEventListener('submit', handleAddQuest);
     document.getElementById('quest-list').addEventListener('click', e => e.target.matches('.complete-quest-btn') && handleCompleteQuest(parseInt(e.target.dataset.questIndex)));
     document.getElementById('inventory-content').addEventListener('click', e => e.target.matches('.use-item-btn') && useItem(e.target.dataset.itemId));
+    document.getElementById('reset-game-btn').addEventListener('click', () => {
+        const isConfirmed = confirm('Are you sure you want to reset all game progress? This cannot be undone.');
+        if (isConfirmed) {
+            localStorage.removeItem('habitQuestRpgGame');
+            location.reload();
+        }
+    });
     document.getElementById('player-name').addEventListener('click', () => {
         const newName = prompt("Enter your character's name:", gameState.player.name);
         if (newName && newName.trim() !== '') {
