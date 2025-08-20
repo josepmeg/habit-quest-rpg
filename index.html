@@ -78,13 +78,11 @@
             <section class="card rounded-lg p-4"><button id="attributes-toggle" class="w-full text-left"><h3 class="font-rpg text-lg text-yellow-400 flex justify-between items-center"><span>Player Attributes</span><span id="attributes-arrow">▼</span></h3></button><div id="attributes-content" class="collapsible-content mt-4"></div></section>
             <section class="text-center space-y-4">
                 <div class="flex justify-center items-center gap-4">
-                    <button id="attack-btn" class="attack-btn btn font-rpg text-xl bg-red-600 text-white py-4 px-6 rounded-lg shadow-lg hover:bg-red-700 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:shadow-none">
-                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.203 3.203a.75.75 0 011.06 0l5.25 5.25a.75.75 0 010 1.06l-5.25 5.25a.75.75 0 01-1.06-1.06L7.887 10 3.203 5.314a.75.75 0 010-1.06l-.001-.001zM10.203 3.203a.75.75 0 011.06 0l5.25 5.25a.75.75 0 010 1.06l-5.25 5.25a.75.75 0 11-1.06-1.06L14.887 10l-4.684-4.686a.75.75 0 010-1.06l-.001-.001z" clip-rule="evenodd" /></svg>
-                        <span class="hidden sm:inline ml-2">ATTACK!</span>
+                    <button id="attack-btn" title="Attack" class="attack-btn btn font-rpg bg-red-600 text-white p-4 rounded-lg shadow-lg hover:bg-red-700 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:shadow-none">
+                        <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M22.414 3.586l-2-2a1 1 0 00-1.414 0L1.586 19A1 1 0 002 20.414l2 2a1 1 0 001.414 0L22.414 5a1 1 0 000-1.414zM4.414 20L20 4.414 21.586 6 6 21.586 4.414 20z"></path><path d="M22.414 19l-2 2a1 1 0 01-1.414 0L1.586 3.586a1 1 0 010-1.414l2-2a1 1 0 011.414 0L22.414 17.586A1 1 0 0122.414 19z"></path></svg>
                     </button>
-                    <button id="special-attack-btn" class="special-attack-btn btn font-rpg text-xl bg-indigo-600 text-white py-4 px-6 rounded-lg shadow-lg hover:bg-indigo-700 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:shadow-none">
-                        <span>🔥</span>
-                        <span class="hidden sm:inline ml-2">FIREBALL</span>
+                    <button id="special-attack-btn" title="Fireball" class="special-attack-btn btn font-rpg bg-indigo-600 text-white p-4 rounded-lg shadow-lg hover:bg-indigo-700 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:shadow-none">
+                        <span class="text-3xl">🔥</span>
                     </button>
                 </div>
                 <div>
@@ -105,6 +103,7 @@
     <script src="script.js" defer></script>
 </body>
 </html>
+
 
 
 
