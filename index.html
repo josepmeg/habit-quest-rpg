@@ -97,6 +97,17 @@
 
     <div id="boss-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden"><div class="modal-overlay fixed inset-0"></div><div class="modal-content card rounded-lg p-6 w-full max-w-md m-4 relative"><h3 class="font-rpg text-xl text-yellow-400 mb-4">Boss Management</h3><button id="boss-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button><div class="space-y-4"><div><h4 class="font-semibold mb-2">Add New Boss</h4><form id="add-boss-form" class="grid grid-cols-2 gap-2"><input id="new-boss-name" type="text" placeholder="Boss Name" class="task-input col-span-2 rounded-md p-2" required><input id="new-boss-hp" type="number" placeholder="HP" class="task-input rounded-md p-2" required><input id="new-boss-ability" type="text" placeholder="Ability (e.g., Burn)" class="task-input rounded-md p-2"><button type="submit" class="col-span-2 btn bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Add</button></form></div><div><h4 class="font-semibold mb-2">Upcoming Bosses</h4><ul id="boss-queue-list" class="space-y-2 max-h-40 overflow-y-auto"></ul></div><div><h4 class="font-semibold mb-2">Defeated Bosses</h4><ul id="defeated-boss-list" class="space-y-2 max-h-40 overflow-y-auto"></ul></div></div></div></div>
     <div id="info-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden"><div class="modal-overlay fixed inset-0"></div><div class="modal-content card rounded-lg p-6 w-full max-w-md m-4 relative"><h3 class="font-rpg text-xl text-blue-400 mb-4">How It Works</h3><button id="info-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button><div class="space-y-4 text-gray-300"><div><h4 class="font-semibold text-yellow-400">Damage Calculation</h4><p>Your damage is your base <span class="font-bold">Attack</span> stat multiplied by a streak bonus. The bonus is <span class="font-mono text-sm bg-gray-700 px-1 rounded">1 + (0.1 * (Streak - 1))</span>.</p></div><div><h4 class="font-semibold text-indigo-400">Special Attack</h4><p>Fireball costs <span class="font-bold">20 MP</span> and deals <span class="font-bold">2.5x</span> your normal attack damage.</p></div><div><h4 class="font-semibold text-yellow-400">Luck & Critical Hits</h4><p>Your <span class="font-bold">Luck</span> stat gives you a chance to land a CRITICAL HIT for <span class="font-bold">2x damage!</span> Your base Luck increases as you level up, and you gain <span class="font-bold">+1 Luck</span> for every 3 days in your training streak.</p></div><div><h4 class="font-semibold text-yellow-400">Leveling Up</h4><p>When the EXP bar fills, you level up! Your stats increase permanently, and you are fully healed.</p></div>
+        <div>
+            <h4 class="font-semibold text-purple-400 mt-4">Change Background</h4>
+            <div id="background-switcher" class="grid grid-cols-6 gap-2 mt-2">
+                <button data-bg="1" class="bg-gray-700 aspect-square rounded-md hover:border-yellow-400 border-2 border-transparent focus:border-yellow-400">1</button>
+                <button data-bg="2" class="bg-gray-700 aspect-square rounded-md hover:border-yellow-400 border-2 border-transparent focus:border-yellow-400">2</button>
+                <button data-bg="3" class="bg-gray-700 aspect-square rounded-md hover:border-yellow-400 border-2 border-transparent focus:border-yellow-400">3</button>
+                <button data-bg="4" class="bg-gray-700 aspect-square rounded-md hover:border-yellow-400 border-2 border-transparent focus:border-yellow-400">4</button>
+                <button data-bg="5" class="bg-gray-700 aspect-square rounded-md hover:border-yellow-400 border-2 border-transparent focus:border-yellow-400">5</button>
+                <button data-bg="6" class="bg-gray-700 aspect-square rounded-md hover:border-yellow-400 border-2 border-transparent focus:border-yellow-400">6</button>
+            </div>
+        </div>
         <div class="border-t border-gray-600 pt-4 mt-4">
                 <button id="reset-game-btn" class="btn w-full bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md">RESET GAME PROGRESS</button>
         </div>
@@ -107,6 +118,7 @@
     <script src="script.js" defer></script>
 </body>
 </html>
+
 
 
 
