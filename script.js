@@ -117,6 +117,10 @@ function setupEventListeners() {
 }
 
 function handleAttack(attackType) {
+    if (gameState.dailyLog.attack_performed) {
+        showNotification("You have already attacked today.", "error");
+        return;
+    }
     let expGained = 0, hpRegen = 0, mpRegen = 0;
     const workoutCompleted = WORKOUT_TASKS.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id));
     if (workoutCompleted) { expGained += 30; gameState.player.training_streak = (gameState.player.training_streak || 0) + 1; }
@@ -168,6 +172,7 @@ function handleAttack(attackType) {
             gameState.current_boss = { name: "Ifrit (Respawned)", hp: 300, max_hp: 300, ability: "Burn", image: "assets/ifrit.png" };
         }
     }
+    gameState.dailyLog.attack_performed = true;
     saveGameData();
     renderUI();
 }
