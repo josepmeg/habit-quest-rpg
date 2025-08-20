@@ -463,7 +463,12 @@ function renderHistory() {
     for (let day = 1; day <= daysInMonth; day++) {
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         const historyEntry = gameState.history.find(h => h.date === dateStr);
-        const isWorkoutDone = historyEntry ? WORKOUT_TASKS.some(wt => historyEntry.completed_tasks.includes(wt.id)) : false;
+        let isWorkoutDone = historyEntry ? WORKOUT_TASKS.some(wt => historyEntry.completed_tasks.includes(wt.id)) : false;
+        
+        // NEW: Check today's data as well
+        if (dateStr === gameState.dailyLog.date && WORKOUT_TASKS.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id))) {
+            isWorkoutDone = true;
+        }
         
         let dayClasses = 'calendar-day w-full aspect-square rounded-md flex items-center justify-center';
         if (isWorkoutDone) dayClasses += ' workout-done';
