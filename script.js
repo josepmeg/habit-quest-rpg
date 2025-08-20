@@ -354,7 +354,7 @@ function renderUI() {
         if (pb_container) {
             const pbs = player.personal_bests?.[task.id];
             let pb_string = "PB: ";
-            if (pbs) { pb_string += task.inputs.map(input => `${pbs[input.toLowerCase()] || 0}${input === 'Weight' ? 'kg' : ''}`).join(' / '); } 
+            if (pbs) { pb_string += task.inputs.map(input => `${pbs[input.toLowerCase()] || 0}${input === 'Weight' ? 'lbs' : ''}`).join(' / '); }
             else { pb_string += "None"; }
             pb_container.textContent = pb_string;
         }
@@ -447,11 +447,14 @@ function renderTaskCounters() {
 
 function renderHistory() {
     const historyContent = document.getElementById('history-content');
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
+    const todayObj = new Date();
+    const year = todayObj.getFullYear();
+    const month = todayObj.getMonth();
 
-    const monthName = today.toLocaleString('default', { month: 'long' });
+    // Create a reliable "today" string using local date parts
+    const todayStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(todayObj.getDate()).padStart(2, '0')}`;
+
+    const monthName = todayObj.toLocaleString('default', { month: 'long' });
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
@@ -472,14 +475,15 @@ function renderHistory() {
         const historyEntry = gameState.history.find(h => h.date === dateStr);
         let isWorkoutDone = historyEntry ? WORKOUT_TASKS.some(wt => historyEntry.completed_tasks.includes(wt.id)) : false;
         
-        // NEW: Check today's data as well
         if (dateStr === gameState.dailyLog.date && WORKOUT_TASKS.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id))) {
             isWorkoutDone = true;
         }
         
         let dayClasses = 'calendar-day w-full aspect-square rounded-md flex items-center justify-center';
         if (isWorkoutDone) dayClasses += ' workout-done';
-        if (day === today.getDate() && dateStr === today.toISOString().split('T')[0]) dayClasses += ' today';
+        
+        // Use our new reliable "today" string for the check
+        if (dateStr === todayStr) dayClasses += ' today';
 
         calendarHtml += `<div class="${dayClasses}">${day}</div>`;
     }
