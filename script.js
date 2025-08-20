@@ -34,6 +34,9 @@ function loadGameData() {
         if (!gameState.quests) gameState.quests = [];
         if (!gameState.history) gameState.history = [];
         if (!gameState.player.base_luck) gameState.player.base_luck = 5;
+        if (gameState.current_boss && !gameState.current_boss.image) {
+            gameState.current_boss.image = 'assets/ifrit.png'; // Default image
+        }
         if (!gameState.player.inventory) gameState.player.inventory = [];
     } else {
         gameState = JSON.parse(JSON.stringify(initialGameState));
