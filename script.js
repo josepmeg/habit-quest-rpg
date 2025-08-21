@@ -336,7 +336,7 @@ function handleAddBoss(e) {
     if (name && hp > 0) {
         // Auto-generate image path from name (e.g., "Ice Queen" -> "ice-queen.png")
         const imageName = name.toLowerCase().replace(/\s+/g, '-') + '.png';
-        const imagePath = `assets/${imageName}`;
+        const imagePath = `assets/sprites/${imageName}`;
 
         gameState.boss_queue.push({ name, max_hp: hp, hp, ability, image: imagePath });
         e.target.reset();
