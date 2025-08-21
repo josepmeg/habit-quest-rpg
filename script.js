@@ -662,9 +662,12 @@ function renderInventory() {
             const itemDetails = ITEMS[item.id];
             return `
                 <div class="card p-3 rounded-md flex justify-between items-center">
-                    <div>
-                        <p>${itemDetails.name} (x${item.quantity})</p>
-                        <p class="text-sm text-gray-400">${itemDetails.description}</p>
+                    <div class="flex items-center gap-4">
+                        <img src="assets/items/${item.id}.png" class="w-10 h-10 pixel-art">
+                        <div>
+                            <p>${itemDetails.name} (x${item.quantity})</p>
+                            <p class="text-sm text-gray-400">${itemDetails.description}</p>
+                        </div>
                     </div>
                     <button class="use-item-btn btn bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-3 rounded-md" data-item-id="${item.id}">Use</button>
                 </div>
