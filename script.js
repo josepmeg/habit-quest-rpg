@@ -1,6 +1,6 @@
 const initialGameState = {
     player: { name: 'Player', settings: { background: 1 }, level: 1, hp: 100, max_hp: 100, mp: 50, max_mp: 50, attack: 5, base_luck: 5, exp: 0, exp_to_next_level: 100, training_streak: 0, personal_bests: {}, inventory: [] },
-    current_boss: { name: "Ifrit", hp: 300, max_hp: 300, ability: "Burn", image: "assets/ifrit.png" },
+    current_boss: { name: "Ifrit", hp: 300, max_hp: 300, ability: "Burn", image: "assets/sprites/ifrit.png" },
     boss_queue: [],
     defeated_bosses: [],
     quests: [],
@@ -35,7 +35,7 @@ function loadGameData() {
         if (!gameState.history) gameState.history = [];
         if (!gameState.player.base_luck) gameState.player.base_luck = 5;
         if (gameState.current_boss && !gameState.current_boss.image) {
-            gameState.current_boss.image = 'assets/ifrit.png'; // Default image
+            gameState.current_boss.image = 'assets/sprites/ifrit.png'; // Default image
         }
         if (!gameState.player.inventory) gameState.player.inventory = [];
         if (gameState.player && !gameState.player.settings) {
@@ -240,7 +240,7 @@ function handleAttack(attackType) {
         if (gameState.boss_queue && gameState.boss_queue.length > 0) {
             gameState.current_boss = gameState.boss_queue.shift();
         } else {
-            gameState.current_boss = { name: "Ifrit (Respawned)", hp: 300, max_hp: 300, ability: "Burn", image: "assets/ifrit.png" };
+            gameState.current_boss = { name: "Ifrit (Respawned)", hp: 300, max_hp: 300, ability: "Burn", image: "assets/sprites/ifrit.png" };
         }
     }
     gameState.dailyLog.attack_performed = true;
