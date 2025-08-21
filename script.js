@@ -11,6 +11,10 @@ let gameState = JSON.parse(JSON.stringify(initialGameState));
 
 const WORKOUT_TASKS = [ { id: 'stretch', name: 'Stretch', inputs: [] }, { id: 'seated_leg_curl', name: 'Seated Leg Curl', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'leg_press', name: 'Leg Press', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'leg_curl_laying', name: 'Leg Curl Laying Down', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'inverted_bosu', name: 'Inverted Bosu', inputs: ['Reps', 'Rounds'] }, { id: 'hip_abductor_in', name: 'Hip Abductor In', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'hip_abductor_out', name: 'Hip Abductor Out', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'glute_drive', name: 'Glute Drive', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'abs', name: 'Abs', inputs: ['Reps', 'Rounds'] }, { id: 'push_ups', name: 'Push Ups', inputs: ['Reps', 'Rounds'] }, { id: 'pull_ups', name: 'Pull Ups', inputs: ['Reps', 'Rounds'] }, ];
 const DAILY_HABITS = [ { id: 'reading', name: 'Reading', exp: 10, mp_regen: 10 }, { id: 'meditation', name: 'Meditation', exp: 5, mp_regen: 5 }, { id: 'clean_house', name: 'Clean/Organize House', exp: 5 }, { id: 'inbox_zero', name: 'Inbox Zero', exp: 5 }, { id: 'healthy_diet', name: 'Healthy Diet', exp: 10, hp_regen: 10 }, ];
+const SHOP_ITEMS = [
+    { id: 'health_potion', name: 'Health Potion', description: 'Restores 50 HP.', cost: 25 },
+    { id: 'mana_potion', name: 'Mana Potion', description: 'Restores 20 MP.', cost: 15 },
+];
 const SPECIAL_ATTACK = { name: 'Fireball', mp_cost: 20, damage_multiplier: 2.5 };
 const CRITICAL_HIT_MULTIPLIER = 2.0;
 const ALL_TASKS = [...WORKOUT_TASKS, ...DAILY_HABITS];
@@ -117,7 +121,7 @@ function setupEventListeners() {
     // Task and workout inputs
     document.body.addEventListener('change', e => e.target.matches('input[type="checkbox"][data-task-id]') && handleTaskToggle(e.target.dataset.taskId, e.target.checked));
     document.body.addEventListener('input', e => e.target.matches('input[type="number"][data-task-id]') && handleWorkoutInput(e.target));
-    
+
     // Modal setup
     const setupModal = (btnId, modalId, closeId) => {
         const modal = document.getElementById(modalId);
@@ -133,15 +137,20 @@ function setupEventListeners() {
     setupModal('info-modal-btn', 'info-modal', 'info-modal-close');
     setupModal('player-stats-modal-btn', 'player-stats-modal', 'player-stats-modal-close');
     setupModal('inventory-modal-btn', 'inventory-modal', 'inventory-modal-close');
+    setupModal('shop-modal-btn', 'shop-modal', 'shop-modal-close'); // New shop modal
 
     // Form submissions
     document.getElementById('add-boss-form').addEventListener('submit', handleAddBoss);
     document.getElementById('add-quest-form').addEventListener('submit', handleAddQuest);
-    
+
     // Dynamic content listeners
     document.getElementById('quest-list').addEventListener('click', e => e.target.matches('.complete-quest-btn') && handleCompleteQuest(parseInt(e.target.dataset.questIndex)));
     document.getElementById('inventory-content').addEventListener('click', e => e.target.matches('.use-item-btn') && useItem(e.target.dataset.itemId));
-    
+    const shopContainer = document.getElementById('shop-items-container');
+    if (shopContainer) {
+        shopContainer.addEventListener('click', e => e.target.matches('.buy-item-btn') && handlePurchase(e.target.dataset.itemId));
+    }
+
     // Editable player name
     document.getElementById('player-name').addEventListener('click', () => {
         const newName = prompt("Enter your character's name:", gameState.player.name);
@@ -177,7 +186,7 @@ function setupEventListeners() {
             }
         });
     }
-    
+
     // Calendar day summary
     const historyContent = document.getElementById('history-content');
     if (historyContent) {
@@ -461,6 +470,7 @@ function renderUI() {
     renderHistory();
     renderInventory();
     renderAttributes();
+    renderShop();
 }
 
 // Add this new function to script.js
@@ -657,6 +667,43 @@ function renderInventory() {
                 </div>
             `;
         }).join('');
+    }
+}
+
+function renderShop() {
+    document.getElementById('shop-gold-display').textContent = gameState.player.gold;
+    const itemsContainer = document.getElementById('shop-items-container');
+    itemsContainer.innerHTML = SHOP_ITEMS.map(item => {
+        const itemDetails = ITEMS[item.id];
+        return `
+            <div class="card p-3 rounded-md flex justify-between items-center">
+                <div class="flex items-center gap-4">
+                    <img src="assets/items/${item.id}.png" class="w-10 h-10 pixel-art">
+                    <div>
+                        <p>${item.name}</p>
+                        <p class="text-sm text-gray-400">${item.description}</p>
+                    </div>
+                </div>
+                <button class="buy-item-btn btn bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md" data-item-id="${item.id}">
+                    ${item.cost} Gold
+                </button>
+            </div>
+        `;
+    }).join('');
+}
+
+function handlePurchase(itemId) {
+    const itemToBuy = SHOP_ITEMS.find(item => item.id === itemId);
+    if (!itemToBuy) return;
+
+    if (gameState.player.gold >= itemToBuy.cost) {
+        gameState.player.gold -= itemToBuy.cost;
+        addItemToInventory(itemToBuy.id);
+        showNotification(`Purchased ${itemToBuy.name}!`, 'success');
+        saveGameData();
+        renderUI(); // Re-render everything to update gold displays
+    } else {
+        showNotification("Not enough gold!", "error");
     }
 }
 
