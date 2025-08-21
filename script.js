@@ -29,23 +29,32 @@ function loadGameData() {
     const savedData = localStorage.getItem('habitQuestRpgGame');
     if (savedData) {
         gameState = JSON.parse(savedData);
-        if (!gameState.boss_queue) gameState.boss_queue = [];
-        if (!gameState.defeated_bosses) gameState.defeated_bosses = [];
-        if (!gameState.quests) gameState.quests = [];
-        if (!gameState.history) gameState.history = [];
-        if (!gameState.player.base_luck) gameState.player.base_luck = 5;
-        if (gameState.current_boss && !gameState.current_boss.image) {
-            gameState.current_boss.image = 'assets/sprites/ifrit.png'; // Default image
+
+        console.log('Loaded dailyLog from storage:', gameState.dailyLog);
+
+        // THIS BLOCK FIXES THE BROKEN IMAGE PATH IN YOUR SAVE FILE
+        if (gameState.current_boss && gameState.current_boss.image === 'assets/ifrit.png') {
+            console.log('Old boss image path found, updating to new path...');
+            gameState.current_boss.image = 'assets/sprites/ifrit.png';
         }
-        if (!gameState.player.inventory) gameState.player.inventory = [];
+        // END OF FIX BLOCK
+
+        if (gameState.current_boss && !gameState.current_boss.image) {
+            gameState.current_boss.image = 'assets/sprites/ifrit.png';
+        }
         if (gameState.player && !gameState.player.settings) {
-            gameState.player.settings = { background: 1 }; // Add settings for older saves
+            gameState.player.settings = { background: 1 };
         }
     } else {
         gameState = JSON.parse(JSON.stringify(initialGameState));
     }
+
     applySettings();
-    const today = new Date().toISOString().split('T')[0];
+
+    const today = new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+    
+    console.log('Is daily log being reset?', gameState.dailyLog.date !== today, `(Saved: ${gameState.dailyLog.date}, Today: ${today})`);
+
     if (gameState.dailyLog.date !== today) {
         resetDailyTasks();
     } else {
