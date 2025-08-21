@@ -1,5 +1,5 @@
 const initialGameState = {
-    player: { name: 'Player', settings: { background: 1 }, level: 1, hp: 100, max_hp: 100, mp: 50, max_mp: 50, attack: 5, base_luck: 5, exp: 0, exp_to_next_level: 100, training_streak: 0, personal_bests: {}, inventory: [] },
+    player: { name: 'Player', settings: { background: 1 }, gold: 0, level: 1, hp: 100, max_hp: 100, mp: 50, max_mp: 50, attack: 5, base_luck: 5, exp: 0, exp_to_next_level: 100, training_streak: 0, personal_bests: {}, inventory: [] },
     current_boss: { name: "Ifrit", hp: 300, max_hp: 300, ability: "Burn", image: "assets/sprites/ifrit.png" },
     boss_queue: [],
     defeated_bosses: [],
@@ -201,27 +201,42 @@ function handleAttack(attackType) {
         showNotification("You have already attacked today.", "error");
         return;
     }
-    let expGained = 0, hpRegen = 0, mpRegen = 0;
+
+    let expGained = 0, hpRegen = 0, mpRegen = 0, goldGained = 0; // Added goldGained
+
     const workoutCompleted = WORKOUT_TASKS.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id));
-    if (workoutCompleted) { expGained += 30; gameState.player.training_streak = (gameState.player.training_streak || 0) + 1; }
+    if (workoutCompleted) {
+        expGained += 30;
+        goldGained += 5; // Award 5 gold for the workout
+        gameState.player.training_streak = (gameState.player.training_streak || 0) + 1;
+    }
+
     gameState.dailyLog.completed_tasks.forEach(taskId => {
         const habit = DAILY_HABITS.find(h => h.id === taskId);
-        if (habit) { expGained += habit.exp || 0; hpRegen += habit.hp_regen || 0; mpRegen += habit.mp_regen || 0; }
+        if (habit) {
+            expGained += habit.exp || 0;
+            hpRegen += habit.hp_regen || 0;
+            mpRegen += habit.mp_regen || 0;
+            goldGained += 1; // Award 1 gold for each habit
+        }
     });
+
     gameState.player.hp = Math.min(gameState.player.max_hp, gameState.player.hp + hpRegen);
     gameState.player.mp = Math.min(gameState.player.max_mp, gameState.player.mp + mpRegen);
     gameState.player.exp += expGained;
-    
+    gameState.player.gold += goldGained; // Add the total gold to the player
+
     let damageMultiplier = 1.0;
     if (attackType === 'special') {
         if (gameState.player.mp >= SPECIAL_ATTACK.mp_cost) {
             gameState.player.mp -= SPECIAL_ATTACK.mp_cost;
             damageMultiplier = SPECIAL_ATTACK.damage_multiplier;
         } else {
-            showNotification("Not enough MP!", 'error'); return;
+            showNotification("Not enough MP!", 'error');
+            return;
         }
     }
-    
+
     const totalLuck = (gameState.player.base_luck || 5) + Math.floor((gameState.player.training_streak || 0) / 3);
     const isCritical = Math.random() * 100 < totalLuck;
     if (isCritical) {
@@ -232,6 +247,7 @@ function handleAttack(attackType) {
     const streakBonus = 1 + (0.1 * Math.max(0, gameState.player.training_streak - 1));
     const totalDamage = Math.round(gameState.player.attack * streakBonus * damageMultiplier);
     gameState.current_boss.hp = Math.max(0, gameState.current_boss.hp - totalDamage);
+    
     document.getElementById('boss-column').classList.add('character-shake');
     setTimeout(() => document.getElementById('boss-column').classList.remove('character-shake'), 500);
 
@@ -252,6 +268,11 @@ function handleAttack(attackType) {
             gameState.current_boss = { name: "Ifrit (Respawned)", hp: 300, max_hp: 300, ability: "Burn", image: "assets/sprites/ifrit.png" };
         }
     }
+
+    if (goldGained > 0) {
+        showNotification(`You earned ${goldGained} gold!`, 'success');
+    }
+    
     gameState.dailyLog.attack_performed = true;
     saveGameData();
     renderUI();
@@ -471,6 +492,11 @@ function renderAttributes() {
                 <p class="text-xs text-gray-400">Luck</p>
                 <p class="font-bold text-white">${totalLuck}</p>
             </div>
+        </div>
+        <div class="card p-2 rounded-md mt-4 text-center">
+            <span class="text-2xl">💰</span>
+            <p class="text-xs text-gray-400">Gold</p>
+            <p class="font-bold text-white">${player.gold}</p>
         </div>
     `;
 
