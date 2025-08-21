@@ -49,6 +49,9 @@ function loadGameData() {
         if (gameState.player && !gameState.player.settings) {
             gameState.player.settings = { background: 1 };
         }
+        if (gameState.player && typeof gameState.player.gold === 'undefined') {
+            gameState.player.gold = 0;
+        }
     } else {
         gameState = JSON.parse(JSON.stringify(initialGameState));
     }
