@@ -220,6 +220,16 @@ function setupEventListeners() {
         });
     }
 
+    const exportBtn = document.getElementById('export-btn');
+    if (exportBtn) {
+        exportBtn.addEventListener('click', exportData);
+    }
+    
+    const importInput = document.getElementById('import-input');
+    if (importInput) {
+        importInput.addEventListener('change', importData);
+    }
+
     // Background switcher
     const bgSwitcher = document.getElementById('background-switcher');
     if (bgSwitcher) {
