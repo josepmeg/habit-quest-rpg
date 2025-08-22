@@ -18,22 +18,24 @@ const SHOP_ITEMS = [
 const SPECIAL_ATTACK = { name: 'Fireball', mp_cost: 20, damage_multiplier: 2.5 };
 const CRITICAL_HIT_MULTIPLIER = 2.0;
 const ALL_TASKS = [...WORKOUT_TASKS, ...DAILY_HABITS];
-const ITEMS = { 'health_potion': { name: 'Health Potion', description: 'Restores 50 HP.', effect: (gs) => { gs.player.hp = Math.min(gs.player.max_hp, gs.player.hp + 50); }}, 'mana_potion': { name: 'Mana Potion', description: 'Restores 20 MP.', effect: (gs) => { gs.player.mp = Math.min(gs.player.max_mp, gs.player.mp + 20); }} };
 const ITEM_DROP_CHANCE = 5; // Base 5% chance
-const EQUIPMENT_ITEMS = {
+const ALL_ITEMS = {
+    // Consumables
+    'health_potion': { name: 'Health Potion', type: 'potion', description: 'Restores 50 HP.', effect: (gs) => { gs.player.hp = Math.min(gs.player.max_hp, gs.player.hp + 50); }},
+    'mana_potion': { name: 'Mana Potion', type: 'potion', description: 'Restores 20 MP.', effect: (gs) => { gs.player.mp = Math.min(gs.player.max_mp, gs.player.mp + 20); }},
+    
+    // Equipment
     'worn-sword': {
         name: 'Worn Sword',
         type: 'weapon',
         bonus: { attack: 1 },
-        cost: 50,
-        image: 'assets/items/sword_1.png'
+        description: 'A rusty but reliable blade.'
     },
     'leather-vest': {
         name: 'Leather Vest',
         type: 'armor',
         bonus: { max_hp: 10 },
-        cost: 75,
-        image: 'assets/items/armor_1.png'
+        description: 'Provides basic protection.'
     }
 };
 const notificationEl = document.getElementById('notification');
@@ -74,6 +76,7 @@ function loadGameData() {
         gameState = JSON.parse(JSON.stringify(initialGameState));
     }
 
+    recalculatePlayerStats();
     applySettings();
 
     const today = new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0];
@@ -209,7 +212,13 @@ function setupEventListeners() {
 
     // Dynamic content listeners
     document.getElementById('quest-list').addEventListener('click', e => e.target.matches('.complete-quest-btn') && handleCompleteQuest(parseInt(e.target.dataset.questIndex)));
-    document.getElementById('inventory-content').addEventListener('click', e => e.target.matches('.use-item-btn') && useItem(e.target.dataset.itemId));
+    document.getElementById('inventory-content').addEventListener('click', e => {
+        if (e.target.matches('.use-item-btn')) {
+            useItem(e.target.dataset.itemId);
+        } else if (e.target.matches('.equip-item-btn')) {
+            handleEquipItem(e.target.dataset.itemId);
+        }
+    });
     const shopContainer = document.getElementById('shop-items-container');
     if (shopContainer) {
         shopContainer.addEventListener('click', e => e.target.matches('.buy-item-btn') && handlePurchase(e.target.dataset.itemId));
@@ -378,6 +387,34 @@ function handleLevelUp() {
     if (levelUps > 0) showNotification(`Leveled up to ${gameState.player.level}!`);
 }
 
+function recalculatePlayerStats() {
+    const { player } = gameState;
+    
+    // Start with base stats
+    let totalAttack = player.attack;
+    let totalMaxHp = player.max_hp;
+
+    // Add bonuses from equipped items
+    for (const slot in player.equipment) {
+        const itemId = player.equipment[slot];
+        if (itemId) {
+            const item = ALL_ITEMS[itemId];
+            if (item.bonus) {
+                if (item.bonus.attack) totalAttack += item.bonus.attack;
+                if (item.bonus.max_hp) totalMaxHp += item.bonus.max_hp;
+                // We can add more bonus types here in the future (luck, max_mp, etc.)
+            }
+        }
+    }
+
+    // Store the calculated totals for use elsewhere
+    player.total_attack = totalAttack;
+    player.total_max_hp = totalMaxHp;
+
+    // Ensure current HP isn't higher than the new max HP
+    player.hp = Math.min(player.hp, player.total_max_hp);
+}
+
 function handleTaskToggle(taskId, isChecked) {
     const completed = gameState.dailyLog.completed_tasks;
     if (isChecked) {
@@ -426,6 +463,36 @@ function useItem(itemId) {
         saveGameData();
         renderUI();
     }
+}
+
+function handleEquipItem(itemId) {
+    const item = ALL_ITEMS[itemId];
+    if (!item || !item.type) return;
+
+    const { player } = gameState;
+    const currentItemInSlot = player.equipment[item.type];
+
+    // If the same item is already equipped, do nothing
+    if (currentItemInSlot === itemId) return;
+
+    // Move the currently equipped item (if any) back to inventory
+    if (currentItemInSlot) {
+        addItemToInventory(currentItemInSlot);
+    }
+    
+    // Remove the new item from inventory
+    const itemIndexInInventory = player.inventory.findIndex(invItem => invItem.id === itemId);
+    if (itemIndexInInventory > -1) {
+        player.inventory.splice(itemIndexInInventory, 1);
+    }
+    
+    // Equip the new item
+    player.equipment[item.type] = itemId;
+
+    showNotification(`Equipped ${item.name}!`, 'success');
+    recalculatePlayerStats();
+    saveGameData();
+    renderUI();
 }
 
 function handleWorkoutInput(inputElement) {
@@ -545,6 +612,7 @@ function renderUI() {
     renderInventory();
     renderAttributes();
     renderShop();
+    renderEquippedItems();
 }
 
 // Add this new function to script.js
@@ -730,19 +798,27 @@ function renderInventory() {
         inventoryContent.innerHTML = `<p class="text-gray-400">Your bag is empty.</p>`;
     } else {
         inventoryContent.innerHTML = gameState.player.inventory.map(item => {
-            const itemDetails = ITEMS[item.id];
+            const itemDetails = ALL_ITEMS[item.id];
+            let buttonHtml = '';
+
+            if (itemDetails.type === 'potion') {
+                buttonHtml = `<button class="use-item-btn btn bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-3 rounded-md" data-item-id="${item.id}">Use</button>`;
+            } else if (itemDetails.type === 'weapon' || itemDetails.type === 'armor') {
+                buttonHtml = `<button class="equip-item-btn btn bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded-md" data-item-id="${item.id}">Equip</button>`;
+            }
+
             return `
                 <div class="card p-3 rounded-md flex justify-between items-center">
                     <div class="flex items-center gap-4">
                         <div class="icon-background">
-                            <img src="assets/items/${item.id}.png" class="w-6 h-6 pixel-art">
+                            <img src="${itemDetails.image}" class="w-6 h-6 pixel-art">
                         </div>
                         <div>
-                            <p>${itemDetails.name} (x${item.quantity})</p>
+                            <p>${itemDetails.name} (x${item.quantity || 1})</p>
                             <p class="text-sm text-gray-400">${itemDetails.description}</p>
                         </div>
                     </div>
-                    <button class="use-item-btn btn bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-3 rounded-md" data-item-id="${item.id}">Use</button>
+                    ${buttonHtml}
                 </div>
             `;
         }).join('');
@@ -772,6 +848,34 @@ function renderShop() {
             </div>
         `;
     }).join('');
+}
+
+function renderEquippedItems() {
+    const { player } = gameState;
+    document.getElementById('inventory-player-name').textContent = player.name;
+
+    for (const slot in player.equipment) { // Loops through 'weapon', 'armor', etc.
+        const slotElement = document.getElementById(`equipped-${slot}-slot`);
+        const itemId = player.equipment[slot];
+
+        if (itemId) {
+            const item = ALL_ITEMS[itemId];
+            const bonusText = Object.entries(item.bonus).map(([stat, value]) => `+${value} ${stat.replace('_', ' ')}`).join(', ');
+            slotElement.innerHTML = `
+                <div class="flex items-center gap-4">
+                    <div class="icon-background flex-shrink-0">
+                        <img src="${item.image}" class="w-6 h-6 pixel-art">
+                    </div>
+                    <div>
+                        <p class="font-bold text-white">${item.name}</p>
+                        <p class="text-sm text-green-400">${bonusText}</p>
+                    </div>
+                </div>
+            `;
+        } else {
+            slotElement.innerHTML = `<p class="text-gray-500 p-4 text-center">-${slot.charAt(0).toUpperCase() + slot.slice(1)} Slot Empty-</p>`;
+        }
+    }
 }
 
 function handlePurchase(itemId) {
