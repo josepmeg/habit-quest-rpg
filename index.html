@@ -172,7 +172,37 @@
         </div>
     </div></div></div>
     <div id="player-stats-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden"><div class="modal-overlay fixed inset-0"></div><div class="modal-content card rounded-lg p-6 w-full max-w-2xl m-4 relative"><h3 class="font-rpg text-xl text-blue-400 mb-4">Player Stats & History</h3><button id="player-stats-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button><div id="history-content" class="space-y-4 text-gray-300 max-h-[70vh] overflow-y-auto"></div></div></div>
-    <div id="inventory-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden"><div class="modal-overlay fixed inset-0"></div><div class="modal-content card rounded-lg p-6 w-full max-w-md m-4 relative"><h3 class="font-rpg text-xl text-blue-400 mb-4">Inventory</h3><button id="inventory-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button><div id="inventory-content" class="modal-interior-background p-2 rounded-md space-y-2 text-gray-300 max-h-[70vh] overflow-y-auto"></div></div></div>
+    <div id="inventory-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden">
+        <div class="modal-overlay fixed inset-0"></div>
+<div class="modal-content card rounded-lg p-6 w-full max-w-2xl m-4 relative">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="font-rpg text-xl text-blue-400">Inventory</h3>
+        <button id="inventory-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
+    </div>
+
+    <div class="space-y-4">
+        <div>
+            <h4 class="font-rpg text-sm text-gray-400 mb-2">--- CHARACTER & EQUIPMENT ---</h4>
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="card p-4 rounded-md flex-shrink-0 text-center space-y-2">
+                    <img src="assets/sprites/player.png" class="pixel-art w-24 h-24 mx-auto">
+                    <p id="inventory-player-name" class="font-bold"></p>
+                </div>
+                <div class="flex-grow grid grid-cols-1 gap-2">
+                    <div id="equipped-weapon-slot" class="card p-2 rounded-md"></div>
+                    <div id="equipped-armor-slot" class="card p-2 rounded-md"></div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h4 class="font-rpg text-sm text-gray-400 mb-2">--- BACKPACK ---</h4>
+            <div id="inventory-content" class="modal-interior-background p-2 rounded-md space-y-2 text-gray-300 min-h-[150px] max-h-[30vh] overflow-y-auto">
+                </div>
+        </div>
+    </div>
+</div>
+    </div>
     <div id="summary-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden"><div class="modal-overlay fixed inset-0"></div><div class="modal-content card rounded-lg p-6 w-full max-w-md m-4 relative"><h3 id="summary-modal-title" class="font-rpg text-xl text-green-400 mb-4">Daily Summary</h3><button id="summary-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button><div id="summary-modal-content" class="space-y-4 text-gray-300 max-h-[60vh] overflow-y-auto"></div></div></div>
     <div id="shop-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden">
     <div class="modal-overlay fixed inset-0"></div>
@@ -192,6 +222,7 @@
     <script src="script.js" defer></script>
 </body>
 </html>
+
 
 
 
