@@ -734,6 +734,7 @@ function renderShop() {
     const itemsContainer = document.getElementById('shop-items-container');
     itemsContainer.innerHTML = SHOP_ITEMS.map(item => {
         const itemDetails = ITEMS[item.id];
+        // This is the updated button HTML with the icon
         return `
             <div class="card p-3 rounded-md flex justify-between items-center">
                 <div class="flex items-center gap-4">
@@ -743,8 +744,9 @@ function renderShop() {
                         <p class="text-sm text-gray-400">${item.description}</p>
                     </div>
                 </div>
-                <button class="buy-item-btn btn bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md" data-item-id="${item.id}">
-                    ${item.cost} Gold
+                <button class="buy-item-btn btn bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-3 rounded-md flex items-center gap-1" data-item-id="${item.id}">
+                    <span>${item.cost}</span>
+                    <img src="assets/icons/gold.png" class="w-4 h-4">
                 </button>
             </div>
         `;
