@@ -26,14 +26,14 @@ const EQUIPMENT_ITEMS = {
         type: 'weapon',
         bonus: { attack: 1 },
         cost: 50,
-        image: 'assets/items/sword-1.png'
+        image: 'assets/items/sword_1.png'
     },
     'leather-vest': {
         name: 'Leather Vest',
         type: 'armor',
         bonus: { max_hp: 10 },
         cost: 75,
-        image: 'assets/items/armor-1.png'
+        image: 'assets/items/armor_1.png'
     }
 };
 const notificationEl = document.getElementById('notification');
