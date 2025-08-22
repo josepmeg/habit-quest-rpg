@@ -23,23 +23,26 @@ const ALL_TASKS = [...WORKOUT_TASKS, ...DAILY_HABITS];
 const ITEM_DROP_CHANCE = 5; // Base 5% chance
 const ALL_ITEMS = {
     // Consumables
-    'health_potion': { name: 'Health Potion', type: 'potion', description: 'Restores 50 HP.', effect: (gs) => { gs.player.hp = Math.min(gs.player.max_hp, gs.player.hp + 50); }},
-    'mana_potion': { name: 'Mana Potion', type: 'potion', description: 'Restores 20 MP.', effect: (gs) => { gs.player.mp = Math.min(gs.player.max_mp, gs.player.mp + 20); }},
+    'health_potion': { name: 'Health Potion', type: 'potion', description: 'Restores 50 HP.', image: 'assets/items/health_potion.png', effect: (gs) => { gs.player.hp = Math.min(gs.player.max_hp, gs.player.hp + 50); }},
+    'mana_potion': { name: 'Mana Potion', type: 'potion', description: 'Restores 20 MP.', image: 'assets/items/mana_potion.png', effect: (gs) => { gs.player.mp = Math.min(gs.player.max_mp, gs.player.mp + 20); }},
     
     // Equipment
     'worn-sword': {
         name: 'Worn Sword',
         type: 'weapon',
         bonus: { attack: 1 },
-        description: 'A rusty but reliable blade.'
+        description: 'A rusty but reliable blade.',
+        image: 'assets/items/sword_1.png'
     },
     'leather-vest': {
         name: 'Leather Vest',
         type: 'armor',
         bonus: { max_hp: 10 },
-        description: 'Provides basic protection.'
+        description: 'Provides basic protection.',
+        image: 'assets/items/armor_1.png' 
     }
 };
+
 const notificationEl = document.getElementById('notification');
 
 document.addEventListener('DOMContentLoaded', () => {
