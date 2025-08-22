@@ -20,7 +20,22 @@ const CRITICAL_HIT_MULTIPLIER = 2.0;
 const ALL_TASKS = [...WORKOUT_TASKS, ...DAILY_HABITS];
 const ITEMS = { 'health_potion': { name: 'Health Potion', description: 'Restores 50 HP.', effect: (gs) => { gs.player.hp = Math.min(gs.player.max_hp, gs.player.hp + 50); }}, 'mana_potion': { name: 'Mana Potion', description: 'Restores 20 MP.', effect: (gs) => { gs.player.mp = Math.min(gs.player.max_mp, gs.player.mp + 20); }} };
 const ITEM_DROP_CHANCE = 5; // Base 5% chance
-
+const EQUIPMENT_ITEMS = {
+    'worn-sword': {
+        name: 'Worn Sword',
+        type: 'weapon',
+        bonus: { attack: 1 },
+        cost: 50,
+        image: 'assets/items/sword-1.png'
+    },
+    'leather-vest': {
+        name: 'Leather Vest',
+        type: 'armor',
+        bonus: { max_hp: 10 },
+        cost: 75,
+        image: 'assets/items/armor-1.png'
+    }
+};
 const notificationEl = document.getElementById('notification');
 
 document.addEventListener('DOMContentLoaded', () => {
