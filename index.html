@@ -151,7 +151,20 @@
             </div>
         </div>
         <div class="border-t border-gray-600 pt-4 mt-4">
-                <button id="reset-game-btn" class="btn w-full bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md">RESET GAME PROGRESS</button>
+            <button id="reset-game-btn" class="btn w-full bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md">RESET GAME PROGRESS</button>
+        </div>
+        
+        <div class="border-t border-gray-600 pt-4 mt-4 space-y-2">
+            <h4 class="font-semibold text-gray-400 text-sm text-center">Manage Data</h4>
+            <div class="flex gap-2">
+                <button id="export-btn" class="btn w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Export Save</button>
+                
+                <label class="btn w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md text-center cursor-pointer">
+                    Import Save
+                    <input type="file" id="import-input" class="hidden" accept=".json,application/json">
+                </label>
+            </div>
+            <button id="reset-game-btn" class="btn w-full bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md">RESET GAME PROGRESS</button>
         </div>
     </div></div></div>
     <div id="player-stats-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden"><div class="modal-overlay fixed inset-0"></div><div class="modal-content card rounded-lg p-6 w-full max-w-2xl m-4 relative"><h3 class="font-rpg text-xl text-blue-400 mb-4">Player Stats & History</h3><button id="player-stats-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button><div id="history-content" class="space-y-4 text-gray-300 max-h-[70vh] overflow-y-auto"></div></div></div>
@@ -175,6 +188,7 @@
     <script src="script.js" defer></script>
 </body>
 </html>
+
 
 
 
