@@ -47,7 +47,7 @@ body { font-family: 'Inter', sans-serif; background-color: #111827; color: #F9FA
     background-color: rgba(210, 180, 140, 1); /* tan at 100% opacity */
 }
 .modal-interior-background {
-    background-image: url('assets/backgrounds/wooden_planks.jpg');
+    background-image: url('assets/backgrounds/wooden_plank.jpg');
     background-repeat: repeat; /* This tells the image to tile */
     background-size: auto; /* This uses the image's actual size */
     box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.4);
