@@ -1,5 +1,5 @@
 const initialGameState = {
-    player: { name: 'Player', settings: { background: 1 }, gold: 0, level: 1, hp: 100, max_hp: 100, mp: 50, max_mp: 50, attack: 5, base_luck: 5, exp: 0, exp_to_next_level: 100, training_streak: 0, personal_bests: {}, inventory: [] },
+    player: { name: 'Player', settings: { background: 1 }, gold: 0, equipment: { weapon: null, armor: null }, level: 1, hp: 100, max_hp: 100, mp: 50, max_mp: 50, attack: 5, base_luck: 5, exp: 0, exp_to_next_level: 100, training_streak: 0, personal_bests: {}, inventory: [] },
     current_boss: { name: "Ifrit", hp: 300, max_hp: 300, ability: "Burn", image: "assets/sprites/ifrit.png" },
     boss_queue: [],
     defeated_bosses: [],
@@ -66,6 +66,9 @@ function loadGameData() {
         }
         if (gameState.player && typeof gameState.player.gold === 'undefined') {
             gameState.player.gold = 0;
+        }
+        if (gameState.player && !gameState.player.equipment) {
+            gameState.player.equipment = { weapon: null, armor: null };
         }
     } else {
         gameState = JSON.parse(JSON.stringify(initialGameState));
