@@ -716,7 +716,9 @@ function renderInventory() {
             return `
                 <div class="card p-3 rounded-md flex justify-between items-center">
                     <div class="flex items-center gap-4">
-                        <img src="assets/items/${item.id}.png" class="w-10 h-10 pixel-art">
+                        <div class="icon-background">
+                            <img src="assets/items/${item.id}.png" class="w-6 h-6 pixel-art">
+                        </div>
                         <div>
                             <p>${itemDetails.name} (x${item.quantity})</p>
                             <p class="text-sm text-gray-400">${itemDetails.description}</p>
@@ -734,11 +736,12 @@ function renderShop() {
     const itemsContainer = document.getElementById('shop-items-container');
     itemsContainer.innerHTML = SHOP_ITEMS.map(item => {
         const itemDetails = ITEMS[item.id];
-        // This is the updated button HTML with the icon
         return `
             <div class="card p-3 rounded-md flex justify-between items-center">
                 <div class="flex items-center gap-4">
-                    <img src="assets/items/${item.id}.png" class="w-10 h-10 pixel-art">
+                    <div class="icon-background">
+                        <img src="assets/items/${item.id}.png" class="w-6 h-6 pixel-art">
+                    </div>
                     <div>
                         <p>${item.name}</p>
                         <p class="text-sm text-gray-400">${item.description}</p>
