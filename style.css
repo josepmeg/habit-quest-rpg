@@ -36,6 +36,12 @@ body { font-family: 'Inter', sans-serif; background-color: #111827; color: #F9FA
     justify-content: center;
     width: 40px;  /* Adjust size as needed */
     height: 40px; /* Adjust size as needed */
-    background-color: rgba(210, 180, 140, 0.2); /* sand color */
+    background-color: rgba(210, 180, 140, 0.8); /* sand color */
     border-radius: 50%;
+}
+.action-btn-sand {
+    background-color: rgba(210, 180, 140, 0.8); /* tan at 80% opacity */
+}
+.action-btn-sand:hover {
+    background-color: rgba(210, 180, 140, 1); /* tan at 100% opacity */
 }
