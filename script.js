@@ -12,8 +12,10 @@ let gameState = JSON.parse(JSON.stringify(initialGameState));
 const WORKOUT_TASKS = [ { id: 'stretch', name: 'Stretch', inputs: [] }, { id: 'seated_leg_curl', name: 'Seated Leg Curl', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'leg_press', name: 'Leg Press', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'leg_curl_laying', name: 'Leg Curl Laying Down', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'inverted_bosu', name: 'Inverted Bosu', inputs: ['Reps', 'Rounds'] }, { id: 'hip_abductor_in', name: 'Hip Abductor In', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'hip_abductor_out', name: 'Hip Abductor Out', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'glute_drive', name: 'Glute Drive', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'abs', name: 'Abs', inputs: ['Reps', 'Rounds'] }, { id: 'push_ups', name: 'Push Ups', inputs: ['Reps', 'Rounds'] }, { id: 'pull_ups', name: 'Pull Ups', inputs: ['Reps', 'Rounds'] }, ];
 const DAILY_HABITS = [ { id: 'reading', name: 'Reading', exp: 10, mp_regen: 10 }, { id: 'meditation', name: 'Meditation', exp: 5, mp_regen: 5 }, { id: 'clean_house', name: 'Clean/Organize House', exp: 5 }, { id: 'inbox_zero', name: 'Inbox Zero', exp: 5 }, { id: 'healthy_diet', name: 'Healthy Diet', exp: 10, hp_regen: 10 }, ];
 const SHOP_ITEMS = [
-    { id: 'health_potion', name: 'Health Potion', description: 'Restores 50 HP.', cost: 25 },
-    { id: 'mana_potion', name: 'Mana Potion', description: 'Restores 20 MP.', cost: 15 },
+    { id: 'health_potion', cost: 25 },
+    { id: 'mana_potion', cost: 15 },
+    { id: 'worn-sword', cost: 50 },
+    { id: 'leather-vest', cost: 75 },
 ];
 const SPECIAL_ATTACK = { name: 'Fireball', mp_cost: 20, damage_multiplier: 2.5 };
 const CRITICAL_HIT_MULTIPLIER = 2.0;
@@ -828,21 +830,21 @@ function renderInventory() {
 function renderShop() {
     document.getElementById('shop-gold-display').textContent = gameState.player.gold;
     const itemsContainer = document.getElementById('shop-items-container');
-    itemsContainer.innerHTML = SHOP_ITEMS.map(item => {
-        const itemDetails = ITEMS[item.id];
+    itemsContainer.innerHTML = SHOP_ITEMS.map(shopItem => {
+        const itemDetails = ALL_ITEMS[shopItem.id];
         return `
             <div class="card p-3 rounded-md flex justify-between items-center">
                 <div class="flex items-center gap-4">
                     <div class="icon-background">
-                        <img src="assets/items/${item.id}.png" class="w-6 h-6 pixel-art">
+                        <img src="${itemDetails.image}" class="w-6 h-6 pixel-art">
                     </div>
                     <div>
-                        <p>${item.name}</p>
-                        <p class="text-sm text-gray-400">${item.description}</p>
+                        <p>${itemDetails.name}</p>
+                        <p class="text-sm text-gray-400">${itemDetails.description}</p>
                     </div>
                 </div>
-                <button class="buy-item-btn btn bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-3 rounded-md flex items-center gap-1" data-item-id="${item.id}">
-                    <span>${item.cost}</span>
+                <button class="buy-item-btn btn bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-3 rounded-md flex items-center gap-1" data-item-id="${shopItem.id}">
+                    <span>${shopItem.cost}</span>
                     <img src="assets/icons/gold.png" class="w-4 h-4">
                 </button>
             </div>
@@ -885,9 +887,10 @@ function handlePurchase(itemId) {
     if (gameState.player.gold >= itemToBuy.cost) {
         gameState.player.gold -= itemToBuy.cost;
         addItemToInventory(itemToBuy.id);
-        showNotification(`Purchased ${itemToBuy.name}!`, 'success');
+        const itemDetails = ALL_ITEMS[itemToBuy.id];
+        showNotification(`Purchased ${itemDetails.name}!`, 'success');
         saveGameData();
-        renderUI(); // Re-render everything to update gold displays
+        renderUI();
     } else {
         showNotification("Not enough gold!", "error");
     }
