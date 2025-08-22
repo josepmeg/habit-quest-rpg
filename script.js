@@ -73,6 +73,49 @@ function saveGameData() {
     localStorage.setItem('habitQuestRpgGame', JSON.stringify(gameState));
 }
 
+function exportData() {
+    const jsonString = JSON.stringify(gameState);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `habitquest-save-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    showNotification("Game data exported!", "success");
+}
+
+function importData(event) {
+    const file = event.target.files[0];
+    if (!file) {
+        return; // No file selected
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const importedState = JSON.parse(e.target.result);
+            // Basic validation to ensure it's a valid save file
+            if (importedState.player && importedState.current_boss) {
+                gameState = importedState;
+                saveGameData();
+                showNotification("Import successful! Reloading...", "success");
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                throw new Error("Invalid save file format.");
+            }
+        } catch (error) {
+            showNotification("Error importing file. Please select a valid save file.", "error");
+            console.error("Import failed:", error);
+        }
+    };
+    reader.readAsText(file);
+    // Clear the input value to allow importing the same file again
+    event.target.value = '';
+}
+
 function applySettings() {
     if (gameState.player.settings && gameState.player.settings.background) {
         const bgNumber = gameState.player.settings.background;
