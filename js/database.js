@@ -26,3 +26,53 @@ export const ALL_ITEMS = {
         image: 'assets/items/armor_1.png' 
     }
 };
+
+export const WORKOUT_TASKS = [ 
+    { id: 'stretch', name: 'Stretch', inputs: [] }, 
+    { id: 'seated_leg_curl', name: 'Seated Leg Curl', inputs: ['Weight', 'Reps', 'Rounds'] }, 
+    { id: 'leg_press', name: 'Leg Press', inputs: ['Weight', 'Reps', 'Rounds'] }, 
+    { id: 'leg_curl_laying', name: 'Leg Curl Laying Down', inputs: ['Weight', 'Reps', 'Rounds'] }, 
+    { id: 'inverted_bosu', name: 'Inverted Bosu', inputs: ['Reps', 'Rounds'] }, 
+    { id: 'hip_abductor_in', name: 'Hip Abductor In', inputs: ['Weight', 'Reps', 'Rounds'] }, 
+    { id: 'hip_abductor_out', name: 'Hip Abductor Out', inputs: ['Weight', 'Reps', 'Rounds'] }, 
+    { id: 'glute_drive', name: 'Glute Drive', inputs: ['Weight', 'Reps', 'Rounds'] }, 
+    { id: 'abs', name: 'Abs', inputs: ['Reps', 'Rounds'] }, 
+    { id: 'push_ups', name: 'Push Ups', inputs: ['Reps', 'Rounds'] }, 
+    { id: 'pull_ups', name: 'Pull Ups', inputs: ['Reps', 'Rounds'] }, 
+];
+
+export const DAILY_HABITS = [ 
+    { id: 'reading', name: 'Reading', exp: 10, mp_regen: 10 }, 
+    { id: 'meditation', name: 'Meditation', exp: 5, mp_regen: 5 }, 
+    { id: 'clean_house', name: 'Clean/Organize House', exp: 5 }, 
+    { id: 'inbox_zero', name: 'Inbox Zero', exp: 5 }, 
+    { id: 'healthy_diet', name: 'Healthy Diet', exp: 10, hp_regen: 10 }, 
+];
+
+export const SPECIAL_ATTACK = { name: 'Fireball', mp_cost: 20, damage_multiplier: 2.5 };
+
+export const CRITICAL_HIT_MULTIPLIER = 2.0;
+
+export const ALL_TASKS = [...WORKOUT_TASKS, ...DAILY_HABITS];
+
+export const ITEM_DROP_CHANCE = 5; // Base 5% chance
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
