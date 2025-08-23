@@ -1,3 +1,5 @@
+import { ALL_ITEMS, SHOP_ITEMS } from './database.js';
+
 const initialGameState = {
     player: { name: 'Player', settings: { background: 1 }, gold: 0, equipment: { weapon: null, armor: null }, level: 1, hp: 100, max_hp: 100, mp: 50, max_mp: 50, attack: 5, base_luck: 5, exp: 0, exp_to_next_level: 100, training_streak: 0, personal_bests: {}, inventory: [] },
     current_boss: { name: "Ifrit", hp: 300, max_hp: 300, ability: "Burn", image: "assets/sprites/ifrit.png" },
