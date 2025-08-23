@@ -1,78 +1,18 @@
-import { ALL_ITEMS, SHOP_ITEMS } from './database.js';
+import { gameState, loadGameData, saveGameData } from './gameState.js';
+import { ALL_ITEMS, SHOP_ITEMS, WORKOUT_TASKS, DAILY_HABITS, SPECIAL_ATTACK, CRITICAL_HIT_MULTIPLIER, ALL_TASKS, ITEM_DROP_CHANCE } from './database.js';
 
-const initialGameState = {
-    player: { name: 'Player', settings: { background: 1 }, gold: 0, equipment: { weapon: null, armor: null }, level: 1, hp: 100, max_hp: 100, mp: 50, max_mp: 50, attack: 5, base_luck: 5, exp: 0, exp_to_next_level: 100, training_streak: 0, personal_bests: {}, inventory: [] },
-    current_boss: { name: "Ifrit", hp: 300, max_hp: 300, ability: "Burn", image: "assets/sprites/ifrit.png" },
-    boss_queue: [],
-    defeated_bosses: [],
-    quests: [],
-    history: [],
-    dailyLog: { date: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0], completed_tasks: [], workout_details: {}, attack_performed: false }
-};
-let gameState = JSON.parse(JSON.stringify(initialGameState));
-
-const WORKOUT_TASKS = [ { id: 'stretch', name: 'Stretch', inputs: [] }, { id: 'seated_leg_curl', name: 'Seated Leg Curl', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'leg_press', name: 'Leg Press', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'leg_curl_laying', name: 'Leg Curl Laying Down', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'inverted_bosu', name: 'Inverted Bosu', inputs: ['Reps', 'Rounds'] }, { id: 'hip_abductor_in', name: 'Hip Abductor In', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'hip_abductor_out', name: 'Hip Abductor Out', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'glute_drive', name: 'Glute Drive', inputs: ['Weight', 'Reps', 'Rounds'] }, { id: 'abs', name: 'Abs', inputs: ['Reps', 'Rounds'] }, { id: 'push_ups', name: 'Push Ups', inputs: ['Reps', 'Rounds'] }, { id: 'pull_ups', name: 'Pull Ups', inputs: ['Reps', 'Rounds'] }, ];
-const DAILY_HABITS = [ { id: 'reading', name: 'Reading', exp: 10, mp_regen: 10 }, { id: 'meditation', name: 'Meditation', exp: 5, mp_regen: 5 }, { id: 'clean_house', name: 'Clean/Organize House', exp: 5 }, { id: 'inbox_zero', name: 'Inbox Zero', exp: 5 }, { id: 'healthy_diet', name: 'Healthy Diet', exp: 10, hp_regen: 10 }, ];
-const SPECIAL_ATTACK = { name: 'Fireball', mp_cost: 20, damage_multiplier: 2.5 };
-const CRITICAL_HIT_MULTIPLIER = 2.0;
-const ALL_TASKS = [...WORKOUT_TASKS, ...DAILY_HABITS];
-const ITEM_DROP_CHANCE = 5; // Base 5% chance
 const notificationEl = document.getElementById('notification');
 
 document.addEventListener('DOMContentLoaded', () => {
-    populateTaskLists();
-    setupEventListeners();
-    loadGameData();
-});
-
-function loadGameData() {
-    const savedData = localStorage.getItem('habitQuestRpgGame');
-    if (savedData) {
-        gameState = JSON.parse(savedData);
-
-        console.log('Loaded dailyLog from storage:', gameState.dailyLog);
-
-        // THIS BLOCK FIXES THE BROKEN IMAGE PATH IN YOUR SAVE FILE
-        if (gameState.current_boss && gameState.current_boss.image === 'assets/ifrit.png') {
-            console.log('Old boss image path found, updating to new path...');
-            gameState.current_boss.image = 'assets/sprites/ifrit.png';
-        }
-        // END OF FIX BLOCK
-
-        if (gameState.current_boss && !gameState.current_boss.image) {
-            gameState.current_boss.image = 'assets/sprites/ifrit.png';
-        }
-        if (gameState.player && !gameState.player.settings) {
-            gameState.player.settings = { background: 1 };
-        }
-        if (gameState.player && typeof gameState.player.gold === 'undefined') {
-            gameState.player.gold = 0;
-        }
-        if (gameState.player && !gameState.player.equipment) {
-            gameState.player.equipment = { weapon: null, armor: null };
-        }
-    } else {
-        gameState = JSON.parse(JSON.stringify(initialGameState));
-    }
-
-    recalculatePlayerStats();
-    applySettings();
-
-    const today = new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0];
-    
-    console.log('Is daily log being reset?', gameState.dailyLog.date !== today, `(Saved: ${gameState.dailyLog.date}, Today: ${today})`);
-
-    if (gameState.dailyLog.date !== today) {
-        resetDailyTasks();
-    } else {
+    loadGameData(() => {
+        // This code runs after the game state has been loaded
+        populateTaskLists();
+        setupEventListeners();
+        recalculatePlayerStats();
+        applySettings();
         renderUI();
-    }
-}
-
-function saveGameData() {
-    localStorage.setItem('habitQuestRpgGame', JSON.stringify(gameState));
-}
-
+    });
+});
 function exportData() {
     const jsonString = JSON.stringify(gameState);
     const blob = new Blob([jsonString], { type: 'application/json' });
@@ -540,20 +480,6 @@ function updatePersonalBests() {
             if (currentValue > bestValue) { pbs[taskId][inputType] = currentValue; }
         }
     }
-}
-
-function resetDailyTasks() {
-    if (gameState.dailyLog.completed_tasks.length > 0) {
-        gameState.history.push(JSON.parse(JSON.stringify(gameState.dailyLog)));
-        if (gameState.history.length > 30) gameState.history.shift();
-    }
-    const today = new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0];
-    const yesterdayWorkoutCompleted = WORKOUT_TASKS.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id));
-    if (!yesterdayWorkoutCompleted) gameState.player.training_streak = 0;
-    gameState.dailyLog = { date: today, completed_tasks: [], workout_details: {}, attack_performed: false };
-
-    saveGameData();
-    renderUI();
 }
 
 function renderUI() {
