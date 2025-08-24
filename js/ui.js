@@ -347,8 +347,10 @@ export function showDailySummary(dateStr) {
     titleEl.textContent = `Summary for ${date.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
 
     let contentHtml = '';
-    const completedWorkouts = db.WORKOUT_TASKS.filter(task => logData.completed_tasks.includes(task.id));
-    const completedHabits = db.DAILY_HABITS.filter(task => logData.completed_tasks.includes(task.id));
+    
+    // VVV These two lines are now fixed (db. prefix removed) VVV
+    const completedWorkouts = WORKOUT_TASKS.filter(task => logData.completed_tasks.includes(task.id));
+    const completedHabits = DAILY_HABITS.filter(task => logData.completed_tasks.includes(task.id));
 
     if (completedWorkouts.length > 0) {
         contentHtml += '<h4 class="font-rpg text-yellow-400 text-sm">Workout Details</h4><ul class="list-disc list-inside text-gray-400 space-y-1">';
