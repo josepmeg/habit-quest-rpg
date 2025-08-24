@@ -208,22 +208,33 @@
     <div id="summary-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden"><div class="modal-overlay fixed inset-0"></div><div class="modal-content card rounded-lg p-6 w-full max-w-md m-4 relative"><h3 id="summary-modal-title" class="font-rpg text-xl text-green-400 mb-4">Daily Summary</h3><button id="summary-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button><div id="summary-modal-content" class="space-y-4 text-gray-300 max-h-[60vh] overflow-y-auto"></div></div></div>
     <div id="shop-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden">
     <div class="modal-overlay fixed inset-0"></div>
-    <div class="modal-content card rounded-lg p-6 w-full max-w-lg m-4 relative">
+    <div class="modal-content card rounded-lg p-6 w-full max-w-4xl m-4 relative">
         <div class="flex justify-between items-center mb-4">
             <h3 class="font-rpg text-xl text-yellow-400">Shop</h3>
             <div class="flex items-center gap-2 text-yellow-400 font-bold mr-8">
-                <img src="assets/icons/gold.png" class="w-6 h-6">
+                <img src="assets/icons/gold.png" class="w-5 h-5">
                 <span id="shop-gold-display">0</span>
             </div>
         </div>
         <button id="shop-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
-    <div id="shop-items-container" class="modal-interior-background p-2 rounded-md space-y-3 max-h-[60vh] overflow-y-auto">
+    
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="hidden md:flex flex-col items-center justify-center space-y-4">
+                <img src="assets/sprites/shopkeeper.png" class="pixel-art w-32 h-32">
+                <div class="card p-3 rounded-lg relative border border-gray-600">
+                    <p class="text-sm text-gray-300">"Welcome, adventurer! See anything you like?"</p>
+                    <div class="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent border-b-8 border-b-[#374151]"></div>
+                </div>
             </div>
+    
+            <div id="shop-items-container" class="modal-interior-background p-2 rounded-md space-y-3 max-h-[60vh] overflow-y-auto">
+                </div>
         </div>
     </div>
     <script type="module" src="js/script.js"></script>
 </body>
 </html>
+
 
 
 
