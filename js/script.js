@@ -438,15 +438,6 @@ function setupEventListeners() {
             }
         });
     }
-    
-    const historyContent = document.getElementById('history-content');
-    if (historyContent) {
-        historyContent.addEventListener('click', (e) => {
-            if (e.target.matches('.clickable-day')) {
-                ui.showDailySummary(e.target.dataset.date);
-            }
-        });
-    }
 
     const summaryModal = document.getElementById('summary-modal');
     if (summaryModal) {
@@ -462,16 +453,6 @@ function setupEventListeners() {
     const importInput = document.getElementById('import-input');
     if (importInput) {
         importInput.addEventListener('change', importData);
-    }
-    
-    const historyContent = document.getElementById('history-content');
-    if (historyContent) {
-        historyContent.addEventListener('click', (e) => {
-            if (e.target.matches('.clickable-day')) {
-                // Now calls the imported function correctly
-                ui.showDailySummary(e.target.dataset.date);
-            }
-        });
     }
     
 }
