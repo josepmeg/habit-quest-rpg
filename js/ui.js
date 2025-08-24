@@ -292,6 +292,14 @@ export function renderShop() {
     const itemsContainer = document.getElementById('shop-items-container');
     itemsContainer.innerHTML = SHOP_ITEMS.map(shopItem => {
         const itemDetails = ALL_ITEMS[shopItem.id];
+        // Check for a bonus and create the text for it
+        let bonusHtml = '';
+        if (itemDetails.bonus) {
+            const bonusText = Object.entries(itemDetails.bonus)
+                .map(([stat, value]) => `+${value} ${stat.replace('_', ' ').toUpperCase()}`)
+                .join(', ');
+            bonusHtml = `<p class="text-xs text-green-400 font-bold">${bonusText}</p>`;
+        }
         return `
             <div class="card p-3 rounded-md flex justify-between items-center">
                 <div class="flex items-center gap-4">
@@ -300,7 +308,7 @@ export function renderShop() {
                     </div>
                     <div>
                         <p>${itemDetails.name}</p>
-                        <p class="text-sm text-gray-400">${itemDetails.description}</p>
+                        ${bonusHtml} <p class="text-sm text-gray-400">${itemDetails.description}</p>
                     </div>
                 </div>
                 <button class="buy-item-btn btn bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-3 rounded-md flex items-center gap-1" data-item-id="${shopItem.id}">
