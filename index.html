@@ -209,31 +209,30 @@
     <div id="shop-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden">
     <div class="modal-overlay fixed inset-0"></div>
     <div class="modal-content card rounded-lg p-6 w-full max-w-4xl m-4 relative">
-        <div class="flex justify-between items-center mb-4">
-            <h3 class="font-rpg text-xl text-yellow-400">Shop</h3>
-            <div class="flex items-center gap-2 text-yellow-400 font-bold mr-8">
+        <h3 class="font-rpg text-xl text-yellow-400 mb-4">Shop</h3>
+        <button id="shop-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
+    
+        <div class="flex items-center gap-4 mb-4 p-2 card rounded-md">
+            <img src="assets/sprites/shopkeeper.png" class="pixel-art w-20 h-20 flex-shrink-0">
+            
+            <div class="flex-grow card p-3 rounded-lg relative border border-gray-600">
+                <p class="text-sm text-gray-300">"Welcome, adventurer! See anything you like?"</p>
+            </div>
+            
+            <div class="flex items-center gap-2 text-yellow-400 font-bold flex-shrink-0">
+                <span class="hidden md:inline">Your Gold:</span>
                 <img src="assets/icons/gold.png" class="w-5 h-5">
                 <span id="shop-gold-display">0</span>
             </div>
         </div>
-        <button id="shop-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
     
-        <div class="grid md:grid-cols-2 gap-6">
-            <div class="hidden md:flex flex-col items-center justify-center space-y-4">
-                <img src="assets/sprites/shopkeeper.png" class="pixel-art w-32 h-32">
-                <div class="card p-3 rounded-lg relative border border-gray-600">
-                    <p class="text-sm text-gray-300">"Welcome, adventurer! See anything you like?"</p>
-                    <div class="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent border-b-8 border-b-[#374151]"></div>
-                </div>
+        <div id="shop-items-container" class="modal-interior-background p-2 rounded-md space-y-3 max-h-[50vh] overflow-y-auto">
             </div>
-    
-            <div id="shop-items-container" class="modal-interior-background p-2 rounded-md space-y-3 max-h-[60vh] overflow-y-auto">
-                </div>
-        </div>
     </div>
     <script type="module" src="js/script.js"></script>
 </body>
 </html>
+
 
 
 
