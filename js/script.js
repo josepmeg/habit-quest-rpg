@@ -401,4 +401,25 @@ function setupEventListeners() {
         document.getElementById('summary-modal-close').addEventListener('click', () => summaryModal.style.display = 'none');
         summaryModal.querySelector('.modal-overlay').addEventListener('click', () => summaryModal.style.display = 'none');
     }
+
+    const exportBtn = document.getElementById('export-btn');
+    if (exportBtn) {
+        exportBtn.addEventListener('click', exportData);
+    }
+
+    const importInput = document.getElementById('import-input');
+    if (importInput) {
+        importInput.addEventListener('change', importData);
+    }
+    
+    const historyContent = document.getElementById('history-content');
+    if (historyContent) {
+        historyContent.addEventListener('click', (e) => {
+            if (e.target.matches('.clickable-day')) {
+                // Now calls the imported function correctly
+                ui.showDailySummary(e.target.dataset.date);
+            }
+        });
+    }
+    
 }
