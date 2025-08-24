@@ -328,3 +328,50 @@ export function renderAttributes() {
     `;
     attributesContent.innerHTML = attributesHtml;
 }
+
+export function showDailySummary(dateStr) {
+    let logData = null;
+    if (dateStr === gameState.dailyLog.date) {
+        logData = gameState.dailyLog;
+    } else {
+        logData = gameState.history.find(h => h.date === dateStr);
+    }
+
+    if (!logData) return;
+
+    const modal = document.getElementById('summary-modal');
+    const titleEl = document.getElementById('summary-modal-title');
+    const contentEl = document.getElementById('summary-modal-content');
+
+    const date = new Date(dateStr + 'T00:00:00');
+    titleEl.textContent = `Summary for ${date.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
+
+    let contentHtml = '';
+    const completedWorkouts = db.WORKOUT_TASKS.filter(task => logData.completed_tasks.includes(task.id));
+    const completedHabits = db.DAILY_HABITS.filter(task => logData.completed_tasks.includes(task.id));
+
+    if (completedWorkouts.length > 0) {
+        contentHtml += '<h4 class="font-rpg text-yellow-400 text-sm">Workout Details</h4><ul class="list-disc list-inside text-gray-400 space-y-1">';
+        completedWorkouts.forEach(task => {
+            let details = '';
+            if (logData.workout_details && logData.workout_details[task.id]) {
+                details = Object.entries(logData.workout_details[task.id])
+                    .map(([key, value]) => `${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`)
+                    .join(', ');
+            }
+            contentHtml += `<li>${task.name}${details ? ` <span class="text-xs">(${details})</span>` : ''}</li>`;
+        });
+        contentHtml += '</ul>';
+    }
+
+    if (completedHabits.length > 0) {
+        contentHtml += '<h4 class="font-rpg text-green-400 text-sm mt-4">Habits Completed</h4><ul class="list-disc list-inside text-gray-400 space-y-1">';
+        completedHabits.forEach(task => {
+            contentHtml += `<li>${task.name}</li>`;
+        });
+        contentHtml += '</ul>';
+    }
+    
+    contentEl.innerHTML = contentHtml || '<p class="text-gray-500">No details were logged for this day.</p>';
+    modal.style.display = 'flex';
+}
