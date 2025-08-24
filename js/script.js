@@ -427,32 +427,3 @@ function setupEventListeners() {
         summaryModal.querySelector('.modal-overlay').addEventListener('click', () => summaryModal.style.display = 'none');
     }
 }
-
-    const bgSwitcher = document.getElementById('background-switcher');
-    if (bgSwitcher) {
-        bgSwitcher.addEventListener('click', (e) => {
-            if (e.target.matches('button[data-bg]')) {
-                gameState.player.settings.background = parseInt(e.target.dataset.bg, 10);
-                ui.applySettings();
-                saveGameData();
-            }
-        });
-    }
-
-    const summaryModal = document.getElementById('summary-modal');
-    if (summaryModal) {
-        document.getElementById('summary-modal-close').addEventListener('click', () => summaryModal.style.display = 'none');
-        summaryModal.querySelector('.modal-overlay').addEventListener('click', () => summaryModal.style.display = 'none');
-    }
-
-    const exportBtn = document.getElementById('export-btn');
-    if (exportBtn) {
-        exportBtn.addEventListener('click', exportData);
-    }
-
-    const importInput = document.getElementById('import-input');
-    if (importInput) {
-        importInput.addEventListener('change', importData);
-    }
-    
-}
