@@ -162,7 +162,12 @@ export function renderBossModals() {
 }
 
 export function renderQuests() {
+    const questCounter = document.getElementById('quest-counter');
+    if (questCounter) {
+        questCounter.textContent = `(${gameState.quests.length})`;
+    }
     const questList = document.getElementById('quest-list');
+    
     if (!gameState.quests || gameState.quests.length === 0) {
         questList.innerHTML = `<p class="text-gray-400">No active quests. Add one below!</p>`;
     } else {
