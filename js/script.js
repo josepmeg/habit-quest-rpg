@@ -380,9 +380,20 @@ function setupEventListeners() {
     if (exportBtn) {
         exportBtn.addEventListener('click', exportData);
     }
+    
     const importInput = document.getElementById('import-input');
     if (importInput) {
-        importInput.addEventListener('change', importData);
+        importInput.addEventListener('change', (event) => {
+            importData(event, (success, error) => {
+                if (success) {
+                    ui.showNotification("Import successful! Reloading...", "success");
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    ui.showNotification("Error importing file. Please select a valid save file.", "error");
+                    console.error("Import failed:", error);
+                }
+            });
+        });
     }
 
     // Calendar day summary
