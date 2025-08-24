@@ -307,6 +307,7 @@ function importData(event) {
 
 // === EVENT LISTENERS ===
 function setupEventListeners() {
+    // Collapsible sections
     const setupCollapsible = (toggleId, contentId, arrowId) => {
         const toggleButton = document.getElementById(toggleId);
         if (toggleButton) {
@@ -321,7 +322,16 @@ function setupEventListeners() {
     setupCollapsible('habits-toggle', 'daily-habits-content', 'habits-arrow');
     setupCollapsible('quests-toggle', 'quests-content', 'quests-arrow');
     setupCollapsible('attributes-toggle', 'attributes-content', 'attributes-arrow');
+
+    // Attack buttons
+    document.getElementById('attack-btn').addEventListener('click', () => handleAttack('normal'));
+    document.getElementById('special-attack-btn').addEventListener('click', () => handleAttack('special'));
+
+    // Task and workout inputs
+    document.body.addEventListener('change', e => e.target.matches('input[type="checkbox"][data-task-id]') && handleTaskToggle(e.target.dataset.taskId, e.target.checked));
+    document.body.addEventListener('input', e => e.target.matches('input[type="number"][data-task-id]') && handleWorkoutInput(e.target));
     
+    // Modal setup
     const setupModal = (btnId, modalId, closeId) => {
         const modal = document.getElementById(modalId);
         const openBtn = document.getElementById(btnId);
@@ -338,24 +348,22 @@ function setupEventListeners() {
     setupModal('inventory-modal-btn', 'inventory-modal', 'inventory-modal-close');
     setupModal('shop-modal-btn', 'shop-modal', 'shop-modal-close');
 
-    document.getElementById('attack-btn').addEventListener('click', () => handleAttack('normal'));
-    document.getElementById('special-attack-btn').addEventListener('click', () => handleAttack('special'));
-    document.body.addEventListener('change', e => e.target.matches('input[type="checkbox"][data-task-id]') && handleTaskToggle(e.target.dataset.taskId, e.target.checked));
-    document.body.addEventListener('input', e => e.target.matches('input[type="number"][data-task-id]') && handleWorkoutInput(e.target));
+    // Form submissions
     document.getElementById('add-boss-form').addEventListener('submit', handleAddBoss);
     document.getElementById('add-quest-form').addEventListener('submit', handleAddQuest);
-    document.getElementById('quest-list').addEventListener('click', e => e.target.matches('.complete-quest-btn') && handleCompleteQuest(parseInt(e.target.dataset.questIndex)));
     
+    // Dynamic content listeners
+    document.getElementById('quest-list').addEventListener('click', e => e.target.matches('.complete-quest-btn') && handleCompleteQuest(parseInt(e.target.dataset.questIndex)));
     document.getElementById('inventory-content').addEventListener('click', e => {
         if (e.target.matches('.use-item-btn')) useItem(e.target.dataset.itemId);
         else if (e.target.matches('.equip-item-btn')) handleEquipItem(e.target.dataset.itemId);
     });
-    
     const shopContainer = document.getElementById('shop-items-container');
     if (shopContainer) {
         shopContainer.addEventListener('click', e => e.target.matches('.buy-item-btn') && handlePurchase(e.target.dataset.itemId));
     }
     
+    // Editable player name
     document.getElementById('player-name').addEventListener('click', () => {
         const newName = prompt("Enter your character's name:", gameState.player.name);
         if (newName && newName.trim() !== '') {
@@ -366,6 +374,7 @@ function setupEventListeners() {
         }
     });
 
+    // Reset button
     const resetBtn = document.getElementById('reset-game-btn');
     if (resetBtn) {
         resetBtn.addEventListener('click', () => {
@@ -375,6 +384,46 @@ function setupEventListeners() {
             }
         });
     }
+
+    // Background switcher
+    const bgSwitcher = document.getElementById('background-switcher');
+    if (bgSwitcher) {
+        bgSwitcher.addEventListener('click', (e) => {
+            if (e.target.matches('button[data-bg]')) {
+                gameState.player.settings.background = parseInt(e.target.dataset.bg, 10);
+                ui.applySettings();
+                saveGameData();
+            }
+        });
+    }
+    
+    // Data Management Buttons
+    const exportBtn = document.getElementById('export-btn');
+    if (exportBtn) {
+        exportBtn.addEventListener('click', exportData);
+    }
+    const importInput = document.getElementById('import-input');
+    if (importInput) {
+        importInput.addEventListener('change', importData);
+    }
+
+    // Calendar day summary
+    const historyContent = document.getElementById('history-content');
+    if (historyContent) {
+        historyContent.addEventListener('click', (e) => {
+            if (e.target.matches('.clickable-day')) {
+                ui.showDailySummary(e.target.dataset.date);
+            }
+        });
+    }
+
+    // Summary modal closing
+    const summaryModal = document.getElementById('summary-modal');
+    if (summaryModal) {
+        document.getElementById('summary-modal-close').addEventListener('click', () => summaryModal.style.display = 'none');
+        summaryModal.querySelector('.modal-overlay').addEventListener('click', () => summaryModal.style.display = 'none');
+    }
+}
 
     const bgSwitcher = document.getElementById('background-switcher');
     if (bgSwitcher) {
