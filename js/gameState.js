@@ -76,5 +76,30 @@ function loadGameData(onLoadComplete) {
     onLoadComplete();
 }
 
+function importData(event, onLoadComplete) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const importedState = JSON.parse(e.target.result);
+            // Basic validation to ensure it's a valid save file
+            if (importedState.player && importedState.current_boss) {
+                gameState = importedState;
+                saveGameData();
+                onLoadComplete(true); // Signal success
+            } else {
+                throw new Error("Invalid save file format.");
+            }
+        } catch (error) {
+            onLoadComplete(false, error); // Signal failure
+        }
+    };
+    reader.readAsText(file);
+    // Clear the input's value to allow importing the same file again
+    event.target.value = '';
+}
+
 // Export the state and functions that other files will need
-export { gameState, loadGameData, saveGameData };
+export { gameState, loadGameData, saveGameData, importData };
