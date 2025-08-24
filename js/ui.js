@@ -12,8 +12,21 @@ export function applySettings() {
 export function populateTaskLists() {
     const workoutHtml = WORKOUT_TASKS.map(task => {
         const hasInputs = task.inputs.length > 0;
-        const inputsHtml = task.inputs.map(input => `<input type="number" placeholder="${input.charAt(0).toUpperCase() + input.slice(1)}" data-task-id="${task.id}" data-input-type="${input.toLowerCase()}" class="task-input w-full rounded-md p-1 text-sm mt-1">`).join('');
-        return `<div class="card p-3 rounded-md"><label class="flex items-center space-x-3"><input type="checkbox" id="task-${task.id}" data-task-id="${task.id}" class="task-checkbox"><span>${task.name}</span></label>${hasInputs ? `<div class="mt-2 pl-8">${inputsHtml}<div class="text-right text-xs text-gray-400 pr-1 mt-1" id="pb-${task.id}"></div></div>` : ''}</div>`;
+        // This logic correctly creates a grid with the right number of columns
+        const gridCols = hasInputs ? `grid-cols-${task.inputs.length}` : '';
+        const inputsHtml = hasInputs 
+            ? `<div class="grid ${gridCols} gap-2 mt-2 pl-8 items-center">
+                   ${task.inputs.map(input => `<div class="col-span-1"><input type="number" placeholder="${input}" data-task-id="${task.id}" data-input-type="${input.toLowerCase()}" class="task-input w-full rounded-md p-1 text-sm"></div>`).join('')}
+                   <div class="col-span-${task.inputs.length} text-right text-xs text-gray-400 pr-1" id="pb-${task.id}"></div>
+               </div>` 
+            : '';
+        return `<div class="card p-3 rounded-md">
+                    <label class="flex items-center space-x-3">
+                        <input type="checkbox" id="task-${task.id}" data-task-id="${task.id}" class="task-checkbox">
+                        <span>${task.name}</span>
+                    </label>
+                    ${inputsHtml}
+                </div>`;
     }).join('');
     document.getElementById('workout-content').innerHTML = workoutHtml;
     
