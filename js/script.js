@@ -1,5 +1,5 @@
 // === MODULE IMPORTS ===
-import { gameState, loadGameData, saveGameData } from './gameState.js';
+import { gameState, loadGameData, saveGameData, importData } from './gameState.js';
 import * as db from './database.js';
 import * as ui from './ui.js';
 
