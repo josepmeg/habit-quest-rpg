@@ -146,6 +146,7 @@ export function renderUI() {
     renderShop();
     renderEquippedItems();
     renderAttributes();
+    renderFooter();
 }
 
 export function renderBossModals() {
@@ -340,6 +341,17 @@ export function renderAttributes() {
         </div>
     `;
     attributesContent.innerHTML = attributesHtml;
+}
+
+export function renderFooter() {
+    const footerText = document.getElementById('footer-text');
+    const savedData = localStorage.getItem('habitQuestRpgGame');
+
+    if (savedData && footerText) {
+        const sizeInBytes = new Blob([savedData]).size;
+        const sizeInKB = (sizeInBytes / 1024).toFixed(2);
+        footerText.textContent = `Game data is saved locally in your browser. (Size: ${sizeInKB} KB)`;
+    }
 }
 
 export function showDailySummary(dateStr) {
