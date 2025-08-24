@@ -280,31 +280,6 @@ function exportData() {
     ui.showNotification("Game data exported!", "success");
 }
 
-function importData(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            const importedState = JSON.parse(e.target.result);
-            if (importedState.player && importedState.current_boss) {
-                gameState = importedState;
-                saveGameData();
-                ui.showNotification("Import successful! Reloading...", "success");
-                setTimeout(() => location.reload(), 1500);
-            } else {
-                throw new Error("Invalid save file format.");
-            }
-        } catch (error) {
-            ui.showNotification("Error importing file. Please select a valid save file.", "error");
-            console.error("Import failed:", error);
-        }
-    };
-    reader.readAsText(file);
-    event.target.value = '';
-}
-
 // === EVENT LISTENERS ===
 
 function setupEventListeners() {
