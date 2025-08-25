@@ -298,6 +298,10 @@ function setupEventListeners() {
     setupCollapsible('habits-toggle', 'daily-habits-content', 'habits-arrow');
     setupCollapsible('quests-toggle', 'quests-content', 'quests-arrow');
     setupCollapsible('attributes-toggle', 'attributes-content', 'attributes-arrow');
+    setupCollapsible('info-core-toggle', 'info-core-content', 'info-core-arrow');
+    setupCollapsible('info-combat-toggle', 'info-combat-content', 'info-combat-arrow');
+    setupCollapsible('info-progression-toggle', 'info-progression-content', 'info-progression-arrow');
+    setupCollapsible('info-equipment-toggle', 'info-equipment-content', 'info-equipment-arrow');
 
     // Attack buttons
     document.getElementById('attack-btn').addEventListener('click', () => handleAttack('normal'));
