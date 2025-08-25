@@ -149,7 +149,7 @@
 
     <div id="boss-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden"><div class="modal-overlay fixed inset-0"></div><div class="modal-content card rounded-lg p-6 w-full max-w-md m-4 relative"><h3 class="font-rpg text-xl text-yellow-400 mb-4">Boss Management</h3><button id="boss-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button><div class="space-y-4"><div><h4 class="font-semibold mb-2">Add New Boss</h4><form id="add-boss-form" class="grid grid-cols-2 gap-2"><input id="new-boss-name" type="text" placeholder="Boss Name" class="task-input col-span-2 rounded-md p-2" required><input id="new-boss-hp" type="number" placeholder="HP" class="task-input rounded-md p-2" required><input id="new-boss-ability" type="text" placeholder="Ability (e.g., Burn)" class="task-input rounded-md p-2"><button type="submit" class="col-span-2 btn bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Add</button></form></div><div><h4 class="font-semibold mb-2">Upcoming Bosses</h4><ul id="boss-queue-list" class="space-y-2 max-h-40 overflow-y-auto"></ul></div><div><h4 class="font-semibold mb-2">Defeated Bosses</h4><ul id="defeated-boss-list" class="space-y-2 max-h-40 overflow-y-auto"></ul></div></div></div></div>
     <div id="info-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden"><div class="modal-overlay fixed inset-0"></div>
-    <div class="modal-content card rounded-lg p-6 w-full max-w-md m-4 relative">
+    <div class="modal-content card rounded-lg p-6 w-full max-w-md m-2 md:m-8 relative">
         <h3 class="font-rpg text-xl text-blue-400 mb-4">How To Play</h3>
         <button id="info-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
         
@@ -282,6 +282,7 @@
     <script type="module" src="js/script.js"></script>
 </body>
 </html>
+
 
 
 
