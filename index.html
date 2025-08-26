@@ -147,136 +147,173 @@
         </footer>
     </div>
 
-    <div id="boss-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden"><div class="modal-overlay fixed inset-0"></div><div class="modal-content card rounded-lg p-6 w-full max-w-md m-4 relative"><h3 class="font-rpg text-xl text-yellow-400 mb-4">Boss Management</h3><button id="boss-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button><div class="space-y-4"><div><h4 class="font-semibold mb-2">Add New Boss</h4><form id="add-boss-form" class="grid grid-cols-2 gap-2"><input id="new-boss-name" type="text" placeholder="Boss Name" class="task-input col-span-2 rounded-md p-2" required><input id="new-boss-hp" type="number" placeholder="HP" class="task-input rounded-md p-2" required><input id="new-boss-ability" type="text" placeholder="Ability (e.g., Burn)" class="task-input rounded-md p-2"><button type="submit" class="col-span-2 btn bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Add</button></form></div><div><h4 class="font-semibold mb-2">Upcoming Bosses</h4><ul id="boss-queue-list" class="space-y-2 max-h-40 overflow-y-auto"></ul></div><div><h4 class="font-semibold mb-2">Defeated Bosses</h4><ul id="defeated-boss-list" class="space-y-2 max-h-40 overflow-y-auto"></ul></div></div></div></div>
-    <div id="info-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden"><div class="modal-overlay fixed inset-0"></div>
-    <div class="modal-content card rounded-lg p-6 w-full max-w-md relative">
-        <h3 class="font-rpg text-xl text-blue-400 mb-4">How To Play</h3>
-        <button id="info-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
-        
-        <div class="space-y-2 text-gray-300">
-            <div class="card p-2 rounded-md">
-                <button id="info-core-toggle" class="w-full text-left flex justify-between items-center">
-                    <h4 class="font-semibold text-green-400">The Core Loop</h4>
-                    <span id="info-core-arrow" class="font-rpg">▼</span>
-                </button>
-                <div id="info-core-content" class="collapsible-content pt-2 mt-2 border-t border-gray-600">
-                    <p>Complete real-life <span class="font-bold">Workouts</span> and <span class="font-bold">Habits</span> to earn the right to attack the boss once per day. Winning battles earns you EXP and Gold to become more powerful.</p>
+     <div id="boss-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden">
+        <div class="modal-overlay fixed inset-0"></div>
+        <div class="modal-content card rounded-lg p-6 w-full max-w-md m-4 relative">
+            <h3 class="font-rpg text-xl text-yellow-400 mb-4">Boss Management</h3>
+            <button id="boss-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-semibold mb-2">Add New Boss</h4>
+                    <form id="add-boss-form" class="grid grid-cols-2 gap-2">
+                        <input id="new-boss-name" type="text" placeholder="Boss Name" class="task-input col-span-2 rounded-md p-2" required>
+                        <input id="new-boss-hp" type="number" placeholder="HP" class="task-input rounded-md p-2" required>
+                        <input id="new-boss-ability" type="text" placeholder="Ability (e.g., Burn)" class="task-input rounded-md p-2">
+                        <button type="submit" class="col-span-2 btn bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Add</button>
+                    </form>
                 </div>
-            </div>
-    
-            <div class="card p-2 rounded-md">
-                <button id="info-combat-toggle" class="w-full text-left flex justify-between items-center">
-                    <h4 class="font-semibold text-yellow-400">Combat & Stats</h4>
-                    <span id="info-combat-arrow" class="font-rpg">▼</span>
-                </button>
-                <div id="info-combat-content" class="collapsible-content pt-2 mt-2 border-t border-gray-600 space-y-2">
-                    <p><span class="font-bold text-red-400">Attack:</span> Your total damage is based on your Attack stat (from levels and equipment) plus a streak bonus.</p>
-                    <p><span class="font-bold text-yellow-400">Luck:</span> Your Luck stat gives you a chance to land a CRITICAL HIT for double damage!</p>
-                     <p><span class="font-bold text-indigo-400">Fireball:</span> This special attack costs MP but deals significantly more damage.</p>
+                <div>
+                    <h4 class="font-semibold mb-2">Upcoming Bosses</h4>
+                    <ul id="boss-queue-list" class="space-y-2 max-h-40 overflow-y-auto"></ul>
                 </div>
-            </div>
-    
-            <div class="card p-2 rounded-md">
-                <button id="info-progression-toggle" class="w-full text-left flex justify-between items-center">
-                    <h4 class="font-semibold text-purple-400">Progression & Rewards</h4>
-                    <span id="info-progression-arrow" class="font-rpg">▼</span>
-                </button>
-                <div id="info-progression-content" class="collapsible-content pt-2 mt-2 border-t border-gray-600 space-y-2">
-                    <p><span class="font-bold">Leveling Up:</span> Gaining EXP by completing tasks and fighting will increase your Level, permanently boosting your stats and healing you fully.</p>
-                    <p><span class="font-bold text-yellow-400">Gold:</span> Completing workouts and habits earns you Gold, which you can spend in the Shop on useful items.</p>
+                <div>
+                    <h4 class="font-semibold mb-2">Defeated Bosses</h4>
+                    <ul id="defeated-boss-list" class="space-y-2 max-h-40 overflow-y-auto"></ul>
                 </div>
-            </div>
-            
-            <div class="card p-2 rounded-md">
-                <button id="info-equipment-toggle" class="w-full text-left flex justify-between items-center">
-                    <h4 class="font-semibold text-blue-400">The Armory (Equipment)</h4>
-                    <span id="info-equipment-arrow" class="font-rpg">▼</span>
-                </button>
-                <div id="info-equipment-content" class="collapsible-content pt-2 mt-2 border-t border-gray-600">
-                    <p>Buy or find <span class="font-bold">Equipment</span> like swords and armor. Equipping them from your inventory provides permanent stat bonuses.</p>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-600 pt-4 mt-4 space-y-2">
-                <h4 class="font-semibold text-gray-400 text-sm text-center">Manage Data</h4>
-                <div class="flex gap-2">
-                    <button id="export-btn" class="btn w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Export Save</button>
-                    <label class="btn w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md text-center cursor-pointer">
-                        Import Save
-                        <input type="file" id="import-input" class="hidden" accept=".json,application/json">
-                    </label>
-                </div>
-                <button id="reset-game-btn" class="btn w-full bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md">RESET GAME PROGRESS</button>
             </div>
         </div>
-    </div>   
-    <div id="player-stats-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden"><div class="modal-overlay fixed inset-0"></div><div class="modal-content card rounded-lg p-6 w-full max-w-2xl m-4 relative"><h3 class="font-rpg text-xl text-blue-400 mb-4">Player Stats & History</h3><button id="player-stats-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
-        <div id="history-content" class="text-gray-300 max-h-[70vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-4">
-                <button id="prev-month-btn" class="btn action-btn-sand p-2 rounded-md"><span>&#9664;</span></button>
-                <h4 id="calendar-title" class="font-rpg text-lg text-center"></h4>
-                <button id="next-month-btn" class="btn action-btn-sand p-2 rounded-md"><span>&#9654;</span></button>
-            </div>
-            <div id="calendar-grid-container">
+    </div>
+
+    <div id="info-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden">
+        <div class="modal-overlay fixed inset-0"></div>
+        <div class="modal-content card rounded-lg p-6 w-full max-w-md relative">
+            <h3 class="font-rpg text-xl text-blue-400 mb-4">How To Play</h3>
+            <button id="info-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
+            <div class="space-y-2 text-gray-300">
+                <div class="card p-2 rounded-md">
+                    <button id="info-core-toggle" class="w-full text-left flex justify-between items-center">
+                        <h4 class="font-semibold text-green-400">The Core Loop</h4>
+                        <span id="info-core-arrow" class="font-rpg">▼</span>
+                    </button>
+                    <div id="info-core-content" class="collapsible-content pt-2 mt-2 border-t border-gray-600">
+                        <p>Complete real-life <span class="font-bold">Workouts</span> and <span class="font-bold">Habits</span> to earn the right to attack the boss once per day. Winning battles earns you EXP and Gold to become more powerful.</p>
+                    </div>
                 </div>
-    </div></div>
+                <div class="card p-2 rounded-md">
+                    <button id="info-combat-toggle" class="w-full text-left flex justify-between items-center">
+                        <h4 class="font-semibold text-yellow-400">Combat & Stats</h4>
+                        <span id="info-combat-arrow" class="font-rpg">▼</span>
+                    </button>
+                    <div id="info-combat-content" class="collapsible-content pt-2 mt-2 border-t border-gray-600 space-y-2">
+                        <p><span class="font-bold text-red-400">Attack:</span> Your total damage is based on your Attack stat (from levels and equipment) plus a streak bonus.</p>
+                        <p><span class="font-bold text-yellow-400">Luck:</span> Your Luck stat gives you a chance to land a CRITICAL HIT for double damage!</p>
+                        <p><span class="font-bold text-indigo-400">Fireball:</span> This special attack costs MP but deals significantly more damage.</p>
+                    </div>
+                </div>
+                <div class="card p-2 rounded-md">
+                    <button id="info-progression-toggle" class="w-full text-left flex justify-between items-center">
+                        <h4 class="font-semibold text-purple-400">Progression & Rewards</h4>
+                        <span id="info-progression-arrow" class="font-rpg">▼</span>
+                    </button>
+                    <div id="info-progression-content" class="collapsible-content pt-2 mt-2 border-t border-gray-600 space-y-2">
+                        <p><span class="font-bold">Leveling Up:</span> Gaining EXP by completing tasks and fighting will increase your Level, permanently boosting your stats and healing you fully.</p>
+                        <p><span class="font-bold text-yellow-400">Gold:</span> Completing workouts and habits earns you Gold, which you can spend in the Shop on useful items.</p>
+                    </div>
+                </div>
+                <div class="card p-2 rounded-md">
+                    <button id="info-equipment-toggle" class="w-full text-left flex justify-between items-center">
+                        <h4 class="font-semibold text-blue-400">The Armory (Equipment)</h4>
+                        <span id="info-equipment-arrow" class="font-rpg">▼</span>
+                    </button>
+                    <div id="info-equipment-content" class="collapsible-content pt-2 mt-2 border-t border-gray-600">
+                        <p>Buy or find <span class="font-bold">Equipment</span> like swords and armor. Equipping them from your inventory provides permanent stat bonuses.</p>
+                    </div>
+                </div>
+                <div class="border-t border-gray-600 pt-4 mt-4 space-y-2">
+                    <h4 class="font-semibold text-gray-400 text-sm text-center">Manage Data</h4>
+                    <div class="flex gap-2">
+                        <button id="export-btn" class="btn w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Export Save</button>
+                        <label class="btn w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md text-center cursor-pointer">
+                            Import Save
+                            <input type="file" id="import-input" class="hidden" accept=".json,application/json">
+                        </label>
+                    </div>
+                    <button id="reset-game-btn" class="btn w-full bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md">RESET GAME PROGRESS</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="player-stats-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden">
+        <div class="modal-overlay fixed inset-0"></div>
+        <div class="modal-content card rounded-lg p-6 w-full max-w-2xl m-4 relative">
+            <h3 class="font-rpg text-xl text-blue-400 mb-4">Player Stats & History</h3>
+            <button id="player-stats-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
+            <div id="history-content" class="text-gray-300 max-h-[70vh] overflow-y-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <button id="prev-month-btn" class="btn action-btn-sand p-2 rounded-md"><span>&#9664;</span></button>
+                    <h4 id="calendar-title" class="font-rpg text-lg text-center"></h4>
+                    <button id="next-month-btn" class="btn action-btn-sand p-2 rounded-md"><span>&#9654;</span></button>
+                </div>
+                <div id="calendar-grid-container">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="inventory-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden">
         <div class="modal-overlay fixed inset-0"></div>
-<div class="modal-content card rounded-lg p-6 w-full max-w-2xl m-4 relative">
-    <div class="flex justify-between items-center mb-4">
-        <h3 class="font-rpg text-xl text-blue-400">Inventory</h3>
-        <button id="inventory-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
-    </div>
-
-    <div class="space-y-4">
-        <div>
-            <h4 class="font-rpg text-sm text-gray-400 mb-2">--- CHARACTER & EQUIPMENT ---</h4>
-            <div class="flex flex-col md:flex-row gap-4">
-                <div class="card p-4 rounded-md flex-shrink-0 text-center space-y-2">
-                    <img src="assets/sprites/player.png" class="pixel-art w-24 h-24 mx-auto">
-                    <p id="inventory-player-name" class="font-bold"></p>
+        <div class="modal-content card rounded-lg p-6 w-full max-w-2xl m-4 relative">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-rpg text-xl text-blue-400">Inventory</h3>
+                <button id="inventory-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-rpg text-sm text-gray-400 mb-2">--- CHARACTER & EQUIPMENT ---</h4>
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="card p-4 rounded-md flex-shrink-0 text-center space-y-2">
+                            <img src="assets/sprites/player.png" class="pixel-art w-24 h-24 mx-auto">
+                            <p id="inventory-player-name" class="font-bold"></p>
+                        </div>
+                        <div class="flex-grow grid grid-cols-1 gap-2">
+                            <div id="equipped-weapon-slot" class="card p-2 rounded-md"></div>
+                            <div id="equipped-armor-slot" class="card p-2 rounded-md"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex-grow grid grid-cols-1 gap-2">
-                    <div id="equipped-weapon-slot" class="card p-2 rounded-md"></div>
-                    <div id="equipped-armor-slot" class="card p-2 rounded-md"></div>
+                <div>
+                    <h4 class="font-rpg text-sm text-gray-400 mb-2">--- BACKPACK ---</h4>
+                    <div id="inventory-content" class="modal-interior-background p-2 rounded-md space-y-2 text-gray-300 min-h-[150px] max-h-[30vh] overflow-y-auto">
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div>
-            <h4 class="font-rpg text-sm text-gray-400 mb-2">--- BACKPACK ---</h4>
-            <div id="inventory-content" class="modal-interior-background p-2 rounded-md space-y-2 text-gray-300 min-h-[150px] max-h-[30vh] overflow-y-auto">
-                </div>
+    </div>
+    
+    <div id="summary-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden">
+        <div class="modal-overlay fixed inset-0"></div>
+        <div class="modal-content card rounded-lg p-6 w-full max-w-md m-4 relative">
+            <h3 id="summary-modal-title" class="font-rpg text-xl text-green-400 mb-4">Daily Summary</h3>
+            <button id="summary-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
+            <div id="summary-modal-content" class="space-y-4 text-gray-300 max-h-[60vh] overflow-y-auto"></div>
         </div>
     </div>
-</div>
-    <div id="summary-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden"><div class="modal-overlay fixed inset-0"></div><div class="modal-content card rounded-lg p-6 w-full max-w-md m-4 relative"><h3 id="summary-modal-title" class="font-rpg text-xl text-green-400 mb-4">Daily Summary</h3><button id="summary-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button><div id="summary-modal-content" class="space-y-4 text-gray-300 max-h-[60vh] overflow-y-auto"></div></div></div>
+
     <div id="shop-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden">
-    <div class="modal-overlay fixed inset-0"></div>
-    <div class="modal-content card rounded-lg p-6 w-full max-w-4xl m-4 relative">
-        <h3 class="font-rpg text-xl text-yellow-400 mb-4">Shop</h3>
-        <button id="shop-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
-    
-        <div class="flex items-center gap-4 mb-4 p-2 card rounded-md">
-            <img src="assets/sprites/shopkeeper.png" class="pixel-art w-20 h-20 flex-shrink-0">
-            
-            <div class="flex-grow card p-3 rounded-lg relative border border-gray-600">
-                <p class="text-sm text-gray-300">"Welcome, adventurer! See anything you like?"</p>
+        <div class="modal-overlay fixed inset-0"></div>
+        <div class="modal-content card rounded-lg p-6 w-full max-w-4xl m-4 relative">
+            <h3 class="font-rpg text-xl text-yellow-400 mb-4">Shop</h3>
+            <button id="shop-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
+            <div class="flex items-center gap-4 mb-4 p-2 card rounded-md">
+                <img src="assets/sprites/shopkeeper.png" class="pixel-art w-20 h-20 flex-shrink-0">
+                <div class="flex-grow card p-3 rounded-lg relative border border-gray-600">
+                    <p class="text-sm text-gray-300">"Welcome, adventurer! See anything you like?"</p>
+                </div>
+                <div class="flex items-center gap-2 text-yellow-400 font-bold flex-shrink-0">
+                    <span class="hidden md:inline">Your Gold:</span>
+                    <img src="assets/icons/gold.png" class="w-5 h-5">
+                    <span id="shop-gold-display">0</span>
+                </div>
             </div>
-            
-            <div class="flex items-center gap-2 text-yellow-400 font-bold flex-shrink-0">
-                <span class="hidden md:inline">Your Gold:</span>
-                <img src="assets/icons/gold.png" class="w-5 h-5">
-                <span id="shop-gold-display">0</span>
+            <div id="shop-items-container" class="modal-interior-background p-2 rounded-md space-y-3 max-h-[50vh] overflow-y-auto">
             </div>
         </div>
-    
-        <div id="shop-items-container" class="modal-interior-background p-2 rounded-md space-y-3 max-h-[50vh] overflow-y-auto">
-            </div>
     </div>
     <script type="module" src="js/script.js"></script>
 </body>
 </html>
+
 
 
 
