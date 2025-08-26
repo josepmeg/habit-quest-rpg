@@ -292,7 +292,7 @@ function exportData() {
 
 // === EVENT LISTENERS ===
 function setupEventListeners() {
-    // Collapsible sections
+    // === Collapsible Sections ===
     const setupCollapsible = (toggleId, contentId, arrowId) => {
         const toggleButton = document.getElementById(toggleId);
         if (toggleButton) {
@@ -313,48 +313,33 @@ function setupEventListeners() {
     setupCollapsible('info-progression-toggle', 'info-progression-content', 'info-progression-arrow');
     setupCollapsible('info-equipment-toggle', 'info-equipment-content', 'info-equipment-arrow');
 
-    // Modals
-    const bossModal = document.getElementById('boss-modal');
-    if (bossModal) {
-        document.getElementById('boss-modal-btn').addEventListener('click', () => bossModal.style.display = 'flex');
-        document.getElementById('boss-modal-close').addEventListener('click', () => bossModal.style.display = 'none');
-        bossModal.querySelector('.modal-overlay').addEventListener('click', () => bossModal.style.display = 'none');
-    }
-    const infoModal = document.getElementById('info-modal');
-    if (infoModal) {
-        document.getElementById('info-modal-btn').addEventListener('click', () => infoModal.style.display = 'flex');
-        document.getElementById('info-modal-close').addEventListener('click', () => infoModal.style.display = 'none');
-        infoModal.querySelector('.modal-overlay').addEventListener('click', () => infoModal.style.display = 'none');
-    }
-    const inventoryModal = document.getElementById('inventory-modal');
-    if (inventoryModal) {
-        document.getElementById('inventory-modal-btn').addEventListener('click', () => inventoryModal.style.display = 'flex');
-        document.getElementById('inventory-modal-close').addEventListener('click', () => inventoryModal.style.display = 'none');
-        inventoryModal.querySelector('.modal-overlay').addEventListener('click', () => inventoryModal.style.display = 'none');
-    }
-    const shopModal = document.getElementById('shop-modal');
-    if (shopModal) {
-        document.getElementById('shop-modal-btn').addEventListener('click', () => shopModal.style.display = 'flex');
-        document.getElementById('shop-modal-close').addEventListener('click', () => shopModal.style.display = 'none');
-        shopModal.querySelector('.modal-overlay').addEventListener('click', () => shopModal.style.display = 'none');
-    }
-    const playerStatsModal = document.getElementById('player-stats-modal');
-    if (playerStatsModal) {
-        document.getElementById('player-stats-modal-btn').addEventListener('click', () => {
-            calendarView = { year: new Date().getFullYear(), month: new Date().getMonth() };
-            ui.renderHistory(calendarView.year, calendarView.month);
-            playerStatsModal.style.display = 'flex';
-        });
-        document.getElementById('player-stats-modal-close').addEventListener('click', () => playerStatsModal.style.display = 'none');
-        playerStatsModal.querySelector('.modal-overlay').addEventListener('click', () => playerStatsModal.style.display = 'none');
-    }
-    const summaryModal = document.getElementById('summary-modal');
-    if (summaryModal) {
-        document.getElementById('summary-modal-close').addEventListener('click', () => summaryModal.style.display = 'none');
-        summaryModal.querySelector('.modal-overlay').addEventListener('click', () => summaryModal.style.display = 'none');
-    }
-    
-    // Calendar Navigation
+    // === Modal Event Listeners (Explicitly Defined) ===
+    const allModals = document.querySelectorAll('.modal');
+    allModals.forEach(modal => {
+        const modalId = modal.id;
+        const openBtn = document.getElementById(`${modalId}-btn`);
+        const closeBtn = document.getElementById(`${modalId}-close`);
+        const overlay = modal.querySelector('.modal-overlay');
+
+        if (openBtn) {
+            openBtn.addEventListener('click', () => {
+                // Special logic for calendar modal
+                if (modalId === 'player-stats-modal') {
+                    calendarView = { year: new Date().getFullYear(), month: new Date().getMonth() };
+                    ui.renderHistory(calendarView.year, calendarView.month);
+                }
+                modal.style.display = 'flex';
+            });
+        }
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => modal.style.display = 'none');
+        }
+        if (overlay) {
+            overlay.addEventListener('click', () => modal.style.display = 'none');
+        }
+    });
+
+    // === Calendar Navigation ===
     const prevMonthBtn = document.getElementById('prev-month-btn');
     if (prevMonthBtn) {
         prevMonthBtn.addEventListener('click', () => {
@@ -378,7 +363,7 @@ function setupEventListeners() {
         });
     }
     
-    // Core Game Actions
+    // === Core Game Actions & The Rest of the Function ... ===
     document.getElementById('attack-btn').addEventListener('click', () => handleAttack('normal'));
     document.getElementById('special-attack-btn').addEventListener('click', () => handleAttack('special'));
     document.body.addEventListener('change', e => e.target.matches('input[type="checkbox"][data-task-id]') && handleTaskToggle(e.target.dataset.taskId, e.target.checked));
@@ -386,7 +371,7 @@ function setupEventListeners() {
     document.getElementById('add-boss-form').addEventListener('submit', handleAddBoss);
     document.getElementById('add-quest-form').addEventListener('submit', handleAddQuest);
     
-    // Dynamic Content
+    // === Dynamic Content Listeners (Event Delegation) ===
     document.getElementById('quest-list').addEventListener('click', e => e.target.matches('.complete-quest-btn') && handleCompleteQuest(parseInt(e.target.dataset.questIndex)));
     document.getElementById('inventory-content').addEventListener('click', e => {
         if (e.target.matches('.use-item-btn')) useItem(e.target.dataset.itemId);
@@ -397,7 +382,7 @@ function setupEventListeners() {
         shopContainer.addEventListener('click', e => e.target.matches('.buy-item-btn') && handlePurchase(e.target.dataset.itemId));
     }
     
-    // Player & Data Management
+    // === Player & Data Management ===
     document.getElementById('player-name').addEventListener('click', () => {
         const newName = prompt("Enter your character's name:", gameState.player.name);
         if (newName && newName.trim() !== '') {
@@ -433,7 +418,7 @@ function setupEventListeners() {
         });
     }
 
-    // Visuals & Misc
+    // === Visuals & Misc ===
     const bgSwitcher = document.getElementById('background-switcher');
     if (bgSwitcher) {
         bgSwitcher.addEventListener('click', (e) => {
