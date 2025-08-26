@@ -304,7 +304,6 @@ function setupEventListeners() {
     setupCollapsible('habits-toggle', 'daily-habits-content', 'habits-arrow');
     setupCollapsible('quests-toggle', 'quests-content', 'quests-arrow');
     setupCollapsible('attributes-toggle', 'attributes-content', 'attributes-arrow');
-    // Info Modal Collapsibles
     setupCollapsible('info-core-toggle', 'info-core-content', 'info-core-arrow');
     setupCollapsible('info-combat-toggle', 'info-combat-content', 'info-combat-arrow');
     setupCollapsible('info-progression-toggle', 'info-progression-content', 'info-progression-arrow');
@@ -325,20 +324,9 @@ function setupEventListeners() {
     setupModal('info-modal-btn', 'info-modal', 'info-modal-close');
     setupModal('inventory-modal-btn', 'inventory-modal', 'inventory-modal-close');
     setupModal('shop-modal-btn', 'shop-modal', 'shop-modal-close');
-
-    // === Complex Modal: Player Stats / Calendar ===
-    const playerStatsModal = document.getElementById('player-stats-modal');
-    const playerStatsOpenBtn = document.getElementById('player-stats-modal-btn');
-    const playerStatsCloseBtn = document.getElementById('player-stats-modal-close');
-    if (playerStatsModal && playerStatsOpenBtn && playerStatsCloseBtn) {
-        playerStatsOpenBtn.addEventListener('click', () => {
-            calendarView = { year: new Date().getFullYear(), month: new Date().getMonth() };
-            ui.renderHistory(calendarView.year, calendarView.month);
-            playerStatsModal.style.display = 'flex';
-        });
-        playerStatsCloseBtn.addEventListener('click', () => playerStatsModal.style.display = 'none');
-        playerStatsModal.querySelector('.modal-overlay').addEventListener('click', () => playerStatsModal.style.display = 'none');
-    }
+    // VVV THIS IS THE TEST VVV
+    // We are now using the simple helper for the calendar modal
+    setupModal('player-stats-modal-btn', 'player-stats-modal', 'player-stats-modal-close');
 
     // === Calendar Navigation ===
     const prevMonthBtn = document.getElementById('prev-month-btn');
@@ -410,7 +398,7 @@ function setupEventListeners() {
             });
         });
     }
-    const resetBtn = document.getElementById('reset-game-btn');
+    const resetBtn = document.getElementById('reset-btn');
     if (resetBtn) {
         resetBtn.addEventListener('click', () => {
             if (confirm('Are you sure you want to reset all game progress? This cannot be undone.')) {
