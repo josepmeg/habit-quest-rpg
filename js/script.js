@@ -329,7 +329,18 @@ function setupEventListeners() {
     };
     setupModal('boss-modal-btn', 'boss-modal', 'boss-modal-close');
     setupModal('info-modal-btn', 'info-modal', 'info-modal-close');
-    setupModal('player-stats-modal-btn', 'player-stats-modal', 'player-stats-modal-close');
+    const playerStatsModal = document.getElementById('player-stats-modal');
+    const playerStatsOpenBtn = document.getElementById('player-stats-modal-btn');
+    const playerStatsCloseBtn = document.getElementById('player-stats-modal-close');
+    if (playerStatsModal && playerStatsOpenBtn && playerStatsCloseBtn) {
+        playerStatsOpenBtn.addEventListener('click', () => {
+            calendarView = { year: new Date().getFullYear(), month: new Date().getMonth() }; // Reset to current month
+            ui.renderHistory(calendarView.year, calendarView.month);
+            playerStatsModal.style.display = 'flex';
+        });
+        playerStatsCloseBtn.addEventListener('click', () => playerStatsModal.style.display = 'none');
+        playerStatsModal.querySelector('.modal-overlay').addEventListener('click', () => playerStatsModal.style.display = 'none');
+    }
     setupModal('inventory-modal-btn', 'inventory-modal', 'inventory-modal-close');
     setupModal('shop-modal-btn', 'shop-modal', 'shop-modal-close');
 
@@ -383,6 +394,24 @@ function setupEventListeners() {
             }
         });
     }
+
+    document.getElementById('prev-month-btn').addEventListener('click', () => {
+        calendarView.month--;
+        if (calendarView.month < 0) {
+            calendarView.month = 11;
+            calendarView.year--;
+        }
+        ui.renderHistory(calendarView.year, calendarView.month);
+    });
+    
+    document.getElementById('next-month-btn').addEventListener('click', () => {
+        calendarView.month++;
+        if (calendarView.month > 11) {
+            calendarView.month = 0;
+            calendarView.year++;
+        }
+        ui.renderHistory(calendarView.year, calendarView.month);
+    });
     
     // Data Management Buttons
     const exportBtn = document.getElementById('export-btn');
