@@ -210,7 +210,16 @@
             </div>
         </div>
     </div>   
-    <div id="player-stats-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden"><div class="modal-overlay fixed inset-0"></div><div class="modal-content card rounded-lg p-6 w-full max-w-2xl m-4 relative"><h3 class="font-rpg text-xl text-blue-400 mb-4">Player Stats & History</h3><button id="player-stats-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button><div id="history-content" class="space-y-4 text-gray-300 max-h-[70vh] overflow-y-auto"></div></div></div>
+    <div id="player-stats-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden"><div class="modal-overlay fixed inset-0"></div><div class="modal-content card rounded-lg p-6 w-full max-w-2xl m-4 relative"><h3 class="font-rpg text-xl text-blue-400 mb-4">Player Stats & History</h3><button id="player-stats-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
+        <div id="history-content" class="text-gray-300 max-h-[70vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <button id="prev-month-btn" class="btn action-btn-sand p-2 rounded-md"><span>&#9664;</span></button>
+                <h4 id="calendar-title" class="font-rpg text-lg text-center"></h4>
+                <button id="next-month-btn" class="btn action-btn-sand p-2 rounded-md"><span>&#9654;</span></button>
+            </div>
+            <div id="calendar-grid-container">
+                </div>
+        </div>
     <div id="inventory-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden">
         <div class="modal-overlay fixed inset-0"></div>
 <div class="modal-content card rounded-lg p-6 w-full max-w-2xl m-4 relative">
@@ -269,6 +278,7 @@
     <script type="module" src="js/script.js"></script>
 </body>
 </html>
+
 
 
 
