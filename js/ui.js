@@ -190,17 +190,21 @@ export function renderTaskCounters() {
     document.getElementById('habits-counter').textContent = `(${completedHabits}/${DAILY_HABITS.length})`;
 }
 
-export function renderHistory() {
-    const historyContent = document.getElementById('history-content');
+export function renderHistory(year, month) {
+    const calendarTitle = document.getElementById('calendar-title');
+    const calendarGridContainer = document.getElementById('calendar-grid-container');
+
     const todayObj = new Date();
-    const year = todayObj.getFullYear();
-    const month = todayObj.getMonth();
-    const todayStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(todayObj.getDate()).padStart(2, '0')}`;
-    const monthName = todayObj.toLocaleString('default', { month: 'long' });
-    const firstDay = new Date(year, month, 1).getDay();
+    const todayStr = `${todayObj.getFullYear()}-${String(todayObj.getMonth() + 1).padStart(2, '0')}-${String(todayObj.getDate()).padStart(2, '0')}`;
+    
+    const viewDate = new Date(year, month, 1);
+    const monthName = viewDate.toLocaleString('default', { month: 'long' });
+    calendarTitle.textContent = `${monthName} ${year}`;
+
+    const firstDay = viewDate.getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
+    
     let calendarHtml = `
-        <div class="text-center font-bold text-lg mb-4">${monthName} ${year}</div>
         <div class="grid grid-cols-7 gap-2 text-center text-xs font-rpg">
             <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
         </div>
@@ -212,6 +216,7 @@ export function renderHistory() {
         const historyEntry = gameState.history.find(h => h.date === dateStr);
         let isWorkoutDone = historyEntry ? WORKOUT_TASKS.some(wt => historyEntry.completed_tasks.includes(wt.id)) : false;
         if (dateStr === gameState.dailyLog.date && WORKOUT_TASKS.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id))) { isWorkoutDone = true; }
+        
         let dayClasses = 'calendar-day w-full aspect-square rounded-md flex items-center justify-center';
         let dataAttribute = '';
         if (isWorkoutDone) {
@@ -222,9 +227,18 @@ export function renderHistory() {
         calendarHtml += `<div class="${dayClasses}" ${dataAttribute}>${day}</div>`;
     }
     calendarHtml += `</div>`;
-    historyContent.innerHTML = calendarHtml;
-}
+    calendarGridContainer.innerHTML = calendarHtml;
 
+    // Disable the "next" button if viewing the current month or a future month
+    const nextMonthBtn = document.getElementById('next-month-btn');
+    const isCurrentMonth = year === todayObj.getFullYear() && month === todayObj.getMonth();
+    nextMonthBtn.disabled = isCurrentMonth;
+    if (isCurrentMonth) {
+        nextMonthBtn.classList.add('opacity-50', 'cursor-not-allowed');
+    } else {
+        nextMonthBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+    }
+}
 export function renderInventory() {
     const inventoryContent = document.getElementById('inventory-content');
     if (!gameState.player.inventory || gameState.player.inventory.length === 0) {
