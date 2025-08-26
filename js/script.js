@@ -288,14 +288,15 @@ function exportData() {
 // === EVENT LISTENERS ===
 
 function setupEventListeners() {
-    // Collapsible sections
+    // === Collapsible Sections ===
     const setupCollapsible = (toggleId, contentId, arrowId) => {
         const toggleButton = document.getElementById(toggleId);
         if (toggleButton) {
             toggleButton.addEventListener('click', () => {
                 const content = document.getElementById(contentId);
                 content.classList.toggle('open');
-                document.getElementById(arrowId).textContent = content.classList.contains('open') ? '▲' : '▼';
+                const arrow = document.getElementById(arrowId);
+                if (arrow) arrow.textContent = content.classList.contains('open') ? '▲' : '▼';
             });
         }
     };
@@ -303,20 +304,13 @@ function setupEventListeners() {
     setupCollapsible('habits-toggle', 'daily-habits-content', 'habits-arrow');
     setupCollapsible('quests-toggle', 'quests-content', 'quests-arrow');
     setupCollapsible('attributes-toggle', 'attributes-content', 'attributes-arrow');
+    // Info Modal Collapsibles
     setupCollapsible('info-core-toggle', 'info-core-content', 'info-core-arrow');
     setupCollapsible('info-combat-toggle', 'info-combat-content', 'info-combat-arrow');
     setupCollapsible('info-progression-toggle', 'info-progression-content', 'info-progression-arrow');
     setupCollapsible('info-equipment-toggle', 'info-equipment-content', 'info-equipment-arrow');
 
-    // Attack buttons
-    document.getElementById('attack-btn').addEventListener('click', () => handleAttack('normal'));
-    document.getElementById('special-attack-btn').addEventListener('click', () => handleAttack('special'));
-
-    // Task and workout inputs
-    document.body.addEventListener('change', e => e.target.matches('input[type="checkbox"][data-task-id]') && handleTaskToggle(e.target.dataset.taskId, e.target.checked));
-    document.body.addEventListener('input', e => e.target.matches('input[type="number"][data-task-id]') && handleWorkoutInput(e.target));
-    
-    // Modal setup
+    // === Simple Modals (Open/Close) ===
     const setupModal = (btnId, modalId, closeId) => {
         const modal = document.getElementById(modalId);
         const openBtn = document.getElementById(btnId);
@@ -329,39 +323,67 @@ function setupEventListeners() {
     };
     setupModal('boss-modal-btn', 'boss-modal', 'boss-modal-close');
     setupModal('info-modal-btn', 'info-modal', 'info-modal-close');
+    setupModal('inventory-modal-btn', 'inventory-modal', 'inventory-modal-close');
+    setupModal('shop-modal-btn', 'shop-modal', 'shop-modal-close');
+
+    // === Complex Modal: Player Stats / Calendar ===
     const playerStatsModal = document.getElementById('player-stats-modal');
     const playerStatsOpenBtn = document.getElementById('player-stats-modal-btn');
     const playerStatsCloseBtn = document.getElementById('player-stats-modal-close');
     if (playerStatsModal && playerStatsOpenBtn && playerStatsCloseBtn) {
         playerStatsOpenBtn.addEventListener('click', () => {
-            calendarView = { year: new Date().getFullYear(), month: new Date().getMonth() }; // Reset to current month
+            calendarView = { year: new Date().getFullYear(), month: new Date().getMonth() };
             ui.renderHistory(calendarView.year, calendarView.month);
             playerStatsModal.style.display = 'flex';
         });
         playerStatsCloseBtn.addEventListener('click', () => playerStatsModal.style.display = 'none');
         playerStatsModal.querySelector('.modal-overlay').addEventListener('click', () => playerStatsModal.style.display = 'none');
     }
-    setupModal('inventory-modal-btn', 'inventory-modal', 'inventory-modal-close');
-    setupModal('shop-modal-btn', 'shop-modal', 'shop-modal-close');
 
-    // Form submissions
+    // === Calendar Navigation ===
+    const prevMonthBtn = document.getElementById('prev-month-btn');
+    if (prevMonthBtn) {
+        prevMonthBtn.addEventListener('click', () => {
+            calendarView.month--;
+            if (calendarView.month < 0) {
+                calendarView.month = 11;
+                calendarView.year--;
+            }
+            ui.renderHistory(calendarView.year, calendarView.month);
+        });
+    }
+    const nextMonthBtn = document.getElementById('next-month-btn');
+    if (nextMonthBtn) {
+        nextMonthBtn.addEventListener('click', () => {
+            calendarView.month++;
+            if (calendarView.month > 11) {
+                calendarView.month = 0;
+                calendarView.year++;
+            }
+            ui.renderHistory(calendarView.year, calendarView.month);
+        });
+    }
+    
+    // === Core Game Actions & Inputs ===
+    document.getElementById('attack-btn').addEventListener('click', () => handleAttack('normal'));
+    document.getElementById('special-attack-btn').addEventListener('click', () => handleAttack('special'));
+    document.body.addEventListener('change', e => e.target.matches('input[type="checkbox"][data-task-id]') && handleTaskToggle(e.target.dataset.taskId, e.target.checked));
+    document.body.addEventListener('input', e => e.target.matches('input[type="number"][data-task-id]') && handleWorkoutInput(e.target));
     document.getElementById('add-boss-form').addEventListener('submit', handleAddBoss);
     document.getElementById('add-quest-form').addEventListener('submit', handleAddQuest);
     
-    // Dynamic content listeners
+    // === Dynamic Content Listeners (Event Delegation) ===
     document.getElementById('quest-list').addEventListener('click', e => e.target.matches('.complete-quest-btn') && handleCompleteQuest(parseInt(e.target.dataset.questIndex)));
-    
     document.getElementById('inventory-content').addEventListener('click', e => {
         if (e.target.matches('.use-item-btn')) useItem(e.target.dataset.itemId);
         else if (e.target.matches('.equip-item-btn')) handleEquipItem(e.target.dataset.itemId);
     });
-    
     const shopContainer = document.getElementById('shop-items-container');
     if (shopContainer) {
         shopContainer.addEventListener('click', e => e.target.matches('.buy-item-btn') && handlePurchase(e.target.dataset.itemId));
     }
     
-    // Editable player name
+    // === Player & Data Management ===
     document.getElementById('player-name').addEventListener('click', () => {
         const newName = prompt("Enter your character's name:", gameState.player.name);
         if (newName && newName.trim() !== '') {
@@ -372,53 +394,8 @@ function setupEventListeners() {
         }
     });
 
-    // Reset button
-    const resetBtn = document.getElementById('reset-game-btn');
-    if (resetBtn) {
-        resetBtn.addEventListener('click', () => {
-            if (confirm('Are you sure you want to reset all game progress? This cannot be undone.')) {
-                localStorage.removeItem('habitQuestRpgGame');
-                location.reload();
-            }
-        });
-    }
-
-    // Background switcher
-    const bgSwitcher = document.getElementById('background-switcher');
-    if (bgSwitcher) {
-        bgSwitcher.addEventListener('click', (e) => {
-            if (e.target.matches('button[data-bg]')) {
-                gameState.player.settings.background = parseInt(e.target.dataset.bg, 10);
-                ui.applySettings();
-                saveGameData();
-            }
-        });
-    }
-
-    document.getElementById('prev-month-btn').addEventListener('click', () => {
-        calendarView.month--;
-        if (calendarView.month < 0) {
-            calendarView.month = 11;
-            calendarView.year--;
-        }
-        ui.renderHistory(calendarView.year, calendarView.month);
-    });
-    
-    document.getElementById('next-month-btn').addEventListener('click', () => {
-        calendarView.month++;
-        if (calendarView.month > 11) {
-            calendarView.month = 0;
-            calendarView.year++;
-        }
-        ui.renderHistory(calendarView.year, calendarView.month);
-    });
-    
-    // Data Management Buttons
     const exportBtn = document.getElementById('export-btn');
-    if (exportBtn) {
-        exportBtn.addEventListener('click', exportData);
-    }
-    
+    if (exportBtn) { exportBtn.addEventListener('click', exportData); }
     const importInput = document.getElementById('import-input');
     if (importInput) {
         importInput.addEventListener('change', (event) => {
@@ -433,8 +410,27 @@ function setupEventListeners() {
             });
         });
     }
+    const resetBtn = document.getElementById('reset-game-btn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset all game progress? This cannot be undone.')) {
+                localStorage.removeItem('habitQuestRpgGame');
+                location.reload();
+            }
+        });
+    }
 
-    // Calendar day summary
+    // === Visuals & Misc ===
+    const bgSwitcher = document.getElementById('background-switcher');
+    if (bgSwitcher) {
+        bgSwitcher.addEventListener('click', (e) => {
+            if (e.target.matches('button[data-bg]')) {
+                gameState.player.settings.background = parseInt(e.target.dataset.bg, 10);
+                ui.applySettings();
+                saveGameData();
+            }
+        });
+    }
     const historyContent = document.getElementById('history-content');
     if (historyContent) {
         historyContent.addEventListener('click', (e) => {
@@ -443,8 +439,6 @@ function setupEventListeners() {
             }
         });
     }
-
-    // Summary modal closing
     const summaryModal = document.getElementById('summary-modal');
     if (summaryModal) {
         document.getElementById('summary-modal-close').addEventListener('click', () => summaryModal.style.display = 'none');
