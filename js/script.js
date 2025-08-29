@@ -390,6 +390,7 @@ function setupTaskManagementListeners() {
             });
 
             document.getElementById('save-new-workout').addEventListener('click', () => {
+                console.log("Save workout button clicked!");
                 const newName = document.getElementById('new-workout-name').value.trim();
                 if (!newName) {
                     alert('Please enter a name for the workout.');
