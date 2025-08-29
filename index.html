@@ -97,15 +97,23 @@
             </section>
             
             <section class="card rounded-lg p-4">
-                <button id="habits-toggle" class="w-full text-left">
-                    <h3 class="font-rpg text-lg text-green-400 flex items-center gap-3">
-                        <div class="icon-background">
-                            <img src="assets/icons/habits.png" class="w-7 h-7">
-                        </div>
-                        <span>Daily Habits <span id="habits-counter" class="text-sm"></span></span>
-                        <span id="habits-arrow" class="ml-auto">▼</span>
-                    </h3>
-                </button>
+                <div class="w-full flex justify-between items-center">
+                    <button id="habits-toggle" class="flex-grow text-left">
+                        <h3 class="font-rpg text-lg text-yellow-400 flex items-center gap-3">
+                            <div class="icon-background">
+                                <img src="assets/icons/habits.png" class="w-7 h-7">
+                            </div>
+                            <span>Daily Habits <span id="habits-counter" class="text-sm"></span></span>
+                            <span id="habits-arrow" class="ml-auto mr-4">▼</span>
+                        </h3>
+                    </button>
+                    <div class="flex gap-2 pr-2">
+                        <button id="add-habit-btn" class="btn action-btn-sand rounded-md p-2 font-bold text-lg">+</button>
+                        <button id="edit-habit-btn" class="btn action-btn-sand rounded-md p-2">
+                            <img src="assets/icons/edit.png" class="w-5 h-5">
+                        </button>
+                    </div>
+                </div>
                 <div id="daily-habits-content" class="collapsible-content mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
             </section>
             
@@ -321,6 +329,7 @@
     <script type="module" src="js/script.js"></script>
 </body>
 </html>
+
 
 
 
