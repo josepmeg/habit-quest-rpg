@@ -290,6 +290,50 @@ function exportData() {
     ui.showNotification("Game data exported!", "success");
 }
 
+function setupTaskManagementListeners() {
+    const addHabitBtn = document.getElementById('add-habit-btn');
+
+    if (addHabitBtn) {
+        addHabitBtn.addEventListener('click', () => {
+            // Prevent adding multiple forms if one is already open
+            if (document.getElementById('new-task-form')) return;
+
+            // Create the HTML for our new temporary form
+            const formHTML = `
+                <div id="new-task-form" class="card p-3 rounded-md flex items-center gap-2">
+                    <input type="text" id="new-habit-name" placeholder="Enter new habit name" class="task-input flex-grow rounded-md p-2">
+                    <button id="save-new-habit" class="btn bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-3 rounded-md">Save</button>
+                    <button id="cancel-new-habit" class="btn bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded-md">X</button>
+                </div>
+            `;
+
+            // Add the form to the top of the habits list
+            document.getElementById('daily-habits-content').insertAdjacentHTML('afterbegin', formHTML);
+
+            // --- Add Listeners to the new Save and Cancel buttons ---
+            document.getElementById('save-new-habit').addEventListener('click', () => {
+                const newName = document.getElementById('new-habit-name').value.trim();
+                if (newName) {
+                    // Create a unique ID for the new habit
+                    const newId = 'habit_' + Date.now();
+                    
+                    // Add the new habit to our gameState
+                    gameState.player.custom_habits.push({ id: newId, name: newName, exp: 5 }); // Default 5 EXP
+
+                    saveGameData();
+                    renderUI(); // Re-render the entire UI to show the new habit
+                }
+            });
+
+            document.getElementById('cancel-new-habit').addEventListener('click', () => {
+                document.getElementById('new-task-form').remove();
+            });
+        });
+    }
+
+    // We will add the logic for add-workout-btn here later
+}
+
 // === EVENT LISTENERS ===
 function setupEventListeners() {
     // === Collapsible Sections ===
@@ -437,4 +481,7 @@ function setupEventListeners() {
             }
         });
     }
+
+    setupTaskManagementListeners();
+    
 }
