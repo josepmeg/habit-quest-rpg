@@ -17,7 +17,9 @@ const initialGameState = {
         exp_to_next_level: 100,
         training_streak: 0,
         personal_bests: {},
-        inventory: []
+        inventory: [],
+        custom_workouts: JSON.parse(JSON.stringify(WORKOUT_TASKS)),
+        custom_habits: JSON.parse(JSON.stringify(DAILY_HABITS))
     },
     current_boss: { name: "Ifrit", hp: 300, max_hp: 300, ability: "Burn", image: "assets/sprites/ifrit.png" },
     boss_queue: [],
