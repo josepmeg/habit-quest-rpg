@@ -331,7 +331,21 @@ function setupTaskManagementListeners() {
         });
     }
 
-    // We will add the logic for add-workout-btn here later
+    const addWorkoutBtn = document.getElementById('add-workout-btn');
+    if (addWorkoutBtn) {
+        addWorkoutBtn.addEventListener('click', () => {
+            const modal = document.getElementById('field-chooser-modal');
+            modal.style.display = 'flex';
+        });
+    }
+
+    const cancelFieldChooserBtn = document.getElementById('cancel-field-chooser-btn');
+    if (cancelFieldChooserBtn) {
+        cancelFieldChooserBtn.addEventListener('click', () => {
+            const modal = document.getElementById('field-chooser-modal');
+            modal.style.display = 'none';
+        });
+    }
 }
 
 // === EVENT LISTENERS ===
