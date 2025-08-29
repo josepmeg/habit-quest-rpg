@@ -456,6 +456,18 @@ function setupTaskManagementListeners() {
     
 }
 
+function handleDeleteTask(taskId, taskType) {
+    if (confirm('Are you sure you want to delete this task?')) {
+        if (taskType === 'workout') {
+            gameState.player.custom_workouts = gameState.player.custom_workouts.filter(task => task.id !== taskId);
+        } else if (taskType === 'habit') {
+            gameState.player.custom_habits = gameState.player.custom_habits.filter(task => task.id !== taskId);
+        }
+        saveGameData();
+        ui.renderUI();
+    }
+}
+
 // === EVENT LISTENERS ===
 function setupEventListeners() {
     // === Collapsible Sections ===
@@ -602,18 +614,6 @@ function setupEventListeners() {
                 ui.showDailySummary(e.target.dataset.date);
             }
         });
-    }
-
-    function handleDeleteTask(taskId, taskType) {
-        if (confirm('Are you sure you want to delete this task?')) {
-            if (taskType === 'workout') {
-                gameState.player.custom_workouts = gameState.player.custom_workouts.filter(task => task.id !== taskId);
-            } else if (taskType === 'habit') {
-                gameState.player.custom_habits = gameState.player.custom_habits.filter(task => task.id !== taskId);
-            }
-            saveGameData();
-            ui.renderUI();
-        }
     }
 
     setupTaskManagementListeners();
