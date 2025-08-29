@@ -1,5 +1,5 @@
 import { gameState } from './gameState.js';
-import { WORKOUT_TASKS, DAILY_HABITS, SHOP_ITEMS, ALL_ITEMS, SPECIAL_ATTACK } from './database.js';
+import { SHOP_ITEMS, ALL_ITEMS, SPECIAL_ATTACK } from './database.js';
 
 export function applySettings() {
     if (gameState.player.settings && gameState.player.settings.background) {
@@ -10,7 +10,7 @@ export function applySettings() {
 }
 
 export function populateTaskLists() {
-    const workoutHtml = WORKOUT_TASKS.map(task => {
+    const workoutHtml = gameState.player.custom_workouts.map(task => {
         const hasInputs = task.inputs.length > 0;
         // This logic correctly creates a grid with the right number of columns
         const gridCols = hasInputs ? `grid-cols-${task.inputs.length}` : '';
@@ -30,7 +30,7 @@ export function populateTaskLists() {
     }).join('');
     document.getElementById('workout-content').innerHTML = workoutHtml;
     
-    const habitsHtml = DAILY_HABITS.map(task => `<label class="card p-3 rounded-md flex items-center space-x-3 cursor-pointer hover:bg-gray-700"><input type="checkbox" id="task-${task.id}" data-task-id="${task.id}" class="task-checkbox"><span>${task.name}</span></label>`).join('');
+    const habitsHtml = gameState.player.custom_habits.map(task => `<label class="card p-3 rounded-md flex items-center space-x-3 cursor-pointer hover:bg-gray-700"><input type="checkbox" id="task-${task.id}" data-task-id="${task.id}" class="task-checkbox"><span>${task.name}</span></label>`).join('');
     document.getElementById('daily-habits-content').innerHTML = habitsHtml;
     
     document.getElementById('quests-content').innerHTML = `
@@ -114,12 +114,12 @@ export function renderUI() {
     document.getElementById('boss-hp-bar').style.width = `${(current_boss.hp / current_boss.max_hp) * 100}%`;
     document.getElementById('boss-hp-text').textContent = `${current_boss.hp} / ${current_boss.max_hp}`;
     
-    [...WORKOUT_TASKS, ...DAILY_HABITS].forEach(task => { 
+    [...gameState.player.custom_workouts, ...gameState.player.custom_habits].forEach(task => { 
         const checkbox = document.getElementById(`task-${task.id}`); 
         if (checkbox) checkbox.checked = dailyLog.completed_tasks.includes(task.id); 
     });
     
-    WORKOUT_TASKS.forEach(task => {
+    gameState.player.custom_workouts.forEach(task => {
         const pb_container = document.getElementById(`pb-${task.id}`);
         if (pb_container && player.personal_bests?.[task.id]) {
             pb_container.textContent = "PB: " + Object.entries(player.personal_bests[task.id])
@@ -184,10 +184,10 @@ export function renderQuests() {
 }
 
 export function renderTaskCounters() {
-    const completedWorkouts = WORKOUT_TASKS.filter(t => gameState.dailyLog.completed_tasks.includes(t.id)).length;
-    document.getElementById('workout-counter').textContent = `(${completedWorkouts}/${WORKOUT_TASKS.length})`;
-    const completedHabits = DAILY_HABITS.filter(t => gameState.dailyLog.completed_tasks.includes(t.id)).length;
-    document.getElementById('habits-counter').textContent = `(${completedHabits}/${DAILY_HABITS.length})`;
+    const completedWorkouts = gameState.player.custom_workouts.filter(t => gameState.dailyLog.completed_tasks.includes(t.id)).length;
+    document.getElementById('workout-counter').textContent = `(${completedWorkouts}/${gameState.player.custom_workouts.length})`;
+    const completedHabits = gameState.player.custom_habits.filter(t => gameState.dailyLog.completed_tasks.includes(t.id)).length;
+    document.getElementById('habits-counter').textContent = `(${completedHabits}/${gameState.player.custom_habits.length})`;
 }
 
 export function renderHistory(year, month) {
@@ -214,8 +214,8 @@ export function renderHistory(year, month) {
     for (let day = 1; day <= daysInMonth; day++) {
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         const historyEntry = gameState.history.find(h => h.date === dateStr);
-        let isWorkoutDone = historyEntry ? WORKOUT_TASKS.some(wt => historyEntry.completed_tasks.includes(wt.id)) : false;
-        if (dateStr === gameState.dailyLog.date && WORKOUT_TASKS.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id))) { isWorkoutDone = true; }
+        let isWorkoutDone = historyEntry ? gameState.player.custom_workouts.some(wt => historyEntry.completed_tasks.includes(wt.id)) : false;
+        if (dateStr === gameState.dailyLog.date && gameState.player.custom_workouts.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id))) { isWorkoutDone = true; }
         
         let dayClasses = 'calendar-day w-full aspect-square rounded-md flex items-center justify-center';
         let dataAttribute = '';
@@ -271,7 +271,7 @@ export function renderInventory() {
 }
 
 export function updateAttackButtonState() {
-    const workoutCompleted = WORKOUT_TASKS.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id));
+    const workoutCompleted = gameState.player.custom_workouts.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id));
     const attackBtn = document.getElementById('attack-btn');
     const specialAttackBtn = document.getElementById('special-attack-btn');
     const canAttack = workoutCompleted && !gameState.dailyLog.attack_performed;
@@ -401,8 +401,8 @@ export function showDailySummary(dateStr) {
     let contentHtml = '';
     
     // VVV These two lines are now fixed (db. prefix removed) VVV
-    const completedWorkouts = WORKOUT_TASKS.filter(task => logData.completed_tasks.includes(task.id));
-    const completedHabits = DAILY_HABITS.filter(task => logData.completed_tasks.includes(task.id));
+    const completedWorkouts = gameState.player.custom_workouts.filter(task => logData.completed_tasks.includes(task.id));
+    const completedHabits = gameState.player.custom_habits.filter(task => logData.completed_tasks.includes(task.id));
 
     if (completedWorkouts.length > 0) {
         contentHtml += '<h4 class="font-rpg text-yellow-400 text-sm">Workout Details</h4><ul class="list-disc list-inside text-gray-400 space-y-1">';
