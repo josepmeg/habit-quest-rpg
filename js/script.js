@@ -321,7 +321,7 @@ function setupTaskManagementListeners() {
                     gameState.player.custom_habits.push({ id: newId, name: newName, exp: 5 }); // Default 5 EXP
 
                     saveGameData();
-                    renderUI(); // Re-render the entire UI to show the new habit
+                    ui.renderUI(); // Re-render the entire UI to show the new habit
                 }
             });
 
@@ -413,7 +413,7 @@ function setupTaskManagementListeners() {
                 // Add to gameState, save, and re-render the UI
                 gameState.player.custom_workouts.push(newWorkout);
                 saveGameData();
-                renderUI();
+                ui.renderUI();
             });
             
         });
