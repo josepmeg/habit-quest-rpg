@@ -1,4 +1,4 @@
-import { WORKOUT_TASKS } from './database.js';
+import { WORKOUT_TASKS, DAILY_HABITS } from './database.js';
 
 const initialGameState = {
     player: {
