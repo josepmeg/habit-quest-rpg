@@ -326,9 +326,27 @@
             </div>
         </div>
     </div>
+    <div id="field-chooser-modal" class="modal fixed inset-0 z-50 items-center justify-center hidden">
+        <div class="modal-overlay fixed inset-0"></div>
+        <div class="modal-content card rounded-lg p-6 w-full max-w-sm m-4 relative">
+            <h3 class="font-rpg text-lg text-yellow-400 mb-4">Choose Workout Fields</h3>
+            <div id="field-checkboxes" class="grid grid-cols-2 gap-4 mb-6">
+                <label class="flex items-center space-x-2"><input type="checkbox" value="Weight" class="task-checkbox"> <span>Weight</span></label>
+                <label class="flex items-center space-x-2"><input type="checkbox" value="Reps" class="task-checkbox"> <span>Reps</span></label>
+                <label class="flex items-center space-x-2"><input type="checkbox" value="Rounds" class="task-checkbox"> <span>Rounds</span></label>
+                <label class="flex items-center space-x-2"><input type="checkbox" value="Time" class="task-checkbox"> <span>Time</span></label>
+                <label class="flex items-center space-x-2"><input type="checkbox" value="Distance" class="task-checkbox"> <span>Distance</span></label>
+            </div>
+            <div class="flex gap-4">
+                <button id="create-workout-btn" class="btn flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Create</button>
+                <button id="cancel-field-chooser-btn" class="btn flex-1 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md">Cancel</button>
+            </div>
+        </div>
+    </div>
     <script type="module" src="js/script.js"></script>
 </body>
 </html>
+
 
 
 
