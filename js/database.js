@@ -53,8 +53,6 @@ export const SPECIAL_ATTACK = { name: 'Fireball', mp_cost: 20, damage_multiplier
 
 export const CRITICAL_HIT_MULTIPLIER = 2.0;
 
-export const ALL_TASKS = [...WORKOUT_TASKS, ...DAILY_HABITS];
-
 export const ITEM_DROP_CHANCE = 5; // Base 5% chance
 
 
