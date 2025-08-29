@@ -346,6 +346,79 @@ function setupTaskManagementListeners() {
             modal.style.display = 'none';
         });
     }
+
+    const createWorkoutBtn = document.getElementById('create-workout-btn');
+    if (createWorkoutBtn) {
+        createWorkoutBtn.addEventListener('click', () => {
+            // 1. Find all checked boxes and get their values
+            const checkedBoxes = document.querySelectorAll('#field-checkboxes input[type="checkbox"]:checked');
+            const selectedFields = Array.from(checkedBoxes).map(cb => cb.value);
+
+            // 2. Close the chooser modal
+            document.getElementById('field-chooser-modal').style.display = 'none';
+            // Optional: Uncheck boxes for next time
+            checkedBoxes.forEach(cb => cb.checked = false);
+
+            // 3. Prevent adding a new form if one is already open
+            if (document.getElementById('new-task-form')) return;
+
+            // 4. Build the dynamic input fields HTML
+            const inputsHTML = selectedFields.map(field => 
+                `<input type="number" placeholder="${field}" data-field="${field.toLowerCase()}" class="task-input flex-grow rounded-md p-2 text-sm">`
+            ).join('');
+
+            // 5. Build the full form HTML
+            const formHTML = `
+                <div id="new-task-form" class="card p-3 rounded-md space-y-2">
+                    <div class="flex items-center gap-2">
+                        <input type="text" id="new-workout-name" placeholder="Enter new workout name" class="task-input flex-grow rounded-md p-2">
+                        <button id="save-new-workout" class="btn bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-3 rounded-md">Save</button>
+                        <button id="cancel-new-workout" class="btn bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded-md">X</button>
+                    </div>
+                    <div class="flex items-center gap-2 pl-4">
+                        ${inputsHTML}
+                    </div>
+                </div>
+            `;
+
+            // 6. Add the form to the top of the workout list
+            document.getElementById('workout-content').insertAdjacentHTML('afterbegin', formHTML);
+
+            // 7. Add a listener to the new Cancel button (Save logic will come next)
+            document.getElementById('cancel-new-workout').addEventListener('click', () => {
+                document.getElementById('new-task-form').remove();
+            });
+
+            document.getElementById('save-new-workout').addEventListener('click', () => {
+                const newName = document.getElementById('new-workout-name').value.trim();
+                if (!newName) {
+                    alert('Please enter a name for the workout.');
+                    return;
+                }
+
+                // Find all the dynamic input fields and get their 'data-field' attribute
+                const fieldInputs = document.querySelectorAll('#new-task-form [data-field]');
+                const inputsArray = Array.from(fieldInputs).map(input => {
+                    const value = input.getAttribute('data-field');
+                    return value.charAt(0).toUpperCase() + value.slice(1); // Capitalize first letter
+                });
+
+                // Create the new workout object
+                const newWorkout = {
+                    id: 'workout_' + Date.now(),
+                    name: newName,
+                    inputs: inputsArray // e.g., ['Weight', 'Reps']
+                };
+
+                // Add to gameState, save, and re-render the UI
+                gameState.player.custom_workouts.push(newWorkout);
+                saveGameData();
+                renderUI();
+            });
+            
+        });
+    }
+    
 }
 
 // === EVENT LISTENERS ===
