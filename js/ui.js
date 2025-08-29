@@ -107,6 +107,8 @@ export function renderEquippedItems() {
 }
 
 export function renderUI() {
+    populateTaskLists();
+    
     if (!gameState || !gameState.player) return;
     const { player, current_boss, dailyLog } = gameState;
     
