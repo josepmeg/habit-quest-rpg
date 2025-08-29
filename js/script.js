@@ -419,6 +419,40 @@ function setupTaskManagementListeners() {
             
         });
     }
+
+    const editWorkoutBtn = document.getElementById('edit-workout-btn');
+    const workoutContent = document.getElementById('workout-content');
+
+    if (editWorkoutBtn) {
+        editWorkoutBtn.addEventListener('click', () => {
+            workoutContent.classList.toggle('edit-mode');
+        });
+    }
+
+    if (workoutContent) {
+        workoutContent.addEventListener('click', e => {
+            if (e.target.matches('.delete-task-btn')) {
+                handleDeleteTask(e.target.dataset.taskId, 'workout');
+            }
+        });
+    }
+
+    const editHabitBtn = document.getElementById('edit-habit-btn');
+    const habitsContent = document.getElementById('daily-habits-content');
+
+    if (editHabitBtn) {
+        editHabitBtn.addEventListener('click', () => {
+            habitsContent.classList.toggle('edit-mode');
+        });
+    }
+    
+    if (habitsContent) {
+        habitsContent.addEventListener('click', e => {
+            if (e.target.matches('.delete-task-btn')) {
+                handleDeleteTask(e.target.dataset.taskId, 'habit');
+            }
+        });
+    }
     
 }
 
@@ -568,6 +602,18 @@ function setupEventListeners() {
                 ui.showDailySummary(e.target.dataset.date);
             }
         });
+    }
+
+    function handleDeleteTask(taskId, taskType) {
+        if (confirm('Are you sure you want to delete this task?')) {
+            if (taskType === 'workout') {
+                gameState.player.custom_workouts = gameState.player.custom_workouts.filter(task => task.id !== taskId);
+            } else if (taskType === 'habit') {
+                gameState.player.custom_habits = gameState.player.custom_habits.filter(task => task.id !== taskId);
+            }
+            saveGameData();
+            ui.renderUI();
+        }
     }
 
     setupTaskManagementListeners();
