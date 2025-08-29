@@ -61,3 +61,7 @@ body { font-family: 'Inter', sans-serif; background-color: #111827; color: #F9FA
     background-size: auto; /* This uses the image's actual size */
     box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.4);
 }
+
+.edit-mode .delete-task-btn {
+    display: inline-block;
+}
