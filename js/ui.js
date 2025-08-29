@@ -21,16 +21,28 @@ export function populateTaskLists() {
                </div>` 
             : '';
         return `<div class="card p-3 rounded-md">
-                    <label class="flex items-center space-x-3">
-                        <input type="checkbox" id="task-${task.id}" data-task-id="${task.id}" class="task-checkbox">
-                        <span>${task.name}</span>
-                    </label>
+                    <div class="flex justify-between items-center">
+                        <label class="flex items-center space-x-3">
+                            <input type="checkbox" id="task-${task.id}" data-task-id="${task.id}" class="task-checkbox">
+                            <span>${task.name}</span>
+                        </label>
+                        <button class="delete-task-btn hidden text-red-500 font-bold" data-task-id="${task.id}">X</button>
+                    </div>
                     ${inputsHtml}
                 </div>`;
     }).join('');
     document.getElementById('workout-content').innerHTML = workoutHtml;
     
-    const habitsHtml = gameState.player.custom_habits.map(task => `<label class="card p-3 rounded-md flex items-center space-x-3 cursor-pointer hover:bg-gray-700"><input type="checkbox" id="task-${task.id}" data-task-id="${task.id}" class="task-checkbox"><span>${task.name}</span></label>`).join('');
+    const habitsHtml = gameState.player.custom_habits.map(task => 
+        `<label class="card p-3 rounded-md flex justify-between items-center space-x-3 cursor-pointer hover:bg-gray-700">
+            <div class="flex items-center space-x-3">
+                <input type="checkbox" id="task-${task.id}" data-task-id="${task.id}" class="task-checkbox">
+                <span>${task.name}</span>
+            </div>
+            <button class="delete-task-btn hidden text-red-500 font-bold" data-task-id="${task.id}">X</button>
+        </label>`
+    ).join('');
+    
     document.getElementById('daily-habits-content').innerHTML = habitsHtml;
     
     document.getElementById('quests-content').innerHTML = `
