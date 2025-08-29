@@ -64,6 +64,8 @@ function loadGameData(onLoadComplete) {
         if (gameState.player && !gameState.player.settings) gameState.player.settings = { background: 1 };
         if (gameState.current_boss && gameState.current_boss.image === 'assets/ifrit.png') gameState.current_boss.image = 'assets/sprites/ifrit.png';
         if (gameState.current_boss && !gameState.current_boss.image) gameState.current_boss.image = 'assets/sprites/ifrit.png';
+        if (gameState.player && !gameState.player.custom_workouts) { gameState.player.custom_workouts = JSON.parse(JSON.stringify(WORKOUT_TASKS)); }
+        if (gameState.player && !gameState.player.custom_habits) { gameState.player.custom_habits = JSON.parse(JSON.stringify(DAILY_HABITS)); }
 
     } else {
         gameState = JSON.parse(JSON.stringify(initialGameState));
