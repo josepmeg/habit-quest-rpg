@@ -40,14 +40,14 @@ function handleAttack(attackType) {
     }
 
     let expGained = 0, hpRegen = 0, mpRegen = 0, goldGained = 0;
-    const workoutCompleted = db.gameState.player.custom_workouts.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id));
+    const workoutCompleted = gameState.player.custom_workouts.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id));
     if (workoutCompleted) {
         expGained += 30;
         goldGained += 5;
         gameState.player.training_streak = (gameState.player.training_streak || 0) + 1;
     }
     gameState.dailyLog.completed_tasks.forEach(taskId => {
-        const habit = db.gameState.player.custom_habits.find(h => h.id === taskId);
+        const habit = gameState.player.custom_habits.find(h => h.id === taskId);
         if (habit) {
             expGained += habit.exp || 0;
             hpRegen += habit.hp_regen || 0;
