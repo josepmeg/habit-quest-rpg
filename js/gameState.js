@@ -56,19 +56,17 @@ function resetDailyTasks() {
 function loadGameData(onLoadComplete) {
     const savedData = localStorage.getItem('habitQuestRpgGame');
     if (savedData) {
-        gameState = JSON.parse(savedData);
+        const loadedState = JSON.parse(savedData);
+        // This updates the existing gameState object instead of replacing it
+        Object.assign(gameState, loadedState);
 
         // Backwards compatibility checks
-        if (gameState.player && !gameState.player.equipment) gameState.player.equipment = { weapon: null, armor: null };
-        if (gameState.player && typeof gameState.player.gold === 'undefined') gameState.player.gold = 0;
-        if (gameState.player && !gameState.player.settings) gameState.player.settings = { background: 1 };
-        if (gameState.current_boss && gameState.current_boss.image === 'assets/ifrit.png') gameState.current_boss.image = 'assets/sprites/ifrit.png';
-        if (gameState.current_boss && !gameState.current_boss.image) gameState.current_boss.image = 'assets/sprites/ifrit.png';
-        if (gameState.player && !gameState.player.custom_workouts) { gameState.player.custom_workouts = JSON.parse(JSON.stringify(WORKOUT_TASKS)); }
-        if (gameState.player && !gameState.player.custom_habits) { gameState.player.custom_habits = JSON.parse(JSON.stringify(DAILY_HABITS)); }
-
-    } else {
-        gameState = JSON.parse(JSON.stringify(initialGameState));
+        if (gameState.player && !gameState.player.custom_workouts) {
+            gameState.player.custom_workouts = JSON.parse(JSON.stringify(WORKOUT_TASKS));
+        }
+        if (gameState.player && !gameState.player.custom_habits) {
+            gameState.player.custom_habits = JSON.parse(JSON.stringify(DAILY_HABITS));
+        }
     }
     
     const today = new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0];
@@ -76,7 +74,6 @@ function loadGameData(onLoadComplete) {
         resetDailyTasks();
     }
     
-    // Call the provided function once loading is complete
     onLoadComplete();
 }
 
@@ -88,20 +85,19 @@ function importData(event, onLoadComplete) {
     reader.onload = function(e) {
         try {
             const importedState = JSON.parse(e.target.result);
-            // Basic validation to ensure it's a valid save file
             if (importedState.player && importedState.current_boss) {
-                gameState = importedState;
+                // This updates the existing gameState object instead of replacing it
+                Object.assign(gameState, importedState);
                 saveGameData();
-                onLoadComplete(true); // Signal success
+                onLoadComplete(true);
             } else {
                 throw new Error("Invalid save file format.");
             }
         } catch (error) {
-            onLoadComplete(false, error); // Signal failure
+            onLoadComplete(false, error);
         }
     };
     reader.readAsText(file);
-    // Clear the input's value to allow importing the same file again
     event.target.value = '';
 }
 
