@@ -1,5 +1,5 @@
 // === MODULE IMPORTS ===
-import { gameState, loadGameData, saveGameData, importData } from './gameState.js';
+import * as gs from './gameState.js';
 import * as db from './database.js';
 import * as ui from './ui.js';
 
@@ -11,7 +11,7 @@ let calendarView = {
 
 // === GAME INITIALIZATION ===
 document.addEventListener('DOMContentLoaded', () => {
-    loadGameData(() => {
+    gs.loadGameData(() => {
         ui.populateTaskLists();
         setupEventListeners();
         ui.applySettings();
@@ -21,19 +21,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // === GAME LOGIC FUNCTIONS ===
 function handleAttack(attackType) {
-    if (gameState.dailyLog.attack_performed) {
+    if (gs.gameState.dailyLog.attack_performed) {
         ui.showNotification("You have already attacked today.", "error");
         return;
     }
 
     let expGained = 0, hpRegen = 0, mpRegen = 0, goldGained = 0;
-    const workoutCompleted = db.gameState.player.custom_workouts.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id));
+    const workoutCompleted = db.gameState.player.custom_workouts.some(wt => gs.gameState.dailyLog.completed_tasks.includes(wt.id));
     if (workoutCompleted) {
         expGained += 30;
         goldGained += 5;
-        gameState.player.training_streak = (gameState.player.training_streak || 0) + 1;
+        gs.gameState.player.training_streak = (gs.gameState.player.training_streak || 0) + 1;
     }
-    gameState.dailyLog.completed_tasks.forEach(taskId => {
+    gs.gameState.dailyLog.completed_tasks.forEach(taskId => {
         const habit = db.gameState.player.custom_habits.find(h => h.id === taskId);
         if (habit) {
             expGained += habit.exp || 0;
@@ -42,79 +42,79 @@ function handleAttack(attackType) {
             goldGained += 1;
         }
     });
-    gameState.player.hp = Math.min(gameState.player.total_max_hp, gameState.player.hp + hpRegen);
-    gameState.player.mp = Math.min(gameState.player.max_mp, gameState.player.mp + mpRegen);
-    gameState.player.exp += expGained;
-    gameState.player.gold += goldGained;
+    gs.gameState.player.hp = Math.min(gs.gameState.player.total_max_hp, gs.gameState.player.hp + hpRegen);
+    gs.gameState.player.mp = Math.min(gs.gameState.player.max_mp, gs.gameState.player.mp + mpRegen);
+    gs.gameState.player.exp += expGained;
+    gs.gameState.player.gold += goldGained;
     
     let damageMultiplier = 1.0;
     if (attackType === 'special') {
-        if (gameState.player.mp >= db.SPECIAL_ATTACK.mp_cost) {
-            gameState.player.mp -= db.SPECIAL_ATTACK.mp_cost;
+        if (gs.gameState.player.mp >= db.SPECIAL_ATTACK.mp_cost) {
+            gs.gameState.player.mp -= db.SPECIAL_ATTACK.mp_cost;
             damageMultiplier = db.SPECIAL_ATTACK.damage_multiplier;
         } else {
             ui.showNotification("Not enough MP!", "error");
             return;
         }
     }
-    const totalLuck = (gameState.player.base_luck || 5) + Math.floor((gameState.player.training_streak || 0) / 3);
+    const totalLuck = (gs.gameState.player.base_luck || 5) + Math.floor((gs.gameState.player.training_streak || 0) / 3);
     const isCritical = Math.random() * 100 < totalLuck;
     if (isCritical) {
         damageMultiplier *= db.CRITICAL_HIT_MULTIPLIER;
         ui.showNotification("CRITICAL HIT!", 'crit');
     }
-    const streakBonus = 1 + (0.1 * Math.max(0, gameState.player.training_streak - 1));
-    const totalDamage = Math.round(gameState.player.total_attack * streakBonus * damageMultiplier);
-    gameState.current_boss.hp = Math.max(0, gameState.current_boss.hp - totalDamage);
+    const streakBonus = 1 + (0.1 * Math.max(0, gs.gameState.player.training_streak - 1));
+    const totalDamage = Math.round(gs.gameState.player.total_attack * streakBonus * damageMultiplier);
+    gs.gameState.current_boss.hp = Math.max(0, gs.gameState.current_boss.hp - totalDamage);
     document.getElementById('boss-column').classList.add('character-shake');
     setTimeout(() => document.getElementById('boss-column').classList.remove('character-shake'), 500);
 
-    if (gameState.current_boss.ability && gameState.current_boss.ability.toLowerCase() === 'burn') {
-        gameState.player.hp = Math.max(0, gameState.player.hp - 5);
+    if (gs.gameState.current_boss.ability && gs.gameState.current_boss.ability.toLowerCase() === 'burn') {
+        gs.gameState.player.hp = Math.max(0, gs.gameState.player.hp - 5);
         document.getElementById('player-column').classList.add('character-shake');
         setTimeout(() => document.getElementById('player-column').classList.remove('character-shake'), 500);
     }
     updatePersonalBests();
     handleLevelUp();
-    if (gameState.current_boss.hp <= 0) {
-        ui.showNotification(`Defeated ${gameState.current_boss.name}!`, 'success');
+    if (gs.gameState.current_boss.hp <= 0) {
+        ui.showNotification(`Defeated ${gs.gameState.current_boss.name}!`, 'success');
         if (goldGained > 0) ui.showNotification(`You earned ${goldGained} gold!`, 'success');
-        gameState.defeated_bosses.push(gameState.current_boss.name);
-        if (gameState.boss_queue && gameState.boss_queue.length > 0) {
-            gameState.current_boss = gameState.boss_queue.shift();
+        gs.gameState.defeated_bosses.push(gs.gameState.current_boss.name);
+        if (gs.gameState.boss_queue && gs.gameState.boss_queue.length > 0) {
+            gs.gameState.current_boss = gs.gameState.boss_queue.shift();
         } else {
-            gameState.current_boss = { name: "Ifrit (Respawned)", hp: 300, max_hp: 300, ability: "Burn", image: "assets/sprites/ifrit.png" };
+            gs.gameState.current_boss = { name: "Ifrit (Respawned)", hp: 300, max_hp: 300, ability: "Burn", image: "assets/sprites/ifrit.png" };
         }
     } else {
         if (goldGained > 0) ui.showNotification(`You earned ${goldGained} gold!`, 'success');
     }
-    gameState.dailyLog.attack_performed = true;
-    saveGameData();
+    gs.gameState.dailyLog.attack_performed = true;
+    gs.saveGameData();
     ui.renderUI();
 }
 
 function handleLevelUp() {
     let levelUps = 0;
-    while (gameState.player.exp >= gameState.player.exp_to_next_level) {
+    while (gs.gameState.player.exp >= gs.gameState.player.exp_to_next_level) {
         levelUps++;
-        gameState.player.level++;
-        gameState.player.exp -= gameState.player.exp_to_next_level;
-        gameState.player.exp_to_next_level = Math.round(gameState.player.exp_to_next_level * 1.5);
-        gameState.player.max_hp += 10;
-        gameState.player.max_mp += 5;
-        gameState.player.attack += 2;
-        if (gameState.player.level % 3 === 0) gameState.player.base_luck++;
-        gameState.player.hp = gameState.player.max_hp;
-        gameState.player.mp = gameState.player.max_mp;
+        gs.gameState.player.level++;
+        gs.gameState.player.exp -= gs.gameState.player.exp_to_next_level;
+        gs.gameState.player.exp_to_next_level = Math.round(gs.gameState.player.exp_to_next_level * 1.5);
+        gs.gameState.player.max_hp += 10;
+        gs.gameState.player.max_mp += 5;
+        gs.gameState.player.attack += 2;
+        if (gs.gameState.player.level % 3 === 0) gs.gameState.player.base_luck++;
+        gs.gameState.player.hp = gs.gameState.player.max_hp;
+        gs.gameState.player.mp = gs.gameState.player.max_mp;
     }
     if (levelUps > 0) {
-        ui.showNotification(`Leveled up to ${gameState.player.level}!`);
+        ui.showNotification(`Leveled up to ${gs.gameState.player.level}!`);
         ui.recalculatePlayerStats();
     }
 }
 
 function handleTaskToggle(taskId, isChecked) {
-    const completed = gameState.dailyLog.completed_tasks;
+    const completed = gs.gameState.dailyLog.completed_tasks;
     if (isChecked) {
         if (!completed.includes(taskId)) {
             completed.push(taskId);
@@ -125,12 +125,12 @@ function handleTaskToggle(taskId, isChecked) {
         if (index > -1) completed.splice(index, 1);
     }
     ui.updateAttackButtonState();
-    saveGameData();
+    gs.saveGameData();
     ui.renderTaskCounters();
 }
 
 function handleItemDrop() {
-    const totalLuck = (gameState.player.base_luck || 5) + Math.floor((gameState.player.training_streak || 0) / 3);
+    const totalLuck = (gs.gameState.player.base_luck || 5) + Math.floor((gs.gameState.player.training_streak || 0) / 3);
     if (Math.random() * 100 < (db.ITEM_DROP_CHANCE + totalLuck / 2)) {
         const itemKeys = Object.keys(db.ALL_ITEMS).filter(key => db.ALL_ITEMS[key].type === 'potion');
         if (itemKeys.length > 0) {
@@ -142,27 +142,27 @@ function handleItemDrop() {
 }
 
 function addItemToInventory(itemId) {
-    const existingItem = gameState.player.inventory.find(item => item.id === itemId);
+    const existingItem = gs.gameState.player.inventory.find(item => item.id === itemId);
     if (existingItem) {
         existingItem.quantity++;
     } else {
-        gameState.player.inventory.push({ id: itemId, quantity: 1 });
+        gs.gameState.player.inventory.push({ id: itemId, quantity: 1 });
     }
 }
 
 function useItem(itemId) {
-    const itemIndex = gameState.player.inventory.findIndex(item => item.id === itemId);
+    const itemIndex = gs.gameState.player.inventory.findIndex(item => item.id === itemId);
     if (itemIndex > -1) {
-        const item = gameState.player.inventory[itemIndex];
+        const item = gs.gameState.player.inventory[itemIndex];
         if (db.ALL_ITEMS[item.id].effect) {
-            db.ALL_ITEMS[item.id].effect(gameState);
+            db.ALL_ITEMS[item.id].effect(gs.gameState);
         }
         item.quantity--;
         if (item.quantity <= 0) {
-            gameState.player.inventory.splice(itemIndex, 1);
+            gs.gameState.player.inventory.splice(itemIndex, 1);
         }
         ui.showNotification(`Used ${db.ALL_ITEMS[item.id].name}.`, 'success');
-        saveGameData();
+        gs.saveGameData();
         ui.renderUI();
     }
 }
@@ -171,8 +171,8 @@ function handleWorkoutInput(inputElement) {
     const taskId = inputElement.dataset.taskId;
     const inputType = inputElement.dataset.inputType;
     const value = inputElement.value;
-    if (!gameState.dailyLog.workout_details[taskId]) gameState.dailyLog.workout_details[taskId] = {};
-    gameState.dailyLog.workout_details[taskId][inputType] = parseFloat(value) || 0;
+    if (!gs.gameState.dailyLog.workout_details[taskId]) gs.gameState.dailyLog.workout_details[taskId] = {};
+    gs.gameState.dailyLog.workout_details[taskId][inputType] = parseFloat(value) || 0;
     const checkbox = document.getElementById(`task-${taskId}`);
     if (value && !checkbox.checked) {
         checkbox.checked = true;
@@ -188,9 +188,9 @@ function handleAddBoss(e) {
     if (name && hp > 0) {
         const imageName = name.toLowerCase().replace(/\s+/g, '-') + '.png';
         const imagePath = `assets/sprites/${imageName}`;
-        gameState.boss_queue.push({ name, max_hp: hp, hp, ability, image: imagePath });
+        gs.gameState.boss_queue.push({ name, max_hp: hp, hp, ability, image: imagePath });
         e.target.reset();
-        saveGameData();
+        gs.saveGameData();
         ui.renderBossModals();
     }
 }
@@ -200,29 +200,29 @@ function handleAddQuest(e) {
     const description = e.target.elements['new-quest-desc'].value.trim();
     const exp = parseInt(e.target.elements['new-quest-exp'].value);
     if (description && exp > 0) {
-        gameState.quests.push({ description, exp });
+        gs.gameState.quests.push({ description, exp });
         e.target.reset();
-        saveGameData();
+        gs.saveGameData();
         ui.renderQuests();
     }
 }
 
 function handleCompleteQuest(index) {
-    const quest = gameState.quests[index];
+    const quest = gs.gameState.quests[index];
     if (quest) {
-        gameState.player.exp += quest.exp;
-        gameState.quests.splice(index, 1);
+        gs.gameState.player.exp += quest.exp;
+        gs.gameState.quests.splice(index, 1);
         ui.showNotification(`Quest Complete! +${quest.exp} EXP`, 'success');
         handleLevelUp();
-        saveGameData();
+        gs.saveGameData();
         ui.renderUI();
     }
 }
 
 function updatePersonalBests() {
-    if (!gameState.player.personal_bests) gameState.player.personal_bests = {};
-    const pbs = gameState.player.personal_bests;
-    const details = gameState.dailyLog.workout_details;
+    if (!gs.gameState.player.personal_bests) gs.gameState.player.personal_bests = {};
+    const pbs = gs.gameState.player.personal_bests;
+    const details = gs.gameState.dailyLog.workout_details;
     for (const taskId in details) {
         if (!pbs[taskId]) pbs[taskId] = {};
         for (const inputType in details[taskId]) {
@@ -238,7 +238,7 @@ function updatePersonalBests() {
 function handleEquipItem(itemId) {
     const item = db.ALL_ITEMS[itemId];
     if (!item || !item.type) return;
-    const { player } = gameState;
+    const { player } = gs.gameState;
     const { type } = item;
     const currentItemInSlot = player.equipment[type];
     if (currentItemInSlot === itemId) return;
@@ -256,19 +256,19 @@ function handleEquipItem(itemId) {
     player.equipment[type] = itemId;
     ui.showNotification(`Equipped ${item.name}!`, 'success');
     ui.recalculatePlayerStats();
-    saveGameData();
+    gs.saveGameData();
     ui.renderUI();
 }
 
 function handlePurchase(itemId) {
     const itemToBuy = db.SHOP_ITEMS.find(item => item.id === itemId);
     if (!itemToBuy) return;
-    if (gameState.player.gold >= itemToBuy.cost) {
-        gameState.player.gold -= itemToBuy.cost;
+    if (gs.gameState.player.gold >= itemToBuy.cost) {
+        gs.gameState.player.gold -= itemToBuy.cost;
         addItemToInventory(itemToBuy.id);
         const itemDetails = db.ALL_ITEMS[itemToBuy.id];
         ui.showNotification(`Purchased ${itemDetails.name}!`, 'success');
-        saveGameData();
+        gs.saveGameData();
         ui.renderUI();
     } else {
         ui.showNotification("Not enough gold!", "error");
@@ -276,7 +276,7 @@ function handlePurchase(itemId) {
 }
 
 function exportData() {
-    const jsonString = JSON.stringify(gameState);
+    const jsonString = JSON.stringify(gs.gameState);
     const blob = new Blob([jsonString], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -318,9 +318,9 @@ function setupTaskManagementListeners() {
                     const newId = 'habit_' + Date.now();
                     
                     // Add the new habit to our gameState
-                    gameState.player.custom_habits.push({ id: newId, name: newName, exp: 5 }); // Default 5 EXP
+                    gs.gameState.player.custom_habits.push({ id: newId, name: newName, exp: 5 }); // Default 5 EXP
 
-                    saveGameData();
+                    gs.saveGameData();
                     ui.renderUI(); // Re-render the entire UI to show the new habit
                 }
             });
@@ -412,8 +412,8 @@ function setupTaskManagementListeners() {
                 };
 
                 // Add to gameState, save, and re-render the UI
-                gameState.player.custom_workouts.push(newWorkout);
-                saveGameData();
+                gs.gameState.player.custom_workouts.push(newWorkout);
+                gs.saveGameData();
                 ui.renderUI();
             });
             
@@ -459,11 +459,11 @@ function setupTaskManagementListeners() {
 function handleDeleteTask(taskId, taskType) {
     if (confirm('Are you sure you want to delete this task?')) {
         if (taskType === 'workout') {
-            gameState.player.custom_workouts = gameState.player.custom_workouts.filter(task => task.id !== taskId);
+            gs.gameState.player.custom_workouts = gs.gameState.player.custom_workouts.filter(task => task.id !== taskId);
         } else if (taskType === 'habit') {
-            gameState.player.custom_habits = gameState.player.custom_habits.filter(task => task.id !== taskId);
+            gs.gameState.player.custom_habits = gs.gameState.player.custom_habits.filter(task => task.id !== taskId);
         }
-        saveGameData();
+        gs.saveGameData();
         ui.renderUI();
     }
 }
@@ -562,10 +562,10 @@ function setupEventListeners() {
     
     // === Player & Data Management ===
     document.getElementById('player-name').addEventListener('click', () => {
-        const newName = prompt("Enter your character's name:", gameState.player.name);
+        const newName = prompt("Enter your character's name:", gs.gameState.player.name);
         if (newName && newName.trim() !== '') {
-            gameState.player.name = newName.trim();
-            saveGameData();
+            gs.gameState.player.name = newName.trim();
+            gs.saveGameData();
             ui.renderUI();
             ui.showNotification("Character name updated!", 'success');
         }
@@ -575,7 +575,7 @@ function setupEventListeners() {
     const importInput = document.getElementById('import-input');
     if (importInput) {
         importInput.addEventListener('change', (event) => {
-            importData(event, (success, error) => {
+            gs.importData(event, (success, error) => {
                 if (success) {
                     ui.showNotification("Import successful! Reloading...", "success");
                     setTimeout(() => location.reload(), 1500);
@@ -601,9 +601,9 @@ function setupEventListeners() {
     if (bgSwitcher) {
         bgSwitcher.addEventListener('click', (e) => {
             if (e.target.matches('button[data-bg]')) {
-                gameState.player.settings.background = parseInt(e.target.dataset.bg, 10);
+                gs.gameState.player.settings.background = parseInt(e.target.dataset.bg, 10);
                 ui.applySettings();
-                saveGameData();
+                gs.saveGameData();
             }
         });
     }
