@@ -21,6 +21,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // === GAME LOGIC FUNCTIONS ===
 function handleAttack(attackType) {
+
+    if (!gameState || !gameState.player) {
+        console.error("CRITICAL ERROR: gameState or gameState.player is not defined when handleAttack was called.", { gameStateObject: gameState });
+        ui.showNotification("A critical error occurred. Please save your progress and refresh.", "error");
+        return;
+    }
+    // -------------------------------------------------
+    
+    if (gameState.dailyLog.attack_performed) {
+        ui.showNotification("You have already attacked today.", "error");
+        return;
+    }
+    
     if (gameState.dailyLog.attack_performed) {
         ui.showNotification("You have already attacked today.", "error");
         return;
