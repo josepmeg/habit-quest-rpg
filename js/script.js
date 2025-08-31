@@ -559,8 +559,13 @@ function setupEventListeners() {
     document.getElementById('special-attack-btn').addEventListener('click', () => handleAttack('special'));
     document.body.addEventListener('change', e => e.target.matches('input[type="checkbox"][data-task-id]') && handleTaskToggle(e.target.dataset.taskId, e.target.checked));
     document.body.addEventListener('input', e => e.target.matches('input[type="number"][data-task-id]') && handleWorkoutInput(e.target));
-    document.getElementById('add-boss-form').addEventListener('submit', handleAddBoss);
-    document.getElementById('add-quest-form').addEventListener('submit', handleAddQuest);
+    document.body.addEventListener('submit', e => {
+        if (e.target.id === 'add-quest-form') {
+            handleAddQuest(e);
+        } else if (e.target.id === 'add-boss-form') {
+            handleAddBoss(e);
+        }
+    });
     
     // === Dynamic Content Listeners (Event Delegation) ===
     document.getElementById('quest-list').addEventListener('click', e => e.target.matches('.complete-quest-btn') && handleCompleteQuest(parseInt(e.target.dataset.questIndex)));
