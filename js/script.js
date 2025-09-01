@@ -189,12 +189,18 @@ function handleWorkoutInput(inputElement) {
     const inputType = inputElement.dataset.inputType;
     const value = inputElement.value;
     if (!gameState.dailyLog.workout_details[taskId]) gameState.dailyLog.workout_details[taskId] = {};
-    if (inputType === 'time' && value) {
-        const [hours, minutes] = value.split(':').map(Number);
-        gameState.dailyLog.workout_details[taskId][inputType] = (hours * 60) + minutes;
+    if (inputType === 'time_hours' || inputType === 'time_minutes') {
+        const hoursInput = document.querySelector(`input[data-task-id="${taskId}"][data-input-type="time_hours"]`);
+        const minutesInput = document.querySelector(`input[data-task-id="${taskId}"][data-input-type="time_minutes"]`);
+    
+        const hours = parseInt(hoursInput.value) || 0;
+        const minutes = parseInt(minutesInput.value) || 0;
+    
+        // Save total minutes under the 'time' key to keep PB tracking consistent
+        gameState.dailyLog.workout_details[taskId]['time'] = (hours * 60) + minutes;
     } else {
         gameState.dailyLog.workout_details[taskId][inputType] = parseFloat(value) || 0;
-    }    
+    } 
     const checkbox = document.getElementById(`task-${taskId}`);
     if (value && !checkbox.checked) {
         checkbox.checked = true;
