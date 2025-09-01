@@ -92,7 +92,11 @@ function handleAttack(attackType) {
     if (gameState.current_boss.hp <= 0) {
         ui.showNotification(`Defeated ${gameState.current_boss.name}!`, 'success');
         if (goldGained > 0) ui.showNotification(`You earned ${goldGained} gold!`, 'success');
-        gameState.defeated_bosses.push(gameState.current_boss.name);
+        const defeatedBossData = {
+            name: gameState.current_boss.name,
+            max_hp: gameState.current_boss.max_hp
+        };
+        gameState.defeated_bosses.push(defeatedBossData);
         if (gameState.boss_queue && gameState.boss_queue.length > 0) {
             gameState.current_boss = gameState.boss_queue.shift();
         } else {
@@ -185,7 +189,12 @@ function handleWorkoutInput(inputElement) {
     const inputType = inputElement.dataset.inputType;
     const value = inputElement.value;
     if (!gameState.dailyLog.workout_details[taskId]) gameState.dailyLog.workout_details[taskId] = {};
-    gameState.dailyLog.workout_details[taskId][inputType] = parseFloat(value) || 0;
+    if (inputType === 'time' && value) {
+        const [hours, minutes] = value.split(':').map(Number);
+        gameState.dailyLog.workout_details[taskId][inputType] = (hours * 60) + minutes;
+    } else {
+        gameState.dailyLog.workout_details[taskId][inputType] = parseFloat(value) || 0;
+    }    
     const checkbox = document.getElementById(`task-${taskId}`);
     if (value && !checkbox.checked) {
         checkbox.checked = true;
