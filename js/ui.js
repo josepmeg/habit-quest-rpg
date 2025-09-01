@@ -16,8 +16,18 @@ export function populateTaskLists() {
         const gridCols = hasInputs ? `grid-cols-${task.inputs.length}` : '';
         const inputsHtml = hasInputs 
             ? `<div class="grid ${gridCols} gap-2 mt-2 pl-8 items-center">
-                   ${task.inputs.map(input => `<div class="col-span-1"><input type="number" placeholder="${input}" data-task-id="${task.id}" data-input-type="${input.toLowerCase()}" class="task-input w-full rounded-md p-1 text-sm"></div>`).join('')}
-                   <div class="col-span-${task.inputs.length} text-right text-xs text-gray-400 pr-1" id="pb-${task.id}"></div>
+                    ${task.inputs.map(input => {
+                        const inputLower = input.toLowerCase();
+                        let inputType = 'number';
+                        let step = '1';
+                        if (inputLower === 'time') {
+                            inputType = 'time';
+                        } else if (inputLower === 'distance') {
+                            step = '0.1';
+                        }
+                        return `<div class="col-span-1"><input type="${inputType}" step="${step}" placeholder="${input}" data-task-id="${task.id}" data-input-type="${inputLower}" class="task-input w-full rounded-md p-1 text-sm"></div>`;
+                    }).join('')}                   
+                    <div class="col-span-${task.inputs.length} text-right text-xs text-gray-400 pr-1" id="pb-${task.id}"></div>
                </div>` 
             : '';
         return `<div class="card p-3 rounded-md">
@@ -137,7 +147,16 @@ export function renderUI() {
         const pb_container = document.getElementById(`pb-${task.id}`);
         if (pb_container && player.personal_bests?.[task.id]) {
             pb_container.textContent = "PB: " + Object.entries(player.personal_bests[task.id])
-                .map(([key, value]) => `${value}${key === 'weight' ? 'LBS' : ''}`)
+                .map(([key, value]) => {
+                    if (key === 'weight') return `${value} LBS`;
+                    if (key === 'distance') return `${value} KM`;
+                    if (key === 'time') { // Assumes time is stored in total minutes
+                        const hours = Math.floor(value / 60);
+                        const minutes = value % 60;
+                        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+                    }
+                    return value; // Default for Reps, Rounds, etc.
+                })
                 .join(' / ');
         } else if (pb_container) {
             pb_container.textContent = "PB: None";
