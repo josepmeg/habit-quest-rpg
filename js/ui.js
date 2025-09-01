@@ -191,7 +191,13 @@ export function renderBossModals() {
     const defeatedList = document.getElementById('defeated-boss-list');
     defeatedList.innerHTML = (!gameState.defeated_bosses || gameState.defeated_bosses.length === 0)
         ? `<li class="text-gray-400">No bosses defeated yet.</li>`
-        : gameState.defeated_bosses.map(name => `<li class="text-gray-400 p-2">✔️ ${name}</li>`).join('');
+        : gameState.defeated_bosses.map(boss => {
+            // This check handles old save files where bosses are just strings
+            if (typeof boss === 'string') {
+                return `<li class="text-gray-400 p-2">✔️ ${boss}</li>`;
+            }
+            return `<li class="text-gray-400 p-2">✔️ ${boss.name} (${boss.max_hp} HP)</li>`;
+        }).join('');
 }
 
 export function renderQuests() {
