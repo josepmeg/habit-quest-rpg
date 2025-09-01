@@ -577,15 +577,24 @@ function setupEventListeners() {
     });
     
     // === Dynamic Content Listeners (Event Delegation) ===
-    document.getElementById('quest-list').addEventListener('click', e => e.target.matches('.complete-quest-btn') && handleCompleteQuest(parseInt(e.target.dataset.questIndex)));
-    document.getElementById('inventory-content').addEventListener('click', e => {
-        if (e.target.matches('.use-item-btn')) useItem(e.target.dataset.itemId);
-        else if (e.target.matches('.equip-item-btn')) handleEquipItem(e.target.dataset.itemId);
+    document.body.addEventListener('click', e => {
+        // Listener for completing quests
+        if (e.target.matches('.complete-quest-btn')) {
+            handleCompleteQuest(parseInt(e.target.dataset.questIndex));
+        }
+    
+        // Listener for using or equipping inventory items
+        if (e.target.matches('.use-item-btn')) {
+            useItem(e.target.dataset.itemId);
+        } else if (e.target.matches('.equip-item-btn')) {
+            handleEquipItem(e.target.dataset.itemId);
+        }
+    
+        // Listener for buying shop items
+        if (e.target.matches('.buy-item-btn')) {
+            handlePurchase(e.target.dataset.itemId);
+        }
     });
-    const shopContainer = document.getElementById('shop-items-container');
-    if (shopContainer) {
-        shopContainer.addEventListener('click', e => e.target.matches('.buy-item-btn') && handlePurchase(e.target.dataset.itemId));
-    }
     
     // === Player & Data Management ===
     document.getElementById('player-name').addEventListener('click', () => {
