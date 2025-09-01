@@ -13,23 +13,26 @@ export function populateTaskLists() {
     const workoutHtml = gameState.player.custom_workouts.map(task => {
         const hasInputs = task.inputs.length > 0;
         // This logic correctly creates a grid with the right number of columns
-        const gridCols = hasInputs ? `grid-cols-${task.inputs.length}` : '';
-        const inputsHtml = hasInputs 
-            ? `<div class="grid ${gridCols} gap-2 mt-2 pl-8 items-center">
-                    ${task.inputs.map(input => {
-                        const inputLower = input.toLowerCase();
-                        let inputType = 'number';
-                        let step = '1';
-                        if (inputLower === 'time') {
-                            inputType = 'time';
-                        } else if (inputLower === 'distance') {
-                            step = '0.1';
-                        }
-                        return `<div class="col-span-1"><input type="${inputType}" step="${step}" placeholder="${input}" data-task-id="${task.id}" data-input-type="${inputLower}" class="task-input w-full rounded-md p-1 text-sm"></div>`;
-                    }).join('')}                   
-                    <div class="col-span-${task.inputs.length} text-right text-xs text-gray-400 pr-1" id="pb-${task.id}"></div>
-               </div>` 
-            : '';
+        let inputsHtml = '';
+        if (hasInputs) {
+            const inputElements = [];
+            task.inputs.forEach(input => {
+                const inputLower = input.toLowerCase();
+                if (inputLower === 'time') {
+                    inputElements.push(`<div class="col-span-1"><input type="number" min="0" placeholder="Hours" data-task-id="${task.id}" data-input-type="time_hours" class="task-input w-full rounded-md p-1 text-sm"></div>`);
+                    inputElements.push(`<div class="col-span-1"><input type="number" min="0" max="59" placeholder="Mins" data-task-id="${task.id}" data-input-type="time_minutes" class="task-input w-full rounded-md p-1 text-sm"></div>`);
+                } else {
+                    const step = (inputLower === 'distance') ? '0.1' : '1';
+                    inputElements.push(`<div class="col-span-1"><input type="number" step="${step}" min="0" placeholder="${input}" data-task-id="${task.id}" data-input-type="${inputLower}" class="task-input w-full rounded-md p-1 text-sm"></div>`);
+                }
+            });
+        
+            const gridCols = `grid-cols-${inputElements.length}`;
+            inputsHtml = `<div class="grid ${gridCols} gap-2 mt-2 pl-8 items-center">
+                            ${inputElements.join('')}
+                            <div class="col-span-${inputElements.length} text-right text-xs text-gray-400 pr-1" id="pb-${task.id}"></div>
+                          </div>`;
+        }
         return `<div class="card p-3 rounded-md">
                     <div class="flex justify-between items-center">
                         <label class="flex items-center space-x-3">
