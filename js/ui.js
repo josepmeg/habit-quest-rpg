@@ -314,16 +314,23 @@ export function renderInventory() {
 
 export function updateAttackButtonState() {
     const workoutCompleted = gameState.player.custom_workouts.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id));
+    const anyTaskCompleted = gameState.dailyLog.completed_tasks.length > 0;
     const attackBtn = document.getElementById('attack-btn');
     const specialAttackBtn = document.getElementById('special-attack-btn');
-    const canAttack = workoutCompleted && !gameState.dailyLog.attack_performed;
-    attackBtn.disabled = !canAttack;
-    specialAttackBtn.disabled = !canAttack || gameState.player.mp < SPECIAL_ATTACK.mp_cost;
-    let message = "Complete a workout to attack.";
-    if (workoutCompleted && !gameState.dailyLog.attack_performed) {
-        message = `Ready! Current Streak: ${gameState.player.training_streak || 0}`;
-    } else if (gameState.dailyLog.attack_performed) {
-        message = "You have already attacked today.";
+    const canLogDay = anyTaskCompleted && !gameState.dailyLog.attack_performed;
+    attackBtn.disabled = !canLogDay;
+    specialAttackBtn.disabled = !workoutCompleted || !canLogDay || gameState.player.mp < SPECIAL_ATTACK.mp_cost;
+    
+    let message = "Complete a task to log your day.";
+    if (canLogDay) {
+        if (workoutCompleted) {
+            message = `Ready to Attack! Current Streak: ${gameState.player.training_streak || 0}`;
+        } else {
+            message = "Log habits to earn rewards.";
+        }
+    }
+    if (gameState.dailyLog.attack_performed) {
+        message = "You have already logged your progress today.";
     }
     document.getElementById('attack-message').textContent = message;
     document.getElementById('special-attack-message').textContent = `Cost: ${SPECIAL_ATTACK.mp_cost} MP`;
