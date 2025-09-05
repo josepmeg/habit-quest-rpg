@@ -431,6 +431,7 @@ export function renderFooter() {
         const sizeInBytes = new Blob([savedData]).size;
         const sizeInKB = (sizeInBytes / 1024).toFixed(2);
         footerText.textContent = `Game data is saved locally in your browser. (Size: ${sizeInKB} KB)`;
+        footerText.classList.add('attack-message-text'); // Add this line
     }
 }
 
