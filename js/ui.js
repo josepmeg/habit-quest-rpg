@@ -332,8 +332,12 @@ export function updateAttackButtonState() {
     if (gameState.dailyLog.attack_performed) {
         message = "You have already logged your progress today.";
     }
-    document.getElementById('attack-message').textContent = message;
-    document.getElementById('special-attack-message').textContent = `Cost: ${SPECIAL_ATTACK.mp_cost} MP`;
+    const attackMessageElement = document.getElementById('attack-message');
+    attackMessageElement.textContent = message;
+    attackMessageElement.classList.add('attack-message-text');
+    const specialAttackMessageElement = document.getElementById('special-attack-message');
+    specialAttackMessageElement.textContent = `Cost: ${SPECIAL_ATTACK.mp_cost} MP`;
+    specialAttackMessageElement.classList.add('attack-message-text');
 }
 
 export function showNotification(message, type = 'success') {
