@@ -1,5 +1,5 @@
 import { gameState } from './gameState.js';
-import { SHOP_ITEMS, ALL_ITEMS, SPECIAL_ATTACK } from './database.js';
+import { SHOP_ITEMS, ALL_ITEMS, SPECIAL_ATTACK, AVAILABLE_BOSS_SPRITES } from './database.js';
 
 export function applySettings() {
     if (gameState.player.settings && gameState.player.settings.background) {
@@ -489,4 +489,18 @@ export function showDailySummary(dateStr) {
     
     contentEl.innerHTML = contentHtml || '<p class="text-gray-500">No details were logged for this day.</p>';
     modal.style.display = 'flex';
+}
+
+export function populateBossSpriteDropdown() {
+    const bossNameDropdown = document.getElementById('new-boss-name');
+    if (!bossNameDropdown) return;
+
+    // Capitalize helper function
+    const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
+    const optionsHtml = AVAILABLE_BOSS_SPRITES.map(spriteName =>
+        `<option value="${spriteName}">${capitalize(spriteName)}</option>`
+    ).join('');
+
+    bossNameDropdown.innerHTML = optionsHtml;
 }
