@@ -18,12 +18,13 @@ const initialGameState = {
         training_streak: 0,
         personal_bests: {},
         inventory: [],
+        defeat_counts: {},
         custom_workouts: JSON.parse(JSON.stringify(WORKOUT_TASKS)),
         custom_habits: JSON.parse(JSON.stringify(DAILY_HABITS))
     },
-    current_boss: { name: "Ifrit", hp: 300, max_hp: 300, ability: "Burn", image: "assets/sprites/ifrit.png" },
+    current_boss: { id: 'ifrit', name: "Ifrit", hp: 300, max_hp: 300, ability: "Burn", image: "assets/sprites/ifrit.png" },
     boss_queue: [],
-    defeated_bosses: [],
+    //defeated_bosses: [],
     quests: [],
     history: [],
     dailyLog: { 
