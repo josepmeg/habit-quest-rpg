@@ -55,6 +55,16 @@ export const CRITICAL_HIT_MULTIPLIER = 2.0;
 
 export const ITEM_DROP_CHANCE = 5; // Base 5% chance
 
+export const AVAILABLE_BOSS_SPRITES = [
+    'ifrit',
+    'buggy',
+    'orc',
+    // 'shiva',
+    // 'bahamut',
+    // 'titan',
+    // Add other boss sprite filenames here
+];
+
 
 
 
