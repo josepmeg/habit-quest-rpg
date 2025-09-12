@@ -65,6 +65,9 @@
                     </div>
                 
                     <div class="action-bar flex justify-center items-center gap-4 pt-2 mt-auto">
+                        <button id="collection-modal-btn" title="Grimoire" class="btn action-btn-sand rounded-full p-4">
+                            <img src="assets/icons/grimoire.png" class="w-6 h-6">
+                        </button>
                          <button id="boss-modal-btn" title="Manage Bosses" class="btn action-btn-sand rounded-full p-3">
                             <svg class="w-5 h-5" xmlns="http://www.w.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M2 4a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1zm0 6a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1zm0 6a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1z"></path></svg>
                         </button>
@@ -174,7 +177,7 @@
                     <form id="add-boss-form" class="grid grid-cols-2 gap-2">
                         <select id="new-boss-name" class="task-input col-span-2 rounded-md p-2" required></select>
                         <input id="new-boss-hp" type="number" placeholder="HP" class="task-input rounded-md p-2" required>
-                        <input id="new-boss-ability" type="text" placeholder="Ability (e.g., Burn)" class="task-input rounded-md p-2">
+                        <!-- <input id="new-boss-ability" type="text" placeholder="Ability (e.g., Burn)" class="task-input rounded-md p-2"> -->
                         <button type="submit" class="col-span-2 btn bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Add</button>
                     </form>
                 </div>
@@ -343,9 +346,19 @@
             </div>
         </div>
     </div>
+    <div id="collection-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden">
+        <div class="modal-overlay fixed inset-0"></div>
+        <div class="modal-content card rounded-lg p-6 w-full max-w-4xl m-4 relative">
+            <h3 class="font-rpg text-xl text-yellow-400 mb-4">Grimoire of Monsters</h3>
+            <button id="collection-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
+            <div id="collection-grid" class="modal-interior-background p-4 rounded-md grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 max-h-[70vh] overflow-y-auto">
+                </div>
+        </div>
+    </div>
     <script type="module" src="js/script.js"></script>
 </body>
 </html>
+
 
 
 
