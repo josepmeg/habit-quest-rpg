@@ -13,6 +13,7 @@ let calendarView = {
 document.addEventListener('DOMContentLoaded', () => {
     loadGameData(() => {
         ui.populateTaskLists();
+        ui.populateBossSpriteDropdown();
         setupEventListeners();
         ui.applySettings();
         ui.renderUI();
@@ -211,13 +212,16 @@ function handleWorkoutInput(inputElement) {
 
 function handleAddBoss(e) {
     e.preventDefault();
-    const name = e.target.elements['new-boss-name'].value.trim();
+    const spriteName = e.target.elements['new-boss-name'].value; // e.g., "ifrit"
     const hp = parseInt(e.target.elements['new-boss-hp'].value);
     const ability = e.target.elements['new-boss-ability'].value.trim();
-    if (name && hp > 0) {
-        const imageName = name.toLowerCase().replace(/\s+/g, '-') + '.png';
-        const imagePath = `assets/sprites/${imageName}`;
-        gameState.boss_queue.push({ name, max_hp: hp, hp, ability, image: imagePath });
+
+    if (spriteName && hp > 0) {
+        // Capitalize the name for display
+        const bossName = spriteName.charAt(0).toUpperCase() + spriteName.slice(1);
+        const imagePath = `assets/sprites/${spriteName}.png`;
+
+        gameState.boss_queue.push({ name: bossName, max_hp: hp, hp, ability, image: imagePath });
         e.target.reset();
         saveGameData();
         ui.renderBossModals();
