@@ -68,6 +68,11 @@ function loadGameData(onLoadComplete) {
         if (gameState.player && !gameState.player.custom_habits) {
             gameState.player.custom_habits = JSON.parse(JSON.stringify(DAILY_HABITS));
         }
+
+        if (gameState.player && !gameState.player.defeat_counts) {
+            gameState.player.defeat_counts = {};
+        }
+        
     }
     
     const today = new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0];
