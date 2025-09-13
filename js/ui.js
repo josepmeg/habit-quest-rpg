@@ -1,5 +1,5 @@
 import { gameState } from './gameState.js';
-import { SHOP_ITEMS, ALL_ITEMS, SPECIAL_ATTACK, AVAILABLE_BOSS_SPRITES } from './database.js';
+import { SHOP_ITEMS, ALL_ITEMS, SPECIAL_ATTACK, ALL_BOSSES } from './database.js';
 
 export function applySettings() {
     if (gameState.player.settings && gameState.player.settings.background) {
@@ -182,6 +182,7 @@ export function renderUI() {
     renderShop();
     renderEquippedItems();
     renderAttributes();
+    renderCollection();
     renderFooter();
 }
 
@@ -494,13 +495,29 @@ export function showDailySummary(dateStr) {
 export function populateBossSpriteDropdown() {
     const bossNameDropdown = document.getElementById('new-boss-name');
     if (!bossNameDropdown) return;
-
-    // Capitalize helper function
-    const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
-
-    const optionsHtml = AVAILABLE_BOSS_SPRITES.map(spriteName =>
-        `<option value="${spriteName}">${capitalize(spriteName)}</option>`
+    const optionsHtml = ALL_BOSSES.map(boss =>
+        `<option value="${boss.id}">${boss.name}</option>`
     ).join('');
-
     bossNameDropdown.innerHTML = optionsHtml;
+}
+
+export function renderCollection() {
+    const grid = document.getElementById('collection-grid');
+    if (!grid) return;
+    const defeatCounts = gameState.player.defeat_counts || {};
+
+    grid.innerHTML = ALL_BOSSES.map(boss => {
+        const count = defeatCounts[boss.id] || 0;
+        const isUnlocked = count > 0;
+
+        const spriteHtml = isUnlocked
+            ? `<img src="${boss.image}" alt="${boss.name}">`
+            : `<img src="${boss.image}" class="sprite-silhouette" alt="Undiscovered Boss">`;
+
+        const nameHtml = isUnlocked
+            ? `<p class="font-bold text-sm mt-2">${boss.name} (${count})</p>`
+            : `<p class="font-bold text-sm mt-2 text-gray-500">??? (0)</p>`;
+
+        return `<div class="collection-card">${spriteHtml}${nameHtml}</div>`;
+    }).join('');
 }
