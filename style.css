@@ -73,3 +73,20 @@ body { font-family: 'Inter', sans-serif; background-color: #111827; color: #F9FA
 .calendar-day.habits-done {
     background-color: #FF9F00; /* This is a nice amber color */
 }
+.sprite-silhouette {
+    filter: brightness(0);
+    opacity: 0.6;
+}
+.collection-card {
+    background-color: rgba(0,0,0,0.2);
+    border: 1px solid #4B5563;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+.collection-card img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    image-rendering: pixelated;
+}
