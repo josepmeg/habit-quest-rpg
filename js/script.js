@@ -96,13 +96,19 @@ function handleAttack(attackType) {
     // --- Step 4: Check for boss defeat (only if a workout was done) ---
     if (workoutCompleted && gameState.current_boss.hp <= 0) {
         ui.showNotification(`Defeated ${gameState.current_boss.name}!`, 'success');
-        const defeatedBossData = { name: gameState.current_boss.name, max_hp: gameState.current_boss.max_hp };
-        gameState.defeated_bosses.push(defeatedBossData);
-
+        const bossId = gameState.current_boss.id;
+        if (bossId) {
+            const currentCount = gameState.player.defeat_counts[bossId] || 0;
+            gameState.player.defeat_counts[bossId] = currentCount + 1;
+        }
+        
         if (gameState.boss_queue && gameState.boss_queue.length > 0) {
             gameState.current_boss = gameState.boss_queue.shift();
         } else {
-            gameState.current_boss = { name: "Ifrit (Respawned)", hp: 300, max_hp: 300, ability: "Burn", image: "assets/sprites/ifrit.png" };
+            const randomBossTemplate = db.ALL_BOSSES[Math.floor(Math.random() * db.ALL_BOSSES.length)];
+            const newBoss = { ...randomBossTemplate, hp: randomBossTemplate.max_hp };
+            gameState.current_boss = newBoss;
+            ui.showNotification(`${newBoss.name} has appeared!`, 'item');
         }
     }
 
@@ -212,20 +218,23 @@ function handleWorkoutInput(inputElement) {
 
 function handleAddBoss(e) {
     e.preventDefault();
-    const spriteName = e.target.elements['new-boss-name'].value; // e.g., "ifrit"
-    const hp = parseInt(e.target.elements['new-boss-hp'].value);
-    const ability = e.target.elements['new-boss-ability'].value.trim();
+    const bossId = e.target.elements['new-boss-name'].value;
+    const customHp = parseInt(e.target.elements['new-boss-hp'].value);
 
-    if (spriteName && hp > 0) {
-        // Capitalize the name for display
-        const bossName = spriteName.charAt(0).toUpperCase() + spriteName.slice(1);
-        const imagePath = `assets/sprites/${spriteName}.png`;
-
-        gameState.boss_queue.push({ name: bossName, max_hp: hp, hp, ability, image: imagePath });
-        e.target.reset();
-        saveGameData();
-        ui.renderBossModals();
+    if (!bossId || !customHp || customHp <= 0) {
+        ui.showNotification("Please select a boss and enter a valid HP.", "error");
+        return;
     }
+    const bossTemplate = db.ALL_BOSSES.find(boss => boss.id === bossId);
+    if (!bossTemplate) return;
+
+    const challengeBoss = { ...bossTemplate, hp: customHp, max_hp: customHp };
+
+    gameState.boss_queue.push(challengeBoss);
+    e.target.reset();
+    saveGameData();
+    ui.renderBossModals();
+    ui.showNotification(`${challengeBoss.name} with ${customHp} HP added to the queue!`, 'success');
 }
 
 function handleAddQuest(e) {
