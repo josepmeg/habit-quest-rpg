@@ -672,6 +672,18 @@ function setupEventListeners() {
         });
     }
 
+    const bossNameDropdown = document.getElementById('new-boss-name');
+    if (bossNameDropdown) {
+        bossNameDropdown.addEventListener('change', (e) => {
+            const selectedBossId = e.target.value;
+            const bossTemplate = db.ALL_BOSSES.find(boss => boss.id === selectedBossId);
+            if (bossTemplate) {
+                const hpInput = document.getElementById('new-boss-hp');
+                hpInput.value = bossTemplate.max_hp;
+            }
+        });
+    }
+
     setupTaskManagementListeners();
     
 }
