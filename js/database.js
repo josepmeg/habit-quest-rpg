@@ -55,33 +55,170 @@ export const CRITICAL_HIT_MULTIPLIER = 2.0;
 
 export const ITEM_DROP_CHANCE = 5; // Base 5% chance
 
-export const AVAILABLE_BOSS_SPRITES = [
-    'ifrit',
-    'buggy',
-    'orc',
-    'draco',
-    'salamandra',
-    'drakice',
-    'drakachu',
-    'golem',
-    'ais',
-    'thornbush',
-    'chronospent',
-    'echoer',
-    'grimjaw',
-    'ether',
-    'mimic',
-    'katsumoto',
-    'ashura',
-    'mewthree',
-    'mike',
-    'blackbeard',
-    'kairon',
-    'juliana',
-    // 'shiva',
-    // 'bahamut',
-    // 'titan',
-    // Add other boss sprite filenames here
+export const ALL_BOSSES = [
+    // --- Tier 1: Early Game ---
+    {
+        id: 'buggy',
+        name: 'Buggy',
+        max_hp: 50,
+        ability: 'Glitch',
+        image: 'assets/sprites/buggy.png'
+    },
+    {
+        id: 'orc',
+        name: 'Orc',
+        max_hp: 80,
+        ability: 'Smash',
+        image: 'assets/sprites/orc.png'
+    },
+    {
+        id: 'thornbush',
+        name: 'Thornbush',
+        max_hp: 120,
+        ability: 'Thorns',
+        image: 'assets/sprites/thornbush.png'
+    },
+    {
+        id: 'mimic',
+        name: 'Mimic',
+        max_hp: 150,
+        ability: 'Deceive',
+        image: 'assets/sprites/mimic.png'
+    },
+
+    // --- Tier 2: Mid Game ---
+    {
+        id: 'salamandra',
+        name: 'Salamandra',
+        max_hp: 220,
+        ability: 'Sear',
+        image: 'assets/sprites/salamandra.png'
+    },
+    {
+        id: 'golem',
+        name: 'Golem',
+        max_hp: 280,
+        ability: 'Harden',
+        image: 'assets/sprites/golem.png'
+    },
+    {
+        id: 'ifrit',
+        name: 'Ifrit',
+        max_hp: 300,
+        ability: 'Burn',
+        image: 'assets/sprites/ifrit.png'
+    },
+    {
+        id: 'ais',
+        name: 'Ais',
+        max_hp: 320,
+        ability: 'Icicle Spear',
+        image: 'assets/sprites/ais.png'
+    },
+    {
+        id: 'echoer',
+        name: 'Echoer',
+        max_hp: 350,
+        ability: 'Sonic Boom',
+        image: 'assets/sprites/echoer.png'
+    },
+
+    // --- Tier 3: Late Game ---
+    {
+        id: 'draco',
+        name: 'Draco',
+        max_hp: 400,
+        ability: 'Fire Breath',
+        image: 'assets/sprites/draco.png'
+    },
+    {
+        id: 'drakice',
+        name: 'Drakice',
+        max_hp: 420,
+        ability: 'Frostbite',
+        image: 'assets/sprites/drakice.png'
+    },
+    {
+        id: 'grimjaw',
+        name: 'Grimjaw',
+        max_hp: 480,
+        ability: 'Vicious Bite',
+        image: 'assets/sprites/grimjaw.png'
+    },
+    {
+        id: 'ether',
+        name: 'Ether',
+        max_hp: 500,
+        ability: 'Mana Drain',
+        image: 'assets/sprites/ether.png'
+    },
+    {
+        id: 'chronospent',
+        name: 'Chronospent',
+        max_hp: 550,
+        ability: 'Time Warp',
+        image: 'assets/sprites/chronospent.png'
+    },
+
+    // --- Tier 4: Legendary & Final Bosses ---
+    {
+        id: 'katsumoto',
+        name: 'Katsumoto',
+        max_hp: 600,
+        ability: 'Bushido Blade',
+        image: 'assets/sprites/katsumoto.png'
+    },
+    {
+        id: 'blackbeard',
+        name: 'Blackbeard',
+        max_hp: 650,
+        ability: 'Cannon Barrage',
+        image: 'assets/sprites/blackbeard.png'
+    },
+    {
+        id: 'juliana',
+        name: 'Juliana',
+        max_hp: 700,
+        ability: 'Siren\'s Song',
+        image: 'assets/sprites/juliana.png'
+    },
+    {
+        id: 'kairon',
+        name: 'Kairon',
+        max_hp: 750,
+        ability: 'Chiron\'s Arrow',
+        image: 'assets/sprites/kairon.png'
+    },
+    {
+        id: 'ashura',
+        name: 'Ashura',
+        max_hp: 800,
+        ability: 'Six-Armed Fury',
+        image: 'assets/sprites/ashura.png'
+    },
+
+    // --- Special / Joke Bosses ---
+    {
+        id: 'drakachu',
+        name: 'Drakachu',
+        max_hp: 250,
+        ability: 'Thunder Shock',
+        image: 'assets/sprites/drakachu.png'
+    },
+    {
+        id: 'mewthree',
+        name: 'Mewthree',
+        max_hp: 999,
+        ability: 'Psybeam',
+        image: 'assets/sprites/mewthree.png'
+    },
+    {
+        id: 'mike',
+        name: 'Mike',
+        max_hp: 100,
+        ability: 'Microphone Feedback',
+        image: 'assets/sprites/mike.png'
+    },
 ];
 
 
