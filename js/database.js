@@ -60,28 +60,28 @@ export const ALL_BOSSES = [
     {
         id: 'buggy',
         name: 'Buggy',
-        max_hp: 50,
+        max_hp: 500,
         ability: 'Glitch',
         image: 'assets/sprites/buggy.png'
     },
     {
         id: 'orc',
         name: 'Orc',
-        max_hp: 80,
+        max_hp: 800,
         ability: 'Smash',
         image: 'assets/sprites/orc.png'
     },
     {
         id: 'thornbush',
         name: 'Thornbush',
-        max_hp: 120,
+        max_hp: 1200,
         ability: 'Thorns',
         image: 'assets/sprites/thornbush.png'
     },
     {
         id: 'mimic',
         name: 'Mimic',
-        max_hp: 150,
+        max_hp: 1500,
         ability: 'Deceive',
         image: 'assets/sprites/mimic.png'
     },
@@ -90,35 +90,35 @@ export const ALL_BOSSES = [
     {
         id: 'salamandra',
         name: 'Salamandra',
-        max_hp: 220,
+        max_hp: 2200,
         ability: 'Sear',
         image: 'assets/sprites/salamandra.png'
     },
     {
         id: 'golem',
         name: 'Golem',
-        max_hp: 280,
+        max_hp: 2800,
         ability: 'Harden',
         image: 'assets/sprites/golem.png'
     },
     {
         id: 'ifrit',
         name: 'Ifrit',
-        max_hp: 300,
+        max_hp: 3000,
         ability: 'Burn',
         image: 'assets/sprites/ifrit.png'
     },
     {
         id: 'ais',
         name: 'Ais',
-        max_hp: 320,
+        max_hp: 3200,
         ability: 'Icicle Spear',
         image: 'assets/sprites/ais.png'
     },
     {
         id: 'echoer',
         name: 'Echoer',
-        max_hp: 350,
+        max_hp: 3500,
         ability: 'Sonic Boom',
         image: 'assets/sprites/echoer.png'
     },
@@ -127,35 +127,35 @@ export const ALL_BOSSES = [
     {
         id: 'draco',
         name: 'Draco',
-        max_hp: 400,
+        max_hp: 4000,
         ability: 'Fire Breath',
         image: 'assets/sprites/draco.png'
     },
     {
         id: 'drakice',
         name: 'Drakice',
-        max_hp: 420,
+        max_hp: 4200,
         ability: 'Frostbite',
         image: 'assets/sprites/drakice.png'
     },
     {
         id: 'grimjaw',
         name: 'Grimjaw',
-        max_hp: 480,
+        max_hp: 4800,
         ability: 'Vicious Bite',
         image: 'assets/sprites/grimjaw.png'
     },
     {
         id: 'ether',
         name: 'Ether',
-        max_hp: 500,
+        max_hp: 5000,
         ability: 'Mana Drain',
         image: 'assets/sprites/ether.png'
     },
     {
         id: 'chronospent',
         name: 'Chronospent',
-        max_hp: 550,
+        max_hp: 5500,
         ability: 'Time Warp',
         image: 'assets/sprites/chronospent.png'
     },
@@ -164,35 +164,35 @@ export const ALL_BOSSES = [
     {
         id: 'katsumoto',
         name: 'Katsumoto',
-        max_hp: 600,
+        max_hp: 6000,
         ability: 'Bushido Blade',
         image: 'assets/sprites/katsumoto.png'
     },
     {
         id: 'blackbeard',
         name: 'Blackbeard',
-        max_hp: 650,
+        max_hp: 6500,
         ability: 'Cannon Barrage',
         image: 'assets/sprites/blackbeard.png'
     },
     {
         id: 'juliana',
         name: 'Juliana',
-        max_hp: 700,
+        max_hp: 7000,
         ability: 'Siren\'s Song',
         image: 'assets/sprites/juliana.png'
     },
     {
         id: 'kairon',
         name: 'Kairon',
-        max_hp: 750,
+        max_hp: 7500,
         ability: 'Chiron\'s Arrow',
         image: 'assets/sprites/kairon.png'
     },
     {
         id: 'ashura',
         name: 'Ashura',
-        max_hp: 800,
+        max_hp: 8000,
         ability: 'Six-Armed Fury',
         image: 'assets/sprites/ashura.png'
     },
@@ -201,21 +201,21 @@ export const ALL_BOSSES = [
     {
         id: 'drakachu',
         name: 'Drakachu',
-        max_hp: 250,
+        max_hp: 2500,
         ability: 'Thunder Shock',
         image: 'assets/sprites/drakachu.png'
     },
     {
         id: 'mewthree',
         name: 'Mewthree',
-        max_hp: 999,
+        max_hp: 9999,
         ability: 'Psybeam',
         image: 'assets/sprites/mewthree.png'
     },
     {
         id: 'mike',
         name: 'Mike',
-        max_hp: 100,
+        max_hp: 1000,
         ability: 'Microphone Feedback',
         image: 'assets/sprites/mike.png'
     },
