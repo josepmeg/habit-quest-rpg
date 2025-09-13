@@ -188,20 +188,13 @@ export function renderUI() {
 
 export function renderBossModals() {
     const queueList = document.getElementById('boss-queue-list');
+    if (!queueList) return; // Safety check
+
     queueList.innerHTML = (!gameState.boss_queue || gameState.boss_queue.length === 0) 
         ? `<li class="text-gray-400">No bosses in the queue.</li>`
-        : gameState.boss_queue.map((boss, index) => `<li class="flex justify-between items-center bg-gray-700 p-2 rounded-md"><span>${index + 1}. ${boss.name} (${boss.hp} HP)</span></li>`).join('');
-
-    const defeatedList = document.getElementById('defeated-boss-list');
-    defeatedList.innerHTML = (!gameState.defeated_bosses || gameState.defeated_bosses.length === 0)
-        ? `<li class="text-gray-400">No bosses defeated yet.</li>`
-        : gameState.defeated_bosses.map(boss => {
-            // This check handles old save files where bosses are just strings
-            if (typeof boss === 'string') {
-                return `<li class="text-gray-400 p-2">✔️ ${boss}</li>`;
-            }
-            return `<li class="text-gray-400 p-2">✔️ ${boss.name} (${boss.max_hp} HP)</li>`;
-        }).join('');
+        : gameState.boss_queue.map((boss, index) => 
+            `<li class="flex justify-between items-center bg-gray-700 p-2 rounded-md"><span>${index + 1}. ${boss.name} (${boss.max_hp} HP)</span></li>`
+          ).join('');
 }
 
 export function renderQuests() {
