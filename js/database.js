@@ -256,7 +256,17 @@ export const ALL_BOSSES = [
     },
 ];
 
-
+export const ELEMENTAL_CHART = {
+    'Fire':     { weakness: 'Water',    resistance: 'Ice' },
+    'Water':    { weakness: 'Electric', resistance: 'Fire' },
+    'Ice':      { weakness: 'Fire',     resistance: 'Water' },
+    'Electric': { weakness: 'Rock',     resistance: 'Water' },
+    'Grass':    { weakness: 'Fire',     resistance: 'Water' },
+    'Rock':     { weakness: ['Water', 'Grass'], resistance: ['Electric', 'Toxic'] },
+    'Physical': { weakness: 'Psychic',  resistance: 'Physical' },
+    'Psychic':  { weakness: ['Physical', 'Toxic'], resistance: 'Psychic' },
+    'Toxic':    { weakness: 'Psychic',  resistance: ['Physical', 'Grass'] },
+};
 
 
 
