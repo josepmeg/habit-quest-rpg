@@ -103,6 +103,7 @@ export const ALL_BOSSES = [
         id: 'golem',
         name: 'Golem',
         max_hp: 2800,
+        elementType: 'Rock',
         ability: 'Harden',
         image: 'assets/sprites/golem.png'
     },
@@ -110,6 +111,7 @@ export const ALL_BOSSES = [
         id: 'ifrit',
         name: 'Ifrit',
         max_hp: 3000,
+        elementType: 'Fire',
         ability: 'Burn',
         image: 'assets/sprites/ifrit.png'
     },
@@ -117,6 +119,7 @@ export const ALL_BOSSES = [
         id: 'ais',
         name: 'Ais',
         max_hp: 3200,
+        elementType: 'Ice',
         ability: 'Icicle Spear',
         image: 'assets/sprites/ais.png'
     },
@@ -124,6 +127,7 @@ export const ALL_BOSSES = [
         id: 'echoer',
         name: 'Echoer',
         max_hp: 3500,
+        elementType: 'Psychic',
         ability: 'Sonic Boom',
         image: 'assets/sprites/echoer.png'
     },
@@ -133,6 +137,7 @@ export const ALL_BOSSES = [
         id: 'draco',
         name: 'Draco',
         max_hp: 4000,
+        elementType: 'Fire',
         ability: 'Fire Breath',
         image: 'assets/sprites/draco.png'
     },
@@ -140,6 +145,7 @@ export const ALL_BOSSES = [
         id: 'drakice',
         name: 'Drakice',
         max_hp: 4200,
+        elementType: 'Ice',
         ability: 'Frostbite',
         image: 'assets/sprites/drakice.png'
     },
@@ -147,6 +153,7 @@ export const ALL_BOSSES = [
         id: 'grimjaw',
         name: 'Grimjaw',
         max_hp: 4800,
+        elementType: 'Physical',
         ability: 'Vicious Bite',
         image: 'assets/sprites/grimjaw.png'
     },
@@ -154,6 +161,7 @@ export const ALL_BOSSES = [
         id: 'ether',
         name: 'Ether',
         max_hp: 5000,
+        elementType: 'Psychic',
         ability: 'Mana Drain',
         image: 'assets/sprites/ether.png'
     },
@@ -161,6 +169,7 @@ export const ALL_BOSSES = [
         id: 'chronospent',
         name: 'Chronospent',
         max_hp: 5500,
+        elementType: 'Psychic',
         ability: 'Time Warp',
         image: 'assets/sprites/chronospent.png'
     },
@@ -170,6 +179,7 @@ export const ALL_BOSSES = [
         id: 'katsumoto',
         name: 'Katsumoto',
         max_hp: 6000,
+        elementType: 'Physical',
         ability: 'Bushido Blade',
         image: 'assets/sprites/katsumoto.png'
     },
@@ -177,6 +187,7 @@ export const ALL_BOSSES = [
         id: 'blackbeard',
         name: 'Blackbeard',
         max_hp: 6500,
+        elementType: 'Physical',
         ability: 'Cannon Barrage',
         image: 'assets/sprites/blackbeard.png'
     },
@@ -184,6 +195,7 @@ export const ALL_BOSSES = [
         id: 'juliana',
         name: 'Juliana',
         max_hp: 7000,
+        elementType: 'Physical',
         ability: 'Siren\'s Song',
         image: 'assets/sprites/juliana.png'
     },
@@ -191,6 +203,7 @@ export const ALL_BOSSES = [
         id: 'kairon',
         name: 'Kairon',
         max_hp: 7500,
+        elementType: 'Fire',
         ability: 'Chiron\'s Arrow',
         image: 'assets/sprites/kairon.png'
     },
@@ -198,6 +211,7 @@ export const ALL_BOSSES = [
         id: 'ashura',
         name: 'Ashura',
         max_hp: 8000,
+        elementType: 'Physical',
         ability: 'Six-Armed Fury',
         image: 'assets/sprites/ashura.png'
     },
@@ -205,6 +219,7 @@ export const ALL_BOSSES = [
         id: 'freedapalos',
         name: 'Freeda Palos',
         max_hp: 4500,
+        elementType: 'Physical',
         ability: 'Liberty Chop',
         image: 'assets/sprites/freedapalos.png'
     },
@@ -212,6 +227,7 @@ export const ALL_BOSSES = [
         id: 'seagalf',
         name: 'Seagalf',
         max_hp: 6800,
+        elementType: 'Water',
         ability: 'Arcane Cannon',
         image: 'assets/sprites/seagalf.png'
     },
@@ -219,6 +235,7 @@ export const ALL_BOSSES = [
         id: 'leonidas',
         name: 'Leonidas',
         max_hp: 7000,
+        elementType: 'Physical',
         ability: 'Spartan Kick',
         image: 'assets/sprites/leonidas.png'
     },
@@ -228,6 +245,7 @@ export const ALL_BOSSES = [
         id: 'farty',
         name: 'Farty',
         max_hp: 1800,
+        elementType: 'Toxic',
         ability: 'Toxic Cloud',
         image: 'assets/sprites/farty.png'
     },
@@ -235,6 +253,7 @@ export const ALL_BOSSES = [
         id: 'drakachu',
         name: 'Drakachu',
         max_hp: 2500,
+        elementType: 'Electric',
         ability: 'Thunder Shock',
         image: 'assets/sprites/drakachu.png'
     },
@@ -242,6 +261,7 @@ export const ALL_BOSSES = [
         id: 'mewthree',
         name: 'Mewthree',
         max_hp: 9999,
+        elementType: 'Psychic',
         ability: 'Psybeam',
         image: 'assets/sprites/mewthree.png'
     },
@@ -249,6 +269,7 @@ export const ALL_BOSSES = [
         id: 'cosmikat',
         name: 'Cosmikat',
         max_hp: 5200,
+        elementType: 'Psychic',
         ability: 'Laser Eyes',
         image: 'assets/sprites/cosmikat.png'
     },
@@ -256,6 +277,7 @@ export const ALL_BOSSES = [
         id: 'mike',
         name: 'Mike',
         max_hp: 1000,
+        elementType: 'Physical',
         ability: 'Microphone Feedback',
         image: 'assets/sprites/mike.png'
     },
