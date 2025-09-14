@@ -61,6 +61,7 @@ export const ALL_BOSSES = [
         id: 'buggy',
         name: 'Buggy',
         max_hp: 500,
+        elementType: 'Physical',
         ability: 'Glitch',
         image: 'assets/sprites/buggy.png'
     },
@@ -68,6 +69,7 @@ export const ALL_BOSSES = [
         id: 'orc',
         name: 'Orc',
         max_hp: 800,
+        elementType: 'Physical',
         ability: 'Smash',
         image: 'assets/sprites/orc.png'
     },
@@ -75,6 +77,7 @@ export const ALL_BOSSES = [
         id: 'thornbush',
         name: 'Thornbush',
         max_hp: 1200,
+        elementType: 'Grass',
         ability: 'Thorns',
         image: 'assets/sprites/thornbush.png'
     },
@@ -82,6 +85,7 @@ export const ALL_BOSSES = [
         id: 'mimic',
         name: 'Mimic',
         max_hp: 1500,
+        elementType: 'Psychic',
         ability: 'Deceive',
         image: 'assets/sprites/mimic.png'
     },
@@ -91,6 +95,7 @@ export const ALL_BOSSES = [
         id: 'salamandra',
         name: 'Salamandra',
         max_hp: 2200,
+        elementType: 'Toxic',
         ability: 'Sear',
         image: 'assets/sprites/salamandra.png'
     },
