@@ -196,8 +196,36 @@ export const ALL_BOSSES = [
         ability: 'Six-Armed Fury',
         image: 'assets/sprites/ashura.png'
     },
+    {
+        id: 'freedapalos',
+        name: 'Freeda Palos',
+        max_hp: 4500,
+        ability: 'Liberty Chop',
+        image: 'assets/sprites/freedapalos.png'
+    },
+    {
+        id: 'seagalf',
+        name: 'Seagalf',
+        max_hp: 6800,
+        ability: 'Arcane Cannon',
+        image: 'assets/sprites/seagalf.png'
+    },
+    {
+        id: 'leonidas',
+        name: 'Leonidas',
+        max_hp: 7000,
+        ability: 'Spartan Kick',
+        image: 'assets/sprites/leonidas.png'
+    },
 
     // --- Special / Joke Bosses ---
+    {
+        id: 'farty',
+        name: 'Farty',
+        max_hp: 1800,
+        ability: 'Toxic Cloud',
+        image: 'assets/sprites/farty.png'
+    },
     {
         id: 'drakachu',
         name: 'Drakachu',
@@ -211,6 +239,13 @@ export const ALL_BOSSES = [
         max_hp: 9999,
         ability: 'Psybeam',
         image: 'assets/sprites/mewthree.png'
+    },
+    {
+        id: 'cosmikat',
+        name: 'Cosmikat',
+        max_hp: 5200,
+        ability: 'Laser Eyes',
+        image: 'assets/sprites/cosmikat.png'
     },
     {
         id: 'mike',
