@@ -1,6 +1,9 @@
 import { gameState } from './gameState.js';
 import { SHOP_ITEMS, ALL_ITEMS, SPECIAL_ATTACK, ALL_BOSSES } from './database.js';
 
+let notificationQueue = [];
+let isNotificationVisible = false;
+
 export function applySettings() {
     if (gameState.player.settings && gameState.player.settings.background) {
         const bgNumber = gameState.player.settings.background;
@@ -342,17 +345,50 @@ export function updateAttackButtonState() {
 }
 
 export function showNotification(message, type = 'success') {
+    // Add the new message to the end of the queue
+    notificationQueue.push({ message, type });
+
+    // If a notification isn't already on screen, start processing the queue
+    if (!isNotificationVisible) {
+        processNextNotification();
+    }
+}
+
+function processNextNotification() {
+    // If the queue is empty, we're done
+    if (notificationQueue.length === 0) {
+        isNotificationVisible = false;
+        return;
+    }
+
+    // Mark that a notification is now visible
+    isNotificationVisible = true;
+
+    // Get the next message from the front of the queue
+    const notificationData = notificationQueue.shift();
     const notificationEl = document.getElementById('notification');
+
+    // Set the message and style
     let bgColor = 'bg-green-500';
-    if (type === 'crit') bgColor = 'bg-yellow-500';
-    if (type === 'error') bgColor = 'bg-red-500';
-    if (type === 'item') bgColor = 'bg-purple-500';
-    notificationEl.textContent = message;
+    if (notificationData.type === 'crit') bgColor = 'bg-yellow-500';
+    if (notificationData.type === 'error') bgColor = 'bg-red-500';
+    if (notificationData.type === 'item') bgColor = 'bg-purple-500';
+    notificationEl.textContent = notificationData.message;
     notificationEl.className = `notification fixed top-5 right-5 text-white p-4 rounded-lg shadow-lg opacity-0 transform translate-y-10 z-50 ${bgColor}`;
+
+    // Make it appear
     notificationEl.classList.remove('opacity-0', 'translate-y-10');
+
+    // Set a timer to hide it
     setTimeout(() => {
         notificationEl.classList.add('opacity-0', 'translate-y-10');
-    }, 2000);
+
+        // Wait for the fade-out animation (500ms) to finish before processing the next item in the queue
+        setTimeout(() => {
+            processNextNotification();
+        }, 500);
+
+    }, 2000); // Display each notification for 2 seconds
 }
 
 export function renderShop() {
