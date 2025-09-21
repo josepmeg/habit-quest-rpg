@@ -27,7 +27,7 @@ function handleAttack(attackType) {
         return;
     }
 
-    // --- Step 1: Grant rewards for ALL completed tasks ---
+    // --- Grant rewards for ALL completed tasks ---
     let expGained = 0, hpRegen = 0, mpRegen = 0, goldGained = 0;
     gameState.dailyLog.completed_tasks.forEach(taskId => {
         const habit = gameState.player.custom_habits.find(h => h.id === taskId);
@@ -38,8 +38,8 @@ function handleAttack(attackType) {
             goldGained += 1;
         }
     });
-
-    // --- Step 2: Check if a workout was completed and handle the attack ---
+    
+    // --- Check if a workout was completed and handle the attack ---
     const workoutCompleted = gameState.player.custom_workouts.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id));
 
     if (workoutCompleted) {
@@ -48,18 +48,44 @@ function handleAttack(attackType) {
         goldGained += 5;
         gameState.player.training_streak = (gameState.player.training_streak || 0) + 1;
 
-        // Perform attack logic
+        // --- Attack Logic ---
         let damageMultiplier = 1.0;
+        let attackElement = 'Physical'; // Normal attacks are Physical by default
+
         if (attackType === 'special') {
             if (gameState.player.mp >= db.SPECIAL_ATTACK.mp_cost) {
                 gameState.player.mp -= db.SPECIAL_ATTACK.mp_cost;
                 damageMultiplier = db.SPECIAL_ATTACK.damage_multiplier;
+                attackElement = db.SPECIAL_ATTACK.elementType; // Get element from the skill
             } else {
                 ui.showNotification("Not enough MP!", "error");
-                // Important: return here so the day isn't finalized if special attack fails
                 return; 
             }
         }
+        
+        // =======================================================
+        // === NEW: ELEMENTAL DAMAGE CALCULATION LOGIC START ===
+        // =======================================================
+        let effectivenessMessage = '';
+        const bossElement = gameState.current_boss.elementType;
+
+        if (bossElement && db.ELEMENTAL_CHART[bossElement] && attackElement) {
+            const bossRules = db.ELEMENTAL_CHART[bossElement];
+            const weaknesses = Array.isArray(bossRules.weakness) ? bossRules.weakness : [bossRules.weakness];
+            const resistances = Array.isArray(bossRules.resistance) ? bossRules.resistance : [bossRules.resistance];
+
+            if (weaknesses.includes(attackElement)) {
+                damageMultiplier *= 2.0; // Super Effective!
+                effectivenessMessage = "It's super effective!";
+            } else if (resistances.includes(attackElement)) {
+                damageMultiplier *= 0.5; // Not very effective...
+                effectivenessMessage = "It's not very effective...";
+            }
+        }
+        // =======================================================
+        // === NEW: ELEMENTAL DAMAGE CALCULATION LOGIC END ===
+        // =======================================================
+
         const totalLuck = (gameState.player.base_luck || 5) + Math.floor((gameState.player.training_streak || 0) / 3);
         const isCritical = Math.random() * 100 < totalLuck;
         if (isCritical) {
@@ -68,11 +94,15 @@ function handleAttack(attackType) {
         }
         const streakBonus = 1 + (0.1 * Math.max(0, gameState.player.training_streak - 1));
         const totalDamage = Math.round(gameState.player.total_attack * streakBonus * damageMultiplier);
+        
+        if (effectivenessMessage) {
+            ui.showNotification(effectivenessMessage, 'item');
+        }
+        
         gameState.current_boss.hp = Math.max(0, gameState.current_boss.hp - totalDamage);
         document.getElementById('boss-column').classList.add('character-shake');
         setTimeout(() => document.getElementById('boss-column').classList.remove('character-shake'), 500);
 
-        // Boss retaliation
         if (gameState.current_boss.ability && gameState.current_boss.ability.toLowerCase() === 'burn') {
             gameState.player.hp = Math.max(0, gameState.player.hp - 5);
             document.getElementById('player-column').classList.add('character-shake');
@@ -80,20 +110,19 @@ function handleAttack(attackType) {
         }
         updatePersonalBests();
     } else {
-        // This is what happens on a "rest day" with only habits
         ui.showNotification("Habits logged successfully!", 'success');
     }
 
-    // --- Step 3: Apply all earned rewards and check for level up ---
+    // --- Apply all earned rewards and check for level up ---
     gameState.player.hp = Math.min(gameState.player.total_max_hp, gameState.player.hp + hpRegen);
     gameState.player.mp = Math.min(gameState.player.max_mp, gameState.player.mp + mpRegen);
     gameState.player.exp += expGained;
     gameState.player.gold += goldGained;
     if (goldGained > 0) ui.showNotification(`You earned ${goldGained} gold!`, 'success');
-
+    
     handleLevelUp();
 
-    // --- Step 4: Check for boss defeat (only if a workout was done) ---
+    // --- Check for boss defeat ---
     if (workoutCompleted && gameState.current_boss.hp <= 0) {
         ui.showNotification(`Defeated ${gameState.current_boss.name}!`, 'success');
         const bossId = gameState.current_boss.id;
@@ -112,7 +141,7 @@ function handleAttack(attackType) {
         }
     }
 
-    // --- Step 5: Finalize the day ---
+    // --- Finalize the day ---
     gameState.dailyLog.attack_performed = true;
     saveGameData();
     ui.renderUI();
