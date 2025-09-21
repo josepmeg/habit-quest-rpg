@@ -49,7 +49,12 @@ export const DAILY_HABITS = [
     { id: 'healthy_diet', name: 'Healthy Diet', exp: 10, hp_regen: 10 }, 
 ];
 
-export const SPECIAL_ATTACK = { name: 'Fireball', mp_cost: 20, damage_multiplier: 2.5 };
+export const SPECIAL_ATTACK = {
+    name: 'Fireball',
+    mp_cost: 20,
+    damage_multiplier: 2.5,
+    elementType: 'Fire' 
+};
 
 export const CRITICAL_HIT_MULTIPLIER = 2.0;
 
