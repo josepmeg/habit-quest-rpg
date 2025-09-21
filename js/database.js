@@ -289,15 +289,15 @@ export const ALL_BOSSES = [
 ];
 
 export const ELEMENTAL_CHART = {
-    'Fire':     { weakness: 'Water',    resistance: 'Ice' },
-    'Water':    { weakness: 'Electric', resistance: 'Fire' },
-    'Ice':      { weakness: 'Fire',     resistance: 'Water' },
-    'Electric': { weakness: 'Rock',     resistance: 'Water' },
-    'Grass':    { weakness: 'Fire',     resistance: 'Water' },
-    'Rock':     { weakness: ['Water', 'Grass'], resistance: ['Electric', 'Toxic'] },
+    'Fire':     { weakness: 'Water',    resistance: ['Ice', 'Fire'] },
+    'Water':    { weakness: 'Electric', resistance: ['Fire', 'Water'] },
+    'Ice':      { weakness: 'Fire',     resistance: ['Water', 'Ice'] },
+    'Electric': { weakness: 'Rock',     resistance: ['Water', 'Electric'] },
+    'Grass':    { weakness: 'Fire',     resistance: ['Water', 'Grass'] },
+    'Rock':     { weakness: ['Water', 'Grass'], resistance: ['Electric', 'Toxic', 'Fire'] },
     'Physical': { weakness: 'Psychic',  resistance: 'Physical' },
     'Psychic':  { weakness: ['Physical', 'Toxic'], resistance: 'Psychic' },
-    'Toxic':    { weakness: 'Psychic',  resistance: ['Physical', 'Grass'] },
+    'Toxic':    { weakness: 'Psychic',  resistance: ['Physical', 'Grass', 'Toxic'] },
 };
 
 
