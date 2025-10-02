@@ -77,6 +77,21 @@
             </div>
         </header>
 
+        <section class="text-center space-y-4 my-6"> 
+            <div class="flex justify-center items-center gap-4">
+                <button id="attack-btn" >
+                    <span class="text-3xl">⚔️</span>
+                </button>
+                <button id="special-attack-btn" >
+                    <span class="text-3xl">🔥</span>
+                </button>
+            </div>
+            <div>
+                <p id="attack-message" class="text-sm text-gray-400 mt-2 h-4 attack-message-text"></p>
+                <p id="special-attack-message" class="text-sm text-gray-400 mt-2 h-4 attack-message-text"></p>
+            </div>
+        </section>
+        
         <main class="space-y-6">
             <section class="card rounded-lg p-4">
                 <div class="w-full flex justify-between items-center">
@@ -145,20 +160,6 @@
                 </button>
                 <div id="attributes-content" class="collapsible-content mt-4"></div>
             </section>            
-            <section class="text-center space-y-4">
-                <div class="flex justify-center items-center gap-4">
-                    <button id="attack-btn" title="Attack" class="attack-btn btn font-rpg bg-indigo-600 text-white p-4 rounded-lg shadow-lg hover:bg-indigo-700 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:shadow-none">
-                        <span class="text-3xl">⚔️</span>
-                    </button>
-                    <button id="special-attack-btn" title="Fireball" class="special-attack-btn btn font-rpg bg-indigo-600 text-white p-4 rounded-lg shadow-lg hover:bg-indigo-700 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:shadow-none">
-                        <span class="text-3xl">🔥</span>
-                    </button>
-                </div>
-                <div>
-                    <p id="attack-message" class="text-sm text-gray-400 mt-2 h-4"></p>
-                    <p id="special-attack-message" class="text-sm text-gray-400 mt-2 h-4"></p>
-                </div>
-            </section>
         </main>
         
         <footer class="text-center text-gray-500 text-xs mt-8">
@@ -357,6 +358,7 @@
     <script type="module" src="js/script.js"></script>
 </body>
 </html>
+
 
 
 
