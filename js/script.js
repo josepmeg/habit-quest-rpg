@@ -87,19 +87,35 @@ function handleAttack(attackType) {
         // =======================================================
 
         const totalLuck = (gameState.player.base_luck || 5) + Math.floor((gameState.player.training_streak || 0) / 3);
-        const isCritical = Math.random() * 100 < totalLuck;
+        let isCritical = Math.random() * 100 < totalLuck;
+        
         if (isCritical) {
             damageMultiplier *= db.CRITICAL_HIT_MULTIPLIER;
-            ui.showNotification("CRITICAL HIT!", 'crit');
+            // We'll show the crit via the damage splash, so the notification is optional now
+            // ui.showNotification("CRITICAL HIT!", 'crit'); 
         }
         const streakBonus = 1 + (0.1 * Math.max(0, gameState.player.training_streak - 1));
         const totalDamage = Math.round(gameState.player.total_attack * streakBonus * damageMultiplier);
+        
+        // --- NEW: Trigger Visual Effects ---
+        let damageType = 'normal';
+        if (effectivenessMessage.includes('super effective')) damageType = 'super-effective';
+        if (effectivenessMessage.includes('not very effective')) damageType = 'not-effective';
+        if (isCritical) damageType = 'crit'; // Crit color overrides others
+        
+        ui.showDamageSplash(totalDamage, damageType, 'boss-column');
+        
+        if (isCritical || damageType === 'super-effective') {
+            ui.triggerScreenShake();
+        }
+        // --- END: Trigger Visual Effects ---
         
         if (effectivenessMessage) {
             ui.showNotification(effectivenessMessage, 'item');
         }
         
         gameState.current_boss.hp = Math.max(0, gameState.current_boss.hp - totalDamage);
+        
         document.getElementById('boss-column').classList.add('character-shake');
         setTimeout(() => document.getElementById('boss-column').classList.remove('character-shake'), 500);
 
