@@ -550,3 +550,40 @@ export function renderCollection() {
         return `<div class="collection-card">${spriteHtml}${nameHtml}</div>`;
     }).join('');
 }
+
+export function showDamageSplash(damage, type = 'normal', targetId = 'boss-column') {
+    const target = document.getElementById(targetId);
+    if (!target) return;
+
+    // Create the number element
+    const splash = document.createElement('div');
+    splash.textContent = damage;
+    splash.classList.add('damage-splash');
+
+    // Add a color class based on the type
+    if (type === 'crit') {
+        splash.classList.add('damage-crit');
+    } else if (type === 'super-effective') {
+        splash.classList.add('damage-super-effective');
+    } else if (type === 'not-effective') {
+        splash.classList.add('damage-not-effective');
+    }
+
+    // Add the element to the screen
+    target.appendChild(splash);
+
+    // Remove the element after the animation finishes (1000ms = 1s)
+    setTimeout(() => {
+        splash.remove();
+    }, 1000);
+}
+
+export function triggerScreenShake() {
+    const mainContent = document.getElementById('main-content');
+    if (mainContent) {
+        mainContent.classList.add('screen-shake');
+        setTimeout(() => {
+            mainContent.classList.remove('screen-shake');
+        }, 400); // Duration must match the CSS animation
+    }
+}
