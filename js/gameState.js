@@ -44,7 +44,7 @@ function saveGameData() {
 function resetDailyTasks() {
     if (gameState.dailyLog.completed_tasks.length > 0) {
         gameState.history.push(JSON.parse(JSON.stringify(gameState.dailyLog)));
-        if (gameState.history.length > 30) gameState.history.shift();
+        if (gameState.history.length > 365) gameState.history.shift();
     }
     const today = new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString().split('T')[0];
     const yesterdayWorkoutCompleted = WORKOUT_TASKS.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id));
