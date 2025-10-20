@@ -103,7 +103,11 @@ function handleAttack(attackType) {
         if (effectivenessMessage.includes('not very effective')) damageType = 'not-effective';
         if (isCritical) damageType = 'crit'; // Crit color overrides others
         
-        ui.showDamageSplash(totalDamage, damageType, 'boss-column');
+        // Determine which sound to play
+        const soundToPlay = (attackType === 'special') ? 'sfx-fireball' : 'sfx-attack-hit';
+        
+        // Call the splash function with the sound ID
+        ui.showDamageSplash(totalDamage, damageType, 'boss-column', soundToPlay);
         
         if (isCritical || damageType === 'super-effective') {
             ui.triggerScreenShake();
@@ -178,6 +182,7 @@ function handleLevelUp() {
         gameState.player.mp = gameState.player.max_mp;
     }
     if (levelUps > 0) {
+        ui.playSound('sfx-level-up');
         ui.showNotification(`Leveled up to ${gameState.player.level}!`);
         ui.recalculatePlayerStats();
     }
@@ -188,6 +193,7 @@ function handleTaskToggle(taskId, isChecked) {
     if (isChecked) {
         if (!completed.includes(taskId)) {
             completed.push(taskId);
+            ui.playSound('sfx-task-complete');
             handleItemDrop();
         }
     } else {
