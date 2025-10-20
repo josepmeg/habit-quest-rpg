@@ -587,3 +587,11 @@ export function triggerScreenShake() {
         }, 400); // Duration must match the CSS animation
     }
 }
+
+export function playSound(soundId) {
+    const sound = document.getElementById(soundId);
+    if (sound) {
+        sound.currentTime = 0; // Rewinds the sound to the start
+        sound.play();
+    }
+}
