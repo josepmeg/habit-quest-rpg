@@ -551,9 +551,15 @@ export function renderCollection() {
     }).join('');
 }
 
-export function showDamageSplash(damage, type = 'normal', targetId = 'boss-column') {
+export function showDamageSplash(damage, type = 'normal', targetId = 'boss-column', soundId = null) {
     const target = document.getElementById(targetId);
     if (!target) return;
+
+    // --- NEW: Play the sound immediately ---
+    if (soundId) {
+        playSound(soundId);
+    }
+    // --- END NEW LOGIC ---
 
     // Create the number element
     const splash = document.createElement('div');
@@ -572,7 +578,7 @@ export function showDamageSplash(damage, type = 'normal', targetId = 'boss-colum
     // Add the element to the screen
     target.appendChild(splash);
 
-    // Remove the element after the animation finishes (1000ms = 1s)
+    // Remove the element after the animation finishes
     setTimeout(() => {
         splash.remove();
     }, 1000);
