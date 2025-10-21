@@ -781,3 +781,28 @@ export function setupSkillTreeInteraction() {
         infoPanel.classList.remove('hidden');
     });
 }
+
+export function renderSkillCarousel() {
+    const carousel = document.getElementById('skill-carousel');
+    if (!carousel) return;
+
+    // Always include the basic 'strike' attack
+    const actions = [{ id: 'strike', name: 'Strike', icon: 'assets/skills/strike.png' }];
+
+    // Add all other unlocked skills
+    gameState.player.unlocked_skills.forEach(skillId => {
+        if (skillId !== 'strike') { // Avoid duplicating 'strike'
+            const skill = ALL_SKILLS.find(s => s.id === skillId);
+            if (skill) {
+                actions.push(skill);
+            }
+        }
+    });
+
+    // Generate the HTML for the buttons
+    carousel.innerHTML = actions.map(action => `
+        <button class="skill-carousel-btn btn flex-shrink-0 w-20 h-20 p-2 rounded-full shadow-lg bg-gray-700 hover:bg-gray-600" data-skill-id="${action.id}" title="${action.name}">
+            <img src="${action.icon}" alt="${action.name}" class="w-full h-full">
+        </button>
+    `).join('');
+}
