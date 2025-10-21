@@ -306,15 +306,16 @@
     <div id="skills-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden">
         <div class="modal-overlay fixed inset-0"></div>
         <div class="modal-content card rounded-lg p-6 w-full max-w-6xl m-4 relative h-[90vh] flex flex-col">
-            <h3 class="font-rpg text-xl text-yellow-400 mb-4">Skill Tree</h3>
-            <button id="skills-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
-            
-            <div class="absolute top-4 left-6 text-lg font-rpg text-white">
-                Skill Points: <span id="skill-points-display" class="text-green-400">0</span>
+            <div class="flex justify-between items-center mb-4">
+                <div class="text-lg font-rpg text-white">
+                    Skill Points: <span id="skill-points-display" class="text-green-400">0</span>
+                </div>
+                <h3 class="font-rpg text-xl text-yellow-400">Skill Tree</h3>
+                <button id="skills-modal-close" class="text-2xl text-gray-400 hover:text-white">&times;</button>
             </div>
     
-            <div id="skill-tree-viewport" class="flex-grow rounded-md overflow-hidden relative" style="background-image: url('assets/ui/skill-tree-background.png'); background-size: cover;">
-                
+        <div id="skill-tree-viewport" class="flex-grow rounded-md overflow-hidden relative" style="background-image: url('assets/ui/skill-tree-background.png'); background-size: cover; background-position: center;">
+            
                 <div id="skill-tree-canvas" class="absolute top-0 left-0">
                     </div>
             </div>
@@ -386,6 +387,7 @@
     <audio id="sfx-level-up" src="assets/sfx/level-up.mp3" preload="auto"></audio>
 </body>
 </html>
+
 
 
 
