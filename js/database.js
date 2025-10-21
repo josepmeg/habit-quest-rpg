@@ -301,50 +301,50 @@ export const ELEMENTAL_CHART = {
 };
 
 export const ALL_SKILLS = [
-    // --- Physical Branch (Column 1) ---
-    { id: 'strike', name: 'Strike', elementType: 'physical', mp_cost: 0, damage_multiplier: 1.0, level_requirement: 1, icon: 'assets/skills/strike.png', description: 'A basic physical attack.', x: 100, y: 100, prerequisite: null },
-    { id: 'armor-break', name: 'Armor Break', elementType: 'physical', mp_cost: 15, damage_multiplier: 1.5, level_requirement: 5, icon: 'assets/skills/armor-break.png', description: 'A powerful strike that weakens enemy defenses.', x: 100, y: 200, prerequisite: 'strike' },
-    { id: 'seismic-slash', name: 'Seismic Slash', elementType: 'physical', mp_cost: 30, damage_multiplier: 2.8, level_requirement: 12, icon: 'assets/skills/seismic-slash.png', description: 'A devastating blow that shakes the ground.', x: 100, y: 300, prerequisite: 'armor-break' },
+    // --- Column 1: Physical ---
+    { id: 'strike', name: 'Strike', elementType: 'physical', column: 1, tier: 1, mp_cost: 0, damage_multiplier: 1.0, level_requirement: 1, icon: 'assets/skills/strike.png', description: 'A basic physical attack.', prerequisite: null },
+    { id: 'armor-break', name: 'Armor Break', elementType: 'physical', column: 1, tier: 2, mp_cost: 15, damage_multiplier: 1.5, level_requirement: 5, icon: 'assets/skills/armor-break.png', description: 'A powerful strike that weakens enemy defenses.', prerequisite: 'strike' },
+    { id: 'seismic-slash', name: 'Seismic Slash', elementType: 'physical', column: 1, tier: 3, mp_cost: 30, damage_multiplier: 2.8, level_requirement: 12, icon: 'assets/skills/seismic-slash.png', description: 'A devastating blow that shakes the ground.', prerequisite: 'armor-break' },
 
-    // --- Fire Branch (Column 2) ---
-    { id: 'ember', name: 'Ember', elementType: 'fire', mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/ember.png', description: 'A weak but reliable fire spell.', x: 200, y: 100, prerequisite: null },
-    { id: 'fireball', name: 'Fireball', elementType: 'fire', mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/fireball.png', description: 'A classic ball of fire.', x: 200, y: 200, prerequisite: 'ember' },
-    { id: 'meteor', name: 'Meteor', elementType: 'fire', mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/meteor.png', description: 'Summons a meteor from the heavens.', x: 200, y: 300, prerequisite: 'fireball' },
+    // --- Column 2: Fire ---
+    { id: 'ember', name: 'Ember', elementType: 'fire', column: 2, tier: 1, mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/ember.png', description: 'A weak but reliable fire spell.', prerequisite: null },
+    { id: 'fireball', name: 'Fireball', elementType: 'fire', column: 2, tier: 2, mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/fireball.png', description: 'A classic ball of fire.', prerequisite: 'ember' },
+    { id: 'meteor', name: 'Meteor', elementType: 'fire', column: 2, tier: 3, mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/meteor.png', description: 'Summons a meteor from the heavens.', prerequisite: 'fireball' },
     
-    // --- Water Branch (Column 3) ---
-    { id: 'aqua-jet', name: 'Aqua Jet', elementType: 'water', mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/aqua-jet.png', description: 'A quick jet of water.', x: 300, y: 100, prerequisite: null },
-    { id: 'aqua-burst', name: 'Aqua Burst', elementType: 'water', mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/aqua-burst.png', description: 'An explosion of pressurized water.', x: 300, y: 200, prerequisite: 'aqua-jet' },
-    { id: 'tidal-wave', name: 'Tidal Wave', elementType: 'water', mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/tidal-wave.png', description: 'Engulfs the enemy in a massive wave.', x: 300, y: 300, prerequisite: 'aqua-burst' },
+    // --- Column 3: Water ---
+    { id: 'aqua-jet', name: 'Aqua Jet', elementType: 'water', column: 3, tier: 1, mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/aqua-jet.png', description: 'A quick jet of water.', prerequisite: null },
+    { id: 'aqua-burst', name: 'Aqua Burst', elementType: 'water', column: 3, tier: 2, mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/aqua-burst.png', description: 'An explosion of pressurized water.', prerequisite: 'aqua-jet' },
+    { id: 'tidal-wave', name: 'Tidal Wave', elementType: 'water', column: 3, tier: 3, mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/tidal-wave.png', description: 'Engulfs the enemy in a massive wave.', prerequisite: 'aqua-burst' },
 
-    // --- Ice Branch (Column 4) ---
-    { id: 'ice-shard', name: 'Ice Shard', elementType: 'ice', mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/ice-shard.png', description: 'A sharp shard of ice.', x: 400, y: 100, prerequisite: null },
-    { id: 'frostbite', name: 'Frostbite', elementType: 'ice', mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/frostbite.png', description: 'Freezes the enemy to the core.', x: 400, y: 200, prerequisite: 'ice-shard' },
-    { id: 'ice-age', name: 'Ice Age', elementType: 'ice', mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/ice-age.png', description: 'A catastrophic freezing spell.', x: 400, y: 300, prerequisite: 'frostbite' },
+    // --- Column 4: Ice ---
+    { id: 'ice-shard', name: 'Ice Shard', elementType: 'ice', column: 4, tier: 1, mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/ice-shard.png', description: 'A sharp shard of ice.', prerequisite: null },
+    { id: 'frostbite', name: 'Frostbite', elementType: 'ice', column: 4, tier: 2, mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/frostbite.png', description: 'Freezes the enemy to the core.', prerequisite: 'ice-shard' },
+    { id: 'ice-age', name: 'Ice Age', elementType: 'ice', column: 4, tier: 3, mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/ice-age.png', description: 'A catastrophic freezing spell.', prerequisite: 'frostbite' },
     
-    // --- Electric Branch (Column 5) ---
-    { id: 'spark', name: 'Spark', elementType: 'electric', mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/spark.png', description: 'A minor electrical discharge.', x: 500, y: 100, prerequisite: null },
-    { id: 'lightning-bolt', name: 'Lightning Bolt', elementType: 'electric', mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/lightning-bolt.png', description: 'A powerful bolt of lightning.', x: 500, y: 200, prerequisite: 'spark' },
-    { id: 'thunder', name: 'Thunder', elementType: 'electric', mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/thunder.png', description: 'A deafening and destructive thunderclap.', x: 500, y: 300, prerequisite: 'lightning-bolt' },
+    // --- Column 5: Electric ---
+    { id: 'spark', name: 'Spark', elementType: 'electric', column: 5, tier: 1, mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/spark.png', description: 'A minor electrical discharge.', prerequisite: null },
+    { id: 'lightning-bolt', name: 'Lightning Bolt', elementType: 'electric', column: 5, tier: 2, mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/lightning-bolt.png', description: 'A powerful bolt of lightning.', prerequisite: 'spark' },
+    { id: 'thunder', name: 'Thunder', elementType: 'electric', column: 5, tier: 3, mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/thunder.png', description: 'A deafening and destructive thunderclap.', prerequisite: 'lightning-bolt' },
     
-    // --- Rock Branch (Column 6) ---
-    { id: 'stone-toss', name: 'Stone Toss', elementType: 'rock', mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/stone-toss.png', description: 'Hurls a small rock.', x: 600, y: 100, prerequisite: null },
-    { id: 'rock-slide', name: 'Rock Slide', elementType: 'rock', mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/rock-slide.png', description: 'Causes a cascade of boulders.', x: 600, y: 200, prerequisite: 'stone-toss' },
-    { id: 'earthquake', name: 'Earthquake', elementType: 'rock', mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/earthquake.png', description: 'Shakes the very foundation of the earth.', x: 600, y: 300, prerequisite: 'rock-slide' },
+    // --- Column 6: Rock ---
+    { id: 'stone-toss', name: 'Stone Toss', elementType: 'rock', column: 6, tier: 1, mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/stone-toss.png', description: 'Hurls a small rock.', prerequisite: null },
+    { id: 'rock-slide', name: 'Rock Slide', elementType: 'rock', column: 6, tier: 2, mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/rock-slide.png', description: 'Causes a cascade of boulders.', prerequisite: 'stone-toss' },
+    { id: 'earthquake', name: 'Earthquake', elementType: 'rock', column: 6, tier: 3, mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/earthquake.png', description: 'Shakes the very foundation of the earth.', prerequisite: 'rock-slide' },
 
-    // --- Toxic Branch (Column 7) ---
-    { id: 'poison-sting', name: 'Poison Sting', elementType: 'toxic', mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/poison-sting.png', description: 'A venomous jab.', x: 700, y: 100, prerequisite: null },
-    { id: 'acid-blast', name: 'Acid Blast', elementType: 'toxic', mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/acid-blast.png', description: 'Sprays corrosive acid.', x: 700, y: 200, prerequisite: 'poison-sting' },
-    { id: 'virus', name: 'Virus', elementType: 'toxic', mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/virus.png', description: 'Infects the enemy with a debilitating virus.', x: 700, y: 300, prerequisite: 'acid-blast' },
+    // --- Column 7: Toxic ---
+    { id: 'poison-sting', name: 'Poison Sting', elementType: 'toxic', column: 7, tier: 1, mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/poison-sting.png', description: 'A venomous jab.', prerequisite: null },
+    { id: 'acid-blast', name: 'Acid Blast', elementType: 'toxic', column: 7, tier: 2, mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/acid-blast.png', description: 'Sprays corrosive acid.', prerequisite: 'acid-blast' },
+    { id: 'virus', name: 'Virus', elementType: 'toxic', column: 7, tier: 3, mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/virus.png', description: 'Infects the enemy with a debilitating virus.', prerequisite: 'acid-blast' },
 
-    // --- Psychic Branch (Column 8) ---
-    { id: 'mind-jab', name: 'Mind Jab', elementType: 'psychic', mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/mind-jab.png', description: 'A minor psionic strike.', x: 800, y: 100, prerequisite: null },
-    { id: 'psy-beam', name: 'Psy Beam', elementType: 'psychic', mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/psy-beam.png', description: 'A focused beam of mental energy.', x: 800, y: 200, prerequisite: 'mind-jab' },
-    { id: 'mind-breaker', name: 'Mind Breaker', elementType: 'psychic', mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/mind-breaker.png', description: 'Overwhelms the enemy\'s psyche.', x: 800, y: 300, prerequisite: 'psy-beam' },
+    // --- Column 8: Psychic ---
+    { id: 'mind-jab', name: 'Mind Jab', elementType: 'psychic', column: 8, tier: 1, mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/mind-jab.png', description: 'A minor psionic strike.', prerequisite: null },
+    { id: 'psy-beam', name: 'Psy Beam', elementType: 'psychic', column: 8, tier: 2, mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/psy-beam.png', description: 'A focused beam of mental energy.', prerequisite: 'mind-jab' },
+    { id: 'mind-breaker', name: 'Mind Breaker', elementType: 'psychic', column: 8, tier: 3, mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/mind-breaker.png', description: 'Overwhelms the enemy\'s psyche.', prerequisite: 'psy-beam' },
 
-    // --- Grass Branch (Column 9) ---
-    { id: 'vine-whip', name: 'Vine Whip', elementType: 'grass', mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/vine-whip.png', description: 'Lashes out with a thorny vine.', x: 900, y: 100, prerequisite: null },
-    { id: 'thorn-ball', name: 'Thorn Ball', elementType: 'grass', mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/thorn-ball.png', description: 'A sphere of razor-sharp thorns.', x: 900, y: 200, prerequisite: 'vine-whip' },
-    { id: 'cutting-leaves', name: 'Cutting Leaves', elementType: 'grass', mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/cutting-leaves.png', description: 'A vortex of deadly sharp leaves.', x: 900, y: 300, prerequisite: 'cutting-leaves' },
+    // --- Column 9: Grass ---
+    { id: 'vine-whip', name: 'Vine Whip', elementType: 'grass', column: 9, tier: 1, mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/vine-whip.png', description: 'Lashes out with a thorny vine.', prerequisite: null },
+    { id: 'thorn-ball', name: 'Thorn Ball', elementType: 'grass', column: 9, tier: 2, mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/thorn-ball.png', description: 'A sphere of razor-sharp thorns.', prerequisite: 'vine-whip' },
+    { id: 'cutting-leaves', name: 'Cutting Leaves', elementType: 'grass', column: 9, tier: 3, mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/cutting-leaves.png', description: 'A vortex of deadly sharp leaves.', prerequisite: 'thorn-ball' },
 ];
 
 
