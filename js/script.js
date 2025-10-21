@@ -23,110 +23,90 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // === GAME LOGIC FUNCTIONS ===
-function handleAttack(attackType) {
+function handleAttack(skillId) {
     if (gameState.dailyLog.attack_performed) {
         ui.showNotification("You have already logged progress today.", "error");
         return;
     }
 
-    // --- Grant rewards for ALL completed tasks ---
+    // --- NEW: Find the chosen skill in the database ---
+    const skill = db.ALL_SKILLS.find(s => s.id === skillId);
+    if (!skill) {
+        console.error(`Skill with id ${skillId} not found.`);
+        return;
+    }
+
+    // --- NEW: Check MP cost using the skill's data ---
+    if (gameState.player.mp < skill.mp_cost) {
+        ui.showNotification("Not enough MP!", "error");
+        return;
+    }
+    gameState.player.mp -= skill.mp_cost;
+
     let expGained = 0, hpRegen = 0, mpRegen = 0, goldGained = 0;
     gameState.dailyLog.completed_tasks.forEach(taskId => {
         const habit = gameState.player.custom_habits.find(h => h.id === taskId);
         if (habit) {
-            expGained += habit.exp || 0;
-            hpRegen += habit.hp_regen || 0;
-            mpRegen += habit.mp_regen || 0;
-            goldGained += 1;
+            expGained += habit.exp; hpRegen += habit.hp_regen || 0; mpRegen += habit.mp_regen || 0; goldGained += 1;
         }
     });
     
-    // --- Check if a workout was completed and handle the attack ---
     const workoutCompleted = gameState.player.custom_workouts.some(wt => gameState.dailyLog.completed_tasks.includes(wt.id));
 
     if (workoutCompleted) {
-        // Grant workout-specific rewards
         expGained += 30;
         goldGained += 5;
         gameState.player.training_streak = (gameState.player.training_streak || 0) + 1;
 
-        // --- Attack Logic ---
-        let damageMultiplier = 1.0;
-        let attackElement = 'Physical'; // Normal attacks are Physical by default
+        // --- NEW: Get all properties directly from the skill object ---
+        let damageMultiplier = skill.damage_multiplier;
+        let attackElement = skill.elementType;
+        // A more robust sound logic for the future
+        const soundToPlay = skill.id === 'fireball' ? 'sfx-fireball' : 'sfx-attack-hit';
 
-        if (attackType === 'special') {
-            if (gameState.player.mp >= db.SPECIAL_ATTACK.mp_cost) {
-                gameState.player.mp -= db.SPECIAL_ATTACK.mp_cost;
-                damageMultiplier = db.SPECIAL_ATTACK.damage_multiplier;
-                attackElement = db.SPECIAL_ATTACK.elementType; // Get element from the skill
-            } else {
-                ui.showNotification("Not enough MP!", "error");
-                return; 
-            }
-        }
-        
-        // =======================================================
-        // === NEW: ELEMENTAL DAMAGE CALCULATION LOGIC START ===
-        // =======================================================
         let effectivenessMessage = '';
         const bossElement = gameState.current_boss.elementType;
-
         if (bossElement && db.ELEMENTAL_CHART[bossElement] && attackElement) {
             const bossRules = db.ELEMENTAL_CHART[bossElement];
             const weaknesses = Array.isArray(bossRules.weakness) ? bossRules.weakness : [bossRules.weakness];
             const resistances = Array.isArray(bossRules.resistance) ? bossRules.resistance : [bossRules.resistance];
 
             if (weaknesses.includes(attackElement)) {
-                damageMultiplier *= 2.0; // Super Effective!
+                damageMultiplier *= 2.0;
                 effectivenessMessage = "It's super effective!";
             } else if (resistances.includes(attackElement)) {
-                damageMultiplier *= 0.5; // Not very effective...
+                damageMultiplier *= 0.5;
                 effectivenessMessage = "It's not very effective...";
             }
         }
-        // =======================================================
-        // === NEW: ELEMENTAL DAMAGE CALCULATION LOGIC END ===
-        // =======================================================
 
         const totalLuck = (gameState.player.base_luck || 5) + Math.floor((gameState.player.training_streak || 0) / 3);
         let isCritical = Math.random() * 100 < totalLuck;
-        
         if (isCritical) {
             damageMultiplier *= db.CRITICAL_HIT_MULTIPLIER;
-            // We'll show the crit via the damage splash, so the notification is optional now
-            // ui.showNotification("CRITICAL HIT!", 'crit'); 
         }
+
         const streakBonus = 1 + (0.1 * Math.max(0, gameState.player.training_streak - 1));
         const totalDamage = Math.round(gameState.player.total_attack * streakBonus * damageMultiplier);
         
-        // --- NEW: Trigger Visual Effects ---
         let damageType = 'normal';
         if (effectivenessMessage.includes('super effective')) damageType = 'super-effective';
         if (effectivenessMessage.includes('not very effective')) damageType = 'not-effective';
-        if (isCritical) damageType = 'crit'; // Crit color overrides others
-        
-        // Determine which sound to play
-        const soundToPlay = (attackType === 'special') ? 'sfx-fireball' : 'sfx-attack-hit';
-        
-        // Call the splash function with the sound ID
+        if (isCritical) damageType = 'crit';
+
         ui.showDamageSplash(totalDamage, damageType, 'boss-column', soundToPlay);
-        
-        if (isCritical || damageType === 'super-effective') {
-            ui.triggerScreenShake();
-        }
-        // --- END: Trigger Visual Effects ---
-        
-        if (effectivenessMessage) {
-            ui.showNotification(effectivenessMessage, 'item');
-        }
+        if (isCritical || damageType === 'super-effective') { ui.triggerScreenShake(); }
+        if (effectivenessMessage) { ui.showNotification(effectivenessMessage, 'item'); }
         
         gameState.current_boss.hp = Math.max(0, gameState.current_boss.hp - totalDamage);
         
+        // --- KEPT: Your character shake effect for the boss hit ---
         document.getElementById('boss-column').classList.add('character-shake');
         setTimeout(() => document.getElementById('boss-column').classList.remove('character-shake'), 500);
 
         if (gameState.current_boss.ability && gameState.current_boss.ability.toLowerCase() === 'burn') {
             gameState.player.hp = Math.max(0, gameState.player.hp - 5);
+            // --- KEPT: Your character shake effect for the player getting hit ---
             document.getElementById('player-column').classList.add('character-shake');
             setTimeout(() => document.getElementById('player-column').classList.remove('character-shake'), 500);
         }
@@ -135,7 +115,6 @@ function handleAttack(attackType) {
         ui.showNotification("Habits logged successfully!", 'success');
     }
 
-    // --- Apply all earned rewards and check for level up ---
     gameState.player.hp = Math.min(gameState.player.total_max_hp, gameState.player.hp + hpRegen);
     gameState.player.mp = Math.min(gameState.player.max_mp, gameState.player.mp + mpRegen);
     gameState.player.exp += expGained;
@@ -144,8 +123,8 @@ function handleAttack(attackType) {
     
     handleLevelUp();
 
-    // --- Check for boss defeat ---
     if (workoutCompleted && gameState.current_boss.hp <= 0) {
+        // ... (boss defeat logic remains the same) ...
         ui.showNotification(`Defeated ${gameState.current_boss.name}!`, 'success');
         const bossId = gameState.current_boss.id;
         if (bossId) {
@@ -163,7 +142,6 @@ function handleAttack(attackType) {
         }
     }
 
-    // --- Finalize the day ---
     gameState.dailyLog.attack_performed = true;
     saveGameData();
     ui.renderUI();
@@ -651,8 +629,22 @@ function setupEventListeners() {
     }
     
     // === Core Game Actions & The Rest of the Function ... ===
+    /* OLD Attack buttons
     document.getElementById('attack-btn').addEventListener('click', () => handleAttack('normal'));
     document.getElementById('special-attack-btn').addEventListener('click', () => handleAttack('special'));
+    */
+    // new logic
+    const skillCarousel = document.getElementById('skill-carousel');
+    if (skillCarousel) {
+        skillCarousel.addEventListener('click', (e) => {
+            const skillButton = e.target.closest('.skill-carousel-btn');
+            if (skillButton && !skillButton.disabled) {
+                const skillId = skillButton.dataset.skillId;
+                handleAttack(skillId);
+            }
+        });
+    }
+    
     document.body.addEventListener('change', e => e.target.matches('input[type="checkbox"][data-task-id]') && handleTaskToggle(e.target.dataset.taskId, e.target.checked));
     document.body.addEventListener('input', e => e.target.matches('input[type="number"][data-task-id]') && handleWorkoutInput(e.target));
     document.body.addEventListener('submit', e => {
