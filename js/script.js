@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadGameData(() => {
         ui.populateTaskLists();
         ui.populateBossSpriteDropdown();
+        ui.initPanAndZoom();
         setupEventListeners();
         ui.applySettings();
         ui.renderUI();
