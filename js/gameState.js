@@ -74,6 +74,13 @@ function loadGameData(onLoadComplete) {
         if (gameState.player && !gameState.player.defeat_counts) {
             gameState.player.defeat_counts = {};
         }
+
+        if (gameState.player && !gameState.player.unlocked_skills) {
+            gameState.player.unlocked_skills = ['strike']; // Give the default starting skill
+        }
+        if (gameState.player && gameState.player.skill_points === undefined) {
+            gameState.player.skill_points = 0; // Initialize skill points
+        }
         
     }
     
