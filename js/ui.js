@@ -127,12 +127,9 @@ export function renderSkillTree() {
     const viewport = document.getElementById('skill-tree-viewport');
     if (!canvas || !viewport) return;
 
-    // --- FIX #1: Set an explicit size for the canvas ---
-    // This creates a large, scrollable area for our tree.
     canvas.style.width = '1100px';
     canvas.style.height = '450px';
-    // --------------------------------------------------
-
+    
     canvas.innerHTML = '';
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.style.position = 'absolute';
@@ -141,6 +138,7 @@ export function renderSkillTree() {
     svg.style.overflow = 'visible';
     canvas.appendChild(svg);
     const skillsById = new Map(ALL_SKILLS.map(skill => [skill.id, skill]));
+
     ALL_SKILLS.forEach(skill => {
         if (skill.prerequisite) {
             const parentSkill = skillsById.get(skill.prerequisite);
@@ -156,38 +154,42 @@ export function renderSkillTree() {
             }
         }
     });
+
     ALL_SKILLS.forEach(skill => {
         const isUnlocked = gameState.player.unlocked_skills.includes(skill.id);
         const canUnlock = gameState.player.skill_points > 0 && 
                           gameState.player.level >= skill.level_requirement &&
                           (skill.prerequisite === null || gameState.player.unlocked_skills.includes(skill.prerequisite));
 
+        // FIX #1: Sizing changed from w-40 h-40 to w-24 h-24 (96px) to prevent overlap
         const node = document.createElement('div');
-        node.className = 'absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer w-40 h-40 flex items-center justify-center'; // w-40 h-40 = 160px
+        node.className = 'absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer w-24 h-24';
         node.style.left = `${skill.x}px`;
         node.style.top = `${skill.y}px`;
         node.dataset.skillId = skill.id;
 
-        // --- FIX #2: Set the frame as a background-image ---
+        // FIX #2: Reverted to two <img> tags and using z-index for proper layering
+        const frameImg = document.createElement('img');
+        frameImg.className = 'absolute top-0 left-0 w-full h-full z-20'; // z-20 puts the frame ON TOP
+
         const iconImg = document.createElement('img');
         iconImg.src = skill.icon;
-        iconImg.className = 'w-32 h-32'; // w-32 h-32 = 128px
+        // Sizing changed from w-32 h-32 to w-20 h-20 (80px) to fit in the new frame size
+        iconImg.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 z-10'; // z-10 puts the icon BEHIND the frame
 
         if (isUnlocked) {
-            node.style.backgroundImage = "url('assets/ui/skill_node_frame_unlocked.png')";
+            frameImg.src = 'assets/ui/skill_node_frame_unlocked.png';
         } else if (canUnlock) {
-            node.style.backgroundImage = "url('assets/ui/skill_node_frame_unlockable.png')";
+            frameImg.src = 'assets/ui/skill_node_frame_unlockable.png';
             node.classList.add('animate-pulse');
         } else {
-            node.style.backgroundImage = "url('assets/ui/skill_node_frame_locked.png')";
+            frameImg.src = 'assets/ui/skill_node_frame_locked.png';
             iconImg.style.filter = 'grayscale(100%) brightness(0.5)';
         }
-        node.style.backgroundSize = 'contain';
-        node.style.backgroundRepeat = 'no-repeat';
-        node.style.backgroundPosition = 'center';
-        // ----------------------------------------------------
         
+        // Add the images to the node in the correct order for layering
         node.appendChild(iconImg);
+        node.appendChild(frameImg);
         canvas.appendChild(node);
     });
 }
