@@ -749,6 +749,26 @@ function setupEventListeners() {
         });
     }
 
-    setupTaskManagementListeners();
-    
+function canUnlockSkill(skill) {
+    if (!skill) return false;
+    return gameState.player.skill_points > 0 &&
+        gameState.player.level >= skill.level_requirement &&
+        (skill.prerequisite === null || gameState.player.unlocked_skills.includes(skill.prerequisite));
+}
+
+function unlockSkill(skillId) {
+    const skill = db.ALL_SKILLS.find(s => s.id === skillId);
+    if (canUnlockSkill(skill) && !gameState.player.unlocked_skills.includes(skillId)) {
+        gameState.player.skill_points--;
+        gameState.player.unlocked_skills.push(skillId);
+        ui.showNotification(`Skill Unlocked: ${skill.name}!`, 'success');
+        saveGameData();
+        ui.renderUI(); // Re-render everything to update the tree and UI
+    } else {
+        ui.showNotification("Cannot unlock this skill yet!", "error");
+    }
+}
+
+setupTaskManagementListeners();
+
 }
