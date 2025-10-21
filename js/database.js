@@ -300,6 +300,52 @@ export const ELEMENTAL_CHART = {
     'Toxic':    { weakness: 'Psychic',  resistance: ['Physical', 'Grass', 'Toxic'] },
 };
 
+export const ALL_SKILLS = [
+    // --- Physical Branch ---
+    { id: 'strike', name: 'Strike', elementType: 'physical', mp_cost: 0, damage_multiplier: 1.0, level_requirement: 1, icon: 'assets/skills/strike.png', description: 'A basic physical attack.' },
+    { id: 'armor-break', name: 'Armor Break', elementType: 'physical', mp_cost: 15, damage_multiplier: 1.5, level_requirement: 5, icon: 'assets/skills/armor-break.png', description: 'A powerful strike that weakens enemy defenses.' },
+    { id: 'seismic-slash', name: 'Seismic Slash', elementType: 'physical', mp_cost: 30, damage_multiplier: 2.8, level_requirement: 12, icon: 'assets/skills/seismic-slash.png', description: 'A devastating blow that shakes the ground.' },
+
+    // --- Fire Branch ---
+    { id: 'ember', name: 'Ember', elementType: 'fire', mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/ember.png', description: 'A weak but reliable fire spell.' },
+    { id: 'fireball', name: 'Fireball', elementType: 'fire', mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/fireball.png', description: 'A classic ball of fire.' },
+    { id: 'meteor', name: 'Meteor', elementType: 'fire', mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/meteor.png', description: 'Summons a meteor from the heavens.' },
+    
+    // --- Water Branch ---
+    { id: 'aqua-jet', name: 'Aqua Jet', elementType: 'water', mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/aqua-jet.png', description: 'A quick jet of water.' },
+    { id: 'aqua-burst', name: 'Aqua Burst', elementType: 'water', mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/aqua-burst.png', description: 'An explosion of pressurized water.' },
+    { id: 'tidal-wave', name: 'Tidal Wave', elementType: 'water', mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/tidal-wave.png', description: 'Engulfs the enemy in a massive wave.' },
+
+    // --- Ice Branch ---
+    { id: 'ice-shard', name: 'Ice Shard', elementType: 'ice', mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/ice-shard.png', description: 'A sharp shard of ice.' },
+    { id: 'frostbite', name: 'Frostbite', elementType: 'ice', mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/frostbite.png', description: 'Freezes the enemy to the core.' },
+    { id: 'ice-age', name: 'Ice Age', elementType: 'ice', mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/ice-age.png', description: 'A catastrophic freezing spell.' },
+    
+    // --- Electric Branch ---
+    { id: 'spark', name: 'Spark', elementType: 'electric', mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/spark.png', description: 'A minor electrical discharge.' },
+    { id: 'lightning-bolt', name: 'Lightning Bolt', elementType: 'electric', mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/lightning-bolt.png', description: 'A powerful bolt of lightning.' },
+    { id: 'thunder', name: 'Thunder', elementType: 'electric', mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/thunder.png', description: 'A deafening and destructive thunderclap.' },
+    
+    // --- Rock Branch ---
+    { id: 'stone-toss', name: 'Stone Toss', elementType: 'rock', mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/stone-toss.png', description: 'Hurls a small rock.' },
+    { id: 'rock-slide', name: 'Rock Slide', elementType: 'rock', mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/rock-slide.png', description: 'Causes a cascade of boulders.' },
+    { id: 'earthquake', name: 'Earthquake', elementType: 'rock', mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/earthquake.png', description: 'Shakes the very foundation of the earth.' },
+
+    // --- Toxic Branch ---
+    { id: 'poison-sting', name: 'Poison Sting', elementType: 'toxic', mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/poison-sting.png', description: 'A venomous jab.' },
+    { id: 'acid-blast', name: 'Acid Blast', elementType: 'toxic', mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/acid-blast.png', description: 'Sprays corrosive acid.' },
+    { id: 'virus', name: 'Virus', elementType: 'toxic', mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/virus.png', description: 'Infects the enemy with a debilitating virus.' },
+
+    // --- Psychic Branch ---
+    { id: 'mind-jab', name: 'Mind Jab', elementType: 'psychic', mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/mind-jab.png', description: 'A minor psionic strike.' },
+    { id: 'psy-beam', name: 'Psy Beam', elementType: 'psychic', mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/psy-beam.png', description: 'A focused beam of mental energy.' },
+    { id: 'mind-breaker', name: 'Mind Breaker', elementType: 'psychic', mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/mind-breaker.png', description: 'Overwhelms the enemy\'s psyche.' },
+
+    // --- Grass Branch ---
+    { id: 'vine-whip', name: 'Vine Whip', elementType: 'grass', mp_cost: 5, damage_multiplier: 1.2, level_requirement: 1, icon: 'assets/skills/vine-whip.png', description: 'Lashes out with a thorny vine.' },
+    { id: 'thorn-ball', name: 'Thorn Ball', elementType: 'grass', mp_cost: 20, damage_multiplier: 2.5, level_requirement: 4, icon: 'assets/skills/thorn-ball.png', description: 'A sphere of razor-sharp thorns.' },
+    { id: 'cutting-leaves', name: 'Cutting Leaves', elementType: 'grass', mp_cost: 50, damage_multiplier: 4.0, level_requirement: 15, icon: 'assets/skills/cutting-leaves.png', description: 'A vortex of deadly sharp leaves.' },
+];
 
 
 
