@@ -38,6 +38,9 @@
                         <button id="inventory-modal-btn" title="Inventory" class="btn action-btn-sand rounded-full p-4">
                             <img src="assets/icons/inventory.png" class="w-6 h-6">
                         </button>
+                        <button id="skills-modal-btn" title="Skills" class="btn action-btn-sand rounded-full p-4">
+                            <img src="assets/icons/skills.png" class="w-6 h-6"> 
+                        </button>
                         <button id="player-stats-modal-btn" title="History" class="btn action-btn-sand rounded-full p-4">
                             <img src="assets/icons/stats.png" class="w-6 h-6"> 
                         </button>
@@ -299,6 +302,27 @@
             </div>
         </div>
     </div>
+
+    <div id="skills-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden">
+        <div class="modal-overlay fixed inset-0"></div>
+        <div class="modal-content card rounded-lg p-6 w-full max-w-6xl m-4 relative h-[90vh] flex flex-col">
+            <h3 class="font-rpg text-xl text-yellow-400 mb-4">Skill Tree</h3>
+            <button id="skills-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
+            
+            <div class="absolute top-4 left-6 text-lg font-rpg text-white">
+                Skill Points: <span id="skill-points-display" class="text-green-400">0</span>
+            </div>
+    
+            <div id="skill-tree-viewport" class="flex-grow rounded-md overflow-hidden relative" style="background-image: url('assets/ui/skill-tree-background.png'); background-size: cover;">
+                
+                <div id="skill-tree-canvas" class="absolute top-0 left-0">
+                    </div>
+            </div>
+    
+            <div id="skill-info-panel" class="mt-4 p-4 modal-interior-background rounded-md h-32 hidden">
+                </div>
+        </div>
+    </div>
     
     <div id="summary-modal" class="modal fixed inset-0 z-40 items-center justify-center hidden">
         <div class="modal-overlay fixed inset-0"></div>
@@ -362,6 +386,7 @@
     <audio id="sfx-level-up" src="assets/sfx/level-up.mp3" preload="auto"></audio>
 </body>
 </html>
+
 
 
 
