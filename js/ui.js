@@ -127,9 +127,6 @@ export function renderSkillTree() {
     const viewport = document.getElementById('skill-tree-viewport');
     if (!canvas || !viewport) return;
 
-    canvas.style.width = '1100px';
-    canvas.style.height = '450px';
-    
     canvas.innerHTML = '';
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.style.position = 'absolute';
@@ -137,17 +134,38 @@ export function renderSkillTree() {
     svg.style.height = '100%';
     svg.style.overflow = 'visible';
     canvas.appendChild(svg);
+
+    // --- NEW: DYNAMIC LAYOUT CALCULATION ---
+    const numColumns = Math.max(...ALL_SKILLS.map(s => s.column));
+    const numTiers = Math.max(...ALL_SKILLS.map(s => s.tier));
+
+    const canvasWidth = numColumns * 150; // 150px horizontal space per column
+    const canvasHeight = numTiers * 150 + 100; // 150px vertical space per tier + buffer
+    canvas.style.width = `${canvasWidth}px`;
+    canvas.style.height = `${canvasHeight}px`;
+
+    const getSkillPosition = (skill) => {
+        const x = (canvasWidth / (numColumns + 1)) * skill.column;
+        // Invert Y axis for bottom-to-top progression
+        const y = canvasHeight - ((canvasHeight - 50) / numTiers) * (skill.tier - 0.5);
+        return { x, y };
+    };
+    // ------------------------------------
+
     const skillsById = new Map(ALL_SKILLS.map(skill => [skill.id, skill]));
 
+    // Render Connector Lines using calculated positions
     ALL_SKILLS.forEach(skill => {
         if (skill.prerequisite) {
             const parentSkill = skillsById.get(skill.prerequisite);
             if (parentSkill) {
+                const pos1 = getSkillPosition(parentSkill);
+                const pos2 = getSkillPosition(skill);
                 const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('x1', parentSkill.x);
-                line.setAttribute('y1', parentSkill.y);
-                line.setAttribute('x2', skill.x);
-                line.setAttribute('y2', skill.y);
+                line.setAttribute('x1', pos1.x);
+                line.setAttribute('y1', pos1.y);
+                line.setAttribute('x2', pos2.x);
+                line.setAttribute('y2', pos2.y);
                 line.setAttribute('stroke', '#4B5563');
                 line.setAttribute('stroke-width', '2');
                 svg.appendChild(line);
@@ -155,39 +173,30 @@ export function renderSkillTree() {
         }
     });
 
+    // Render Skill Nodes using calculated positions
     ALL_SKILLS.forEach(skill => {
         const isUnlocked = gameState.player.unlocked_skills.includes(skill.id);
         const canUnlock = gameState.player.skill_points > 0 && 
                           gameState.player.level >= skill.level_requirement &&
                           (skill.prerequisite === null || gameState.player.unlocked_skills.includes(skill.prerequisite));
 
-        // FIX #1: Sizing changed from w-40 h-40 to w-24 h-24 (96px) to prevent overlap
+        const pos = getSkillPosition(skill);
         const node = document.createElement('div');
-        node.className = 'absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer w-24 h-24';
-        node.style.left = `${skill.x}px`;
-        node.style.top = `${skill.y}px`;
+        node.className = 'absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer w-24 h-24'; // Using the larger size
+        node.style.left = `${pos.x}px`;
+        node.style.top = `${pos.y}px`;
         node.dataset.skillId = skill.id;
 
-        // FIX #2: Reverted to two <img> tags and using z-index for proper layering
         const frameImg = document.createElement('img');
-        frameImg.className = 'absolute top-0 left-0 w-full h-full z-20'; // z-20 puts the frame ON TOP
-
+        frameImg.className = 'absolute top-0 left-0 w-full h-full z-20';
         const iconImg = document.createElement('img');
         iconImg.src = skill.icon;
-        // Sizing changed from w-32 h-32 to w-20 h-20 (80px) to fit in the new frame size
-        iconImg.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 z-10'; // z-10 puts the icon BEHIND the frame
+        iconImg.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 z-10';
 
-        if (isUnlocked) {
-            frameImg.src = 'assets/ui/skill_node_frame_unlocked.png';
-        } else if (canUnlock) {
-            frameImg.src = 'assets/ui/skill_node_frame_unlockable.png';
-            node.classList.add('animate-pulse');
-        } else {
-            frameImg.src = 'assets/ui/skill_node_frame_locked.png';
-            iconImg.style.filter = 'grayscale(100%) brightness(0.5)';
-        }
+        if (isUnlocked) { frameImg.src = 'assets/ui/skill_node_frame_unlocked.png'; } 
+        else if (canUnlock) { frameImg.src = 'assets/ui/skill_node_frame_unlockable.png'; node.classList.add('animate-pulse'); }
+        else { frameImg.src = 'assets/ui/skill_node_frame_locked.png'; iconImg.style.filter = 'grayscale(100%) brightness(0.5)'; }
         
-        // Add the images to the node in the correct order for layering
         node.appendChild(iconImg);
         node.appendChild(frameImg);
         canvas.appendChild(node);
