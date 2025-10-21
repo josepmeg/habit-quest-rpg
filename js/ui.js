@@ -736,3 +736,47 @@ export function initPanAndZoom() {
     // Set initial cursor
     canvas.style.cursor = 'grab';
 }
+
+export function setupSkillTreeInteraction() {
+    const canvas = document.getElementById('skill-tree-canvas');
+    const infoPanel = document.getElementById('skill-info-panel');
+    if (!canvas || !infoPanel) return;
+
+    canvas.addEventListener('click', (e) => {
+        const node = e.target.closest('[data-skill-id]');
+        if (!node) {
+            infoPanel.classList.add('hidden'); // Hide panel if clicking on the background
+            return;
+        }
+
+        const skillId = node.dataset.skillId;
+        const skill = ALL_SKILLS.find(s => s.id === skillId);
+        if (!skill) return;
+
+        const isUnlocked = gameState.player.unlocked_skills.includes(skill.id);
+        const canUnlock = gameState.player.skill_points > 0 && 
+                          gameState.player.level >= skill.level_requirement &&
+                          (skill.prerequisite === null || gameState.player.unlocked_skills.includes(skill.prerequisite));
+
+        let unlockButtonHtml = '';
+        if (canUnlock && !isUnlocked) {
+            unlockButtonHtml = `<button class="unlock-skill-btn btn bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-3 rounded-md" data-skill-id="${skill.id}">Unlock (1 SP)</button>`;
+        } else if (isUnlocked) {
+            unlockButtonHtml = `<span class="text-green-400 font-bold">Learned</span>`;
+        }
+
+        infoPanel.innerHTML = `
+            <div class="flex justify-between items-start">
+                <div>
+                    <h4 class="font-bold text-lg text-yellow-300">${skill.name}</h4>
+                    <p class="text-sm text-gray-300">${skill.description}</p>
+                    <p class="text-xs text-gray-400 mt-1">MP Cost: ${skill.mp_cost} | Lvl Req: ${skill.level_requirement}</p>
+                </div>
+                <div class="text-right">
+                    ${unlockButtonHtml}
+                </div>
+            </div>
+        `;
+        infoPanel.classList.remove('hidden');
+    });
+}
