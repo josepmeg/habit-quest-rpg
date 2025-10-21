@@ -127,21 +127,20 @@ export function renderSkillTree() {
     const viewport = document.getElementById('skill-tree-viewport');
     if (!canvas || !viewport) return;
 
-    // Clear any previous content
-    canvas.innerHTML = '';
+    // --- FIX #1: Set an explicit size for the canvas ---
+    // This creates a large, scrollable area for our tree.
+    canvas.style.width = '1100px';
+    canvas.style.height = '450px';
+    // --------------------------------------------------
 
-    // Create an SVG layer for drawing the connector lines
+    canvas.innerHTML = '';
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.style.position = 'absolute';
     svg.style.width = '100%';
     svg.style.height = '100%';
     svg.style.overflow = 'visible';
     canvas.appendChild(svg);
-
-    // A map to easily find skills by their ID
     const skillsById = new Map(ALL_SKILLS.map(skill => [skill.id, skill]));
-
-    // --- 1. Render the Connector Lines ---
     ALL_SKILLS.forEach(skill => {
         if (skill.prerequisite) {
             const parentSkill = skillsById.get(skill.prerequisite);
@@ -151,47 +150,43 @@ export function renderSkillTree() {
                 line.setAttribute('y1', parentSkill.y);
                 line.setAttribute('x2', skill.x);
                 line.setAttribute('y2', skill.y);
-                line.setAttribute('stroke', '#4B5563'); // Gray-600
+                line.setAttribute('stroke', '#4B5563');
                 line.setAttribute('stroke-width', '2');
                 svg.appendChild(line);
             }
         }
     });
-
-    // --- 2. Render the Skill Nodes ---
     ALL_SKILLS.forEach(skill => {
         const isUnlocked = gameState.player.unlocked_skills.includes(skill.id);
         const canUnlock = gameState.player.skill_points > 0 && 
                           gameState.player.level >= skill.level_requirement &&
                           (skill.prerequisite === null || gameState.player.unlocked_skills.includes(skill.prerequisite));
 
-        // Create the node container
         const node = document.createElement('div');
-        node.className = 'absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer';
+        node.className = 'absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer w-40 h-40 flex items-center justify-center'; // w-40 h-40 = 160px
         node.style.left = `${skill.x}px`;
         node.style.top = `${skill.y}px`;
         node.dataset.skillId = skill.id;
 
-        // Create the frame and icon images
-        const frameImg = document.createElement('img');
-        frameImg.className = 'absolute top-0 left-0 w-full h-full';
-        
+        // --- FIX #2: Set the frame as a background-image ---
         const iconImg = document.createElement('img');
         iconImg.src = skill.icon;
-        iconImg.className = 'relative p-4'; // Padding to fit inside the 160x160 frame
+        iconImg.className = 'w-32 h-32'; // w-32 h-32 = 128px
 
-        // Set the correct frame and icon style based on the skill's state
         if (isUnlocked) {
-            frameImg.src = 'assets/ui/skill_node_frame_unlocked.png';
+            node.style.backgroundImage = "url('assets/ui/skill_node_frame_unlocked.png')";
         } else if (canUnlock) {
-            frameImg.src = 'assets/ui/skill_node_frame_unlockable.png';
-            node.classList.add('animate-pulse'); // Add a pulse to show it's available
+            node.style.backgroundImage = "url('assets/ui/skill_node_frame_unlockable.png')";
+            node.classList.add('animate-pulse');
         } else {
-            frameImg.src = 'assets/ui/skill_node_frame_locked.png';
+            node.style.backgroundImage = "url('assets/ui/skill_node_frame_locked.png')";
             iconImg.style.filter = 'grayscale(100%) brightness(0.5)';
         }
+        node.style.backgroundSize = 'contain';
+        node.style.backgroundRepeat = 'no-repeat';
+        node.style.backgroundPosition = 'center';
+        // ----------------------------------------------------
         
-        node.appendChild(frameImg);
         node.appendChild(iconImg);
         canvas.appendChild(node);
     });
