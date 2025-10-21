@@ -266,6 +266,7 @@ export function renderUI() {
     renderShop();
     renderEquippedItems();
     renderAttributes();
+    document.getElementById('skill-points-display').textContent = gameState.player.skill_points; E
     renderSkillTree();
     renderCollection();
     renderFooter();
