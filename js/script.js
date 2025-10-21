@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ui.populateTaskLists();
         ui.populateBossSpriteDropdown();
         ui.initPanAndZoom();
+        ui.setupSkillTreeInteraction();
         setupEventListeners();
         ui.applySettings();
         ui.renderUI();
@@ -172,6 +173,7 @@ function handleLevelUp() {
     let levelUps = 0;
     while (gameState.player.exp >= gameState.player.exp_to_next_level) {
         levelUps++;
+        gameState.player.skill_points++;
         gameState.player.level++;
         gameState.player.exp -= gameState.player.exp_to_next_level;
         gameState.player.exp_to_next_level = Math.round(gameState.player.exp_to_next_level * 1.5);
