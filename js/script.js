@@ -674,7 +674,12 @@ function setupEventListeners() {
         } else if (e.target.matches('.equip-item-btn')) {
             handleEquipItem(e.target.dataset.itemId);
         }
-    
+
+        // ADD THIS NEW LISTENER for unlocking skills
+        if (e.target.matches('.unlock-skill-btn')) {
+            unlockSkill(e.target.dataset.skillId);
+        }
+        
         // Listener for buying shop items
         if (e.target.matches('.buy-item-btn')) {
             handlePurchase(e.target.dataset.itemId);
