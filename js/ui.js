@@ -683,3 +683,56 @@ export function playSound(soundId) {
         sound.play();
     }
 }
+
+export function initPanAndZoom() {
+    const viewport = document.getElementById('skill-tree-viewport');
+    const canvas = document.getElementById('skill-tree-canvas');
+    if (!viewport || !canvas) return;
+
+    let isPanning = false;
+    let startX, startY;
+    let initialLeft, initialTop;
+
+    const startPan = (e) => {
+        isPanning = true;
+        startX = (e.touches ? e.touches[0] : e).clientX;
+        startY = (e.touches ? e.touches[0] : e).clientY;
+        initialLeft = canvas.offsetLeft;
+        initialTop = canvas.offsetTop;
+        canvas.style.cursor = 'grabbing';
+    };
+
+    const doPan = (e) => {
+        if (!isPanning) return;
+        e.preventDefault();
+
+        const currentX = (e.touches ? e.touches[0] : e).clientX;
+        const currentY = (e.touches ? e.touches[0] : e).clientY;
+
+        const dx = currentX - startX;
+        const dy = currentY - startY;
+
+        canvas.style.left = `${initialLeft + dx}px`;
+        canvas.style.top = `${initialTop + dy}px`;
+    };
+
+    const endPan = () => {
+        isPanning = false;
+        canvas.style.cursor = 'grab';
+    };
+
+    // Mouse Events
+    viewport.addEventListener('mousedown', startPan);
+    viewport.addEventListener('mousemove', doPan);
+    viewport.addEventListener('mouseup', endPan);
+    viewport.addEventListener('mouseleave', endPan);
+
+    // Touch Events for Mobile
+    viewport.addEventListener('touchstart', startPan);
+    viewport.addEventListener('touchmove', doPan);
+    viewport.addEventListener('touchend', endPan);
+    viewport.addEventListener('touchcancel', endPan);
+
+    // Set initial cursor
+    canvas.style.cursor = 'grab';
+}
