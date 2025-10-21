@@ -137,3 +137,8 @@ body { font-family: 'Inter', sans-serif; background-color: #111827; color: #F9FA
     20%, 40%, 60%, 80% { transform: translateX(4px); }
     100% { transform: translateX(0); }
 }
+
+/* Utility class to prevent body scrolling when a modal is open */
+.modal-open {
+    overflow: hidden;
+}
