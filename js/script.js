@@ -584,31 +584,44 @@ function setupEventListeners() {
     setupCollapsible('info-progression-toggle', 'info-progression-content', 'info-progression-arrow');
     setupCollapsible('info-equipment-toggle', 'info-equipment-content', 'info-equipment-arrow');
 
-    // === Modal Event Listeners (Explicitly Defined) ===
-    const allModals = document.querySelectorAll('.modal');
-    allModals.forEach(modal => {
-        const modalId = modal.id;
+    // === GENERIC MODAL HANDLING (Upgraded) ===
+    const setupModal = (modalId) => {
+        const modal = document.getElementById(modalId);
         const openBtn = document.getElementById(`${modalId}-btn`);
         const closeBtn = document.getElementById(`${modalId}-close`);
         const overlay = modal.querySelector('.modal-overlay');
+    
+        const openModal = () => {
+            // --- Preserves your special logic for the calendar/history modal ---
+            if (modalId === 'player-stats-modal') {
+                calendarView = { year: new Date().getFullYear(), month: new Date().getMonth() };
+                ui.renderHistory(calendarView.year, calendarView.month);
+            }
+            modal.classList.remove('hidden');
+            // --- Adds the class to the body to prevent background scrolling ---
+            document.body.classList.add('modal-open');
+        };
+    
+        const closeModal = () => {
+            modal.classList.add('hidden');
+            // --- Removes the class from the body to unlock scrolling ---
+            document.body.classList.remove('modal-open');
+        };
+    
+        if (modal && openBtn) {
+            openBtn.addEventListener('click', openModal);
+        }
+        if (modal && closeBtn) {
+            closeBtn.addEventListener('click', closeModal);
+        }
+        if (modal && overlay) {
+            overlay.addEventListener('click', closeModal); // Also close on overlay click
+        }
+    }
 
-        if (openBtn) {
-            openBtn.addEventListener('click', () => {
-                // Special logic for calendar modal
-                if (modalId === 'player-stats-modal') {
-                    calendarView = { year: new Date().getFullYear(), month: new Date().getMonth() };
-                    ui.renderHistory(calendarView.year, calendarView.month);
-                }
-                modal.style.display = 'flex';
-            });
-        }
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => modal.style.display = 'none');
-        }
-        if (overlay) {
-            overlay.addEventListener('click', () => modal.style.display = 'none');
-        }
-    });
+// --- List of all modal IDs to be handled by this system ---
+// (I noticed you also have a player-stats-modal, let's add that too)
+['shop-modal', 'inventory-modal', 'boss-modal', 'collection-modal', 'skills-modal', 'info-modal', 'player-stats-modal'].forEach(setupModal);
 
     // === Calendar Navigation ===
     const prevMonthBtn = document.getElementById('prev-month-btn');
