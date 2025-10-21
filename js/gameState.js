@@ -17,6 +17,8 @@ const initialGameState = {
         exp_to_next_level: 100,
         training_streak: 0,
         personal_bests: {},
+        skill_points: 0, 
+        unlocked_skills: ['strike'],
         inventory: [],
         defeat_counts: {},
         custom_workouts: JSON.parse(JSON.stringify(WORKOUT_TASKS)),
