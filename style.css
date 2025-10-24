@@ -153,7 +153,7 @@ p, span, h3:not(.text-gradient-title), h4, li, button, label, input, select {
 }
 
 /* Rule 2: Re-add the outline SPECIFICALLY to the gradient title class */
-.text-gradient-title {
+h1.text-gradient-title {
   /* Keep the gradient properties from Step 1 */
   background: linear-gradient(to bottom, #F9F1E4, #CEB69E);
   -webkit-background-clip: text;
