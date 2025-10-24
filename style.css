@@ -143,8 +143,7 @@ body { font-family: 'Inter', sans-serif; background-color: #111827; color: #F9FA
     overflow: hidden;
 }
 
-/* Rule 1: Apply outline to common text elements, EXCLUDING the gradient title */
-p, span, h3:not(.text-gradient-title), h4, li, button, label, input, select {
+h1, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here */
   text-shadow:
     -1px -1px 0 #000,
      1px -1px 0 #000,
@@ -152,20 +151,6 @@ p, span, h3:not(.text-gradient-title), h4, li, button, label, input, select {
      1px  1px 0 #000;
 }
 
-h1.text-gradient-title {
-  /* Keep gradient and clipping */
-  background: linear-gradient(to bottom, #F9F1E4, #CEB69E);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent !important; /* Keep forcing transparency */
-  /* Remove position and z-index if they are still there */
-
-  /* Simulate outline with 4 offset shadows */
-  text-shadow:
-     2px  0   0 #000, /* Right */
-    -2px  0   0 #000, /* Left */
-     0    2px 0 #000, /* Down */
-     0   -2px 0 #000; /* Up */
-
-  text-align: center; /* Ensure centering */
+.text-title-beige {
+  color: #F3B64B;
 }
