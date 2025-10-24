@@ -163,7 +163,7 @@ h1.text-gradient-title::before {
   transform: translate(1px, 1px); /* Shift 1px right and 1px down */
   /* Ensure text color is black */
   color: black;
-  z-index: 0; /* Place the outline behind */
+  z-index: -1; /* Place the outline behind */
   /* Prevent clipping */
   -webkit-background-clip: unset;
   background-clip: unset;
@@ -178,6 +178,6 @@ h1.text-gradient-title {
   position: relative;
   /* (Gradient properties...) */
   color: transparent !important;
-  z-index: 1;
+  z-index: 0;
   text-align: center; /* Make sure the main element centers its content */
 }
