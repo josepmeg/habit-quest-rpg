@@ -154,24 +154,28 @@ p, span, h3:not(.text-gradient-title), h4, li, button, label, input, select {
 
 /* Rule 1: Style the main gradient text */
 h1.text-gradient-title {
-  position: relative; /* Needed for absolute positioning of the pseudo-element */
+  position: relative; /* Ensure this is set */
   background: linear-gradient(to bottom, #F9F1E4, #CEB69E);
   -webkit-background-clip: text;
   background-clip: text;
-  color: transparent !important; /* Keep this */
-  /* Remove text-shadow from here */
-  z-index: 1; /* Ensure gradient text is on top */
+  color: transparent !important;
+  /* Remove text-shadow from here if it's still present */
+  z-index: 1; /* Keep gradient text on top */
 }
 
 /* Rule 2: Create the black outline using ::before */
 h1.text-gradient-title::before {
-  content: attr(data-text); /* Copy the text content */
+  content: attr(data-text); /* Copy the text */
   position: absolute;
-  top: 1px; /* Adjust offset as needed */
-  left: 1px; /* Adjust offset as needed */
+  /* Adjust offsets for a tighter outline effect */
+  top: 1px;
+  left: 1px;
+  /* Ensure text color is black */
   color: black;
-  z-index: 0; /* Place the outline behind the main text */
+  z-index: 0; /* Place the outline behind */
   /* Prevent clipping */
   -webkit-background-clip: unset;
   background-clip: unset;
+  /* Ensure text-shadow is NOT applied here */
+  text-shadow: none;
 }
