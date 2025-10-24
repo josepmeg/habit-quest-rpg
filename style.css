@@ -143,12 +143,23 @@ body { font-family: 'Inter', sans-serif; background-color: #111827; color: #F9FA
     overflow: hidden;
 }
 
+/* Rule 1: Apply outline to common text elements, EXCLUDING the gradient title */
+p, span, h3:not(.text-gradient-title), h4, li, button, label, input, select {
+  text-shadow:
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000;
+}
+
+/* Rule 2: Re-add the outline SPECIFICALLY to the gradient title class */
 .text-gradient-title {
-  background: linear-gradient(to bottom, #F9F1E4, #CEB69E); /* Your specified colors */
+  /* Keep the gradient properties from Step 1 */
+  background: linear-gradient(to bottom, #F9F1E4, #CEB69E);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  /* Keep the black outline */
+  /* Add the outline here */
   text-shadow:
     -1px -1px 0 #000,
      1px -1px 0 #000,
