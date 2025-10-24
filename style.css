@@ -152,30 +152,32 @@ p, span, h3:not(.text-gradient-title), h4, li, button, label, input, select {
      1px  1px 0 #000;
 }
 
-/* Rule 1: Style the main gradient text */
-h1.text-gradient-title {
-  position: relative; /* Ensure this is set */
-  background: linear-gradient(to bottom, #F9F1E4, #CEB69E);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent !important;
-  /* Remove text-shadow from here if it's still present */
-  z-index: 1; /* Keep gradient text on top */
-}
-
 /* Rule 2: Create the black outline using ::before */
 h1.text-gradient-title::before {
   content: attr(data-text); /* Copy the text */
   position: absolute;
-  /* Adjust offsets for a tighter outline effect */
-  top: 1px;
-  left: 1px;
+  /* Position at the top-left corner of the parent H1 */
+  top: 0;
+  left: 0;
+  /* Use transform to create the offset */
+  transform: translate(1px, 1px); /* Shift 1px right and 1px down */
   /* Ensure text color is black */
   color: black;
   z-index: 0; /* Place the outline behind */
   /* Prevent clipping */
   -webkit-background-clip: unset;
   background-clip: unset;
-  /* Ensure text-shadow is NOT applied here */
   text-shadow: none;
+  /* Match the width of the parent to help alignment */
+  width: 100%;
+  text-align: center; /* Explicitly center the outline text */
+}
+
+/* Ensure the main H1 still handles overall centering */
+h1.text-gradient-title {
+  position: relative;
+  /* (Gradient properties...) */
+  color: transparent !important;
+  z-index: 1;
+  text-align: center; /* Make sure the main element centers its content */
 }
