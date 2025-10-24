@@ -148,3 +148,16 @@ body { font-family: 'Inter', sans-serif; background-color: #111827; color: #F9FA
 .modal-open {
     overflow: hidden;
 }
+
+.text-gradient-title {
+  background: linear-gradient(to bottom, #F9F1E4, #CEB69E); /* Your specified colors */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* Keep the black outline */
+  text-shadow:
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000;
+}
