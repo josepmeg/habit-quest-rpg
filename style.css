@@ -200,3 +200,43 @@ h1, h2, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here
   filter: brightness(0.9);
   box-shadow: inset 0px 1px 0px 0px rgba(0,0,0,0.2); /* Dimmer highlight when pressed */
 }
+
+.btn-action-skill-3d {
+  /* Base Button Styles */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.1s ease-out;
+
+  /* FFTA Teal Style */
+  background: linear-gradient(to bottom, #81E0F0, #41C4D7); /* Light to Main Teal */
+  border: 1px solid #014D67; /* Dark Teal */
+  border-bottom: 3px solid #014D67; /* Dark Teal */
+  box-shadow: inset 0px 1px 0px 0px #81E0F0; /* Light Teal Highlight */
+
+  /* Style for the icon inside */
+  filter: drop-shadow(1px 1px 0px #014D67); /* Dark Teal Shadow/Outline */
+}
+
+.btn-action-skill-3d:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.btn-action-skill-3d:active:not(:disabled) {
+  border-bottom-width: 1px;
+  transform: translateY(2px);
+  filter: brightness(0.9);
+  box-shadow: inset 0px 1px 0px 0px rgba(0,0,0,0.2);
+}
+
+/* Disabled State (from renderSkillCarousel) */
+.btn-action-skill-3d:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    /* Remove hover/active effects when disabled */
+    filter: none;
+    transform: none;
+    border-bottom-width: 3px;
+    box-shadow: inset 0px 1px 0px 0px #81E0F0;
+}
