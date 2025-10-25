@@ -40,6 +40,11 @@ body { font-family: 'Inter', sans-serif; background-color: #111827; color: #F9FA
 .clickable-day { cursor: pointer; transition: background-color 0.2s; }
 .clickable-day:hover { background-color: #374151; }
 .modal-interior-background { background-image: url('assets/backgrounds/wooden-planks.png'); background-size: cover; box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.4); }
+.modal-section-background {
+  background-color: #014D67; /* Slightly lighter, darker teal/blue */
+  padding: 1rem; /* Adjust padding as needed */
+  border-radius: 0.375rem; /* Standard Tailwind rounded-md */
+}
 .icon-background {
     display: inline-flex;
     align-items: center;
@@ -247,4 +252,16 @@ h1, h2, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here
     transform: none;
     border-bottom-width: 3px;
     box-shadow: inset 0px 1px 0px 0px #6FC1D4;
+}
+
+.ui-slot-dialog {
+  background-color: #D7AF7B; /* Dialog Light Tan */
+  border: 2px solid #5B3D1B;  /* Dialog Dark Brown */
+  border-radius: 9999px;     /* Keep it fully rounded */
+  /* Add padding if needed for icons */
+  padding: 0.5rem;
+  /* Ensure content centers if used for icons */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
