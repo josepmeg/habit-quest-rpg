@@ -172,6 +172,10 @@ h1, h2, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here
   color: #99CE89; /* Start with player color */
 }
 
+.text-vs-dark-red {
+  color: #6F2924;
+}
+
 .btn-action-3d {
   /* Base Button Styles (Keep size/shape/alignment from existing classes like btn, rounded-full, p-4) */
   display: inline-flex; /* Helps center content */
