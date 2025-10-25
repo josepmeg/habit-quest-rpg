@@ -217,7 +217,6 @@ export function renderUI() {
     document.getElementById('player-hp-text').textContent = `${player.hp} / ${player.total_max_hp}`;
     document.getElementById('player-mp-bar').style.width = `${(player.mp / player.max_mp) * 100}%`;
     document.getElementById('player-mp-text').textContent = `${player.mp} / ${player.max_mp}`;
-    console.log("Finding element with ID 'player-exp-text':", document.getElementById('player-exp-text'));
     document.getElementById('player-exp-label').textContent = `Lvl: ${player.level}`; 
     document.getElementById('player-exp-bar').style.width = `${(player.exp / player.exp_to_next_level) * 100}%`;
     document.getElementById('player-exp-text').textContent = `${player.exp} / ${player.exp_to_next_level}`;  
