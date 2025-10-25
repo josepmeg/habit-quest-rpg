@@ -804,10 +804,10 @@ export function renderSkillCarousel() {
     // Generate the HTML for the buttons
     carousel.innerHTML = actions.map(action => {
         const isDisabled = gameState.player.mp < action.mp_cost;
-        const disabledClasses = isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-600';
+        const disabledClasses = isDisabled ? 'opacity-50 cursor-not-allowed' : '';
         
         return `
-            <button class="skill-carousel-btn btn flex-shrink-0 w-20 h-20 p-2 rounded-full shadow-lg bg-gray-700 ${disabledClasses}" 
+            <button class="skill-carousel-btn btn flex-shrink-0 w-20 h-20 p-2 rounded-full shadow-lg btn-action-skill-3d ${disabledClasses}" 
                     data-skill-id="${action.id}" 
                     title="${action.name} (Cost: ${action.mp_cost} MP)"
                     ${isDisabled ? 'disabled' : ''}>
