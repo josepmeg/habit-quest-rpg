@@ -1,6 +1,6 @@
 body { font-family: 'Inter', sans-serif; background-color: #111827; color: #F9FAFB; background-size: cover; background-position: center center; background-attachment: fixed; transition: background-image 0.5s ease-in-out; }
 .font-rpg { font-family: 'Press Start 2P', cursive; }
-.progress-bar-bg { background-color: rgba(255, 255, 255, 0.2); }
+.progress-bar-bg { background-color: rgba(255, 255, 255, 0.2); border: 1px solid #000; }
 .progress-bar-fill { transition: width 0.5s ease-in-out; border: 1px solid #000; }
 .hp-gradient { background: linear-gradient(to right, #99CE89, #17814F); }
 .mp-gradient { background: linear-gradient(to right, #80DBFE, #41C4D7); }
