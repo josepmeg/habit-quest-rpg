@@ -171,3 +171,32 @@ h1, h2, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here
 .text-boss-hp-color {
   color: #99CE89; /* Start with player color */
 }
+
+.btn-action-3d {
+  /* Base Button Styles (Keep size/shape/alignment from existing classes like btn, rounded-full, p-4) */
+  display: inline-flex; /* Helps center content */
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.1s ease-out; /* Faster transition for button press */
+
+  /* FFTA Style */
+  background: linear-gradient(to bottom, var(--accent-light, #FADDA5), var(--accent-bright, #F3B64B)); /* Use palette variables */
+  border: 1px solid var(--accent-dark, #4C280C);
+  border-bottom: 3px solid var(--accent-dark, #4C280C);
+  box-shadow: inset 0px 1px 0px 0px var(--accent-light, #FADDA5); /* Top highlight */
+
+  /* Style for the icon inside */
+  filter: drop-shadow(1px 1px 0px var(--accent-dark, #4C280C)); /* Add outline/shadow to icon */
+}
+
+.btn-action-3d:hover {
+  filter: brightness(1.1);
+}
+
+.btn-action-3d:active {
+  border-bottom-width: 1px;
+  transform: translateY(2px);
+  filter: brightness(0.9);
+  box-shadow: inset 0px 1px 0px 0px rgba(0,0,0,0.2); /* Dimmer highlight when pressed */
+}
