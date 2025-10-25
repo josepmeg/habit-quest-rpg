@@ -166,3 +166,8 @@ h1, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here */
 .text-exp-gold {
   color: #F7D663; /* Lighter gold from gradient */
 }
+
+.progress-bar-fill {
+  transition: width 0.5s ease-in-out;
+  border: 1px solid #000; /* Add this line for the black outline */
+}
