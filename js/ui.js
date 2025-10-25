@@ -219,7 +219,7 @@ export function renderUI() {
     document.getElementById('player-mp-text').textContent = `${player.mp} / ${player.max_mp}`;
     document.getElementById('player-exp-label').textContent = `Lvl: ${player.level}`; 
     document.getElementById('player-exp-bar').style.width = `${(player.exp / player.exp_to_next_level) * 100}%`;
-    document.getElementById('player-exp-text').textContent = `${player.exp} / ${player.exp_to_next_level}`;  
+    document.getElementById('player-exp-text').textContent = `EXP: ${player.exp} / ${player.exp_to_next_level}`;  
     document.getElementById('boss-name').textContent = current_boss.name;
     document.getElementById('boss-image').src = current_boss.image;
     document.getElementById('boss-hp-bar').style.width = `${(current_boss.hp / current_boss.max_hp) * 100}%`;
