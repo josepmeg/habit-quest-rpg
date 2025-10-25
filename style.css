@@ -210,10 +210,10 @@ h1, h2, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here
   transition: all 0.1s ease-out;
 
   /* FFTA Teal Style */
-  background: linear-gradient(to bottom, #81E0F0, #41C4D7); /* Light to Main Teal */
+  background: linear-gradient(to bottom, #6FC1D4, #3AA8BF); /* Light to Main Teal */
   border: 1px solid #014D67; /* Dark Teal */
   border-bottom: 3px solid #014D67; /* Dark Teal */
-  box-shadow: inset 0px 1px 0px 0px #81E0F0; /* Light Teal Highlight */
+  box-shadow: inset 0px 1px 0px 0px #6FC1D4; /* Light Teal Highlight */
 
   /* Style for the icon inside */
   filter: drop-shadow(1px 1px 0px #014D67); /* Dark Teal Shadow/Outline */
@@ -238,5 +238,5 @@ h1, h2, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here
     filter: none;
     transform: none;
     border-bottom-width: 3px;
-    box-shadow: inset 0px 1px 0px 0px #81E0F0;
+    box-shadow: inset 0px 1px 0px 0px #6FC1D4;
 }
