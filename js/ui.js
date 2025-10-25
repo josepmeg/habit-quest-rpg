@@ -807,7 +807,7 @@ export function renderSkillCarousel() {
         const disabledClasses = isDisabled ? 'opacity-50 cursor-not-allowed' : '';
         
         return `
-            <button class="skill-carousel-btn btn flex-shrink-0 w-20 h-20 p-2 rounded-full shadow-lg btn-action-skill-3d ${disabledClasses}" 
+            <button class="skill-carousel-btn btn flex-shrink-0 w-16 h-16 p-2 rounded-full shadow-lg btn-action-skill-3d ${disabledClasses}" 
                     data-skill-id="${action.id}" 
                     title="${action.name} (Cost: ${action.mp_cost} MP)"
                     ${isDisabled ? 'disabled' : ''}>
