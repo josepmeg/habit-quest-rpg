@@ -4,7 +4,7 @@ body { font-family: 'Inter', sans-serif; background-color: #111827; color: #F9FA
 .progress-bar-fill { transition: width 0.5s ease-in-out; }
 .hp-gradient { background: linear-gradient(to right, #99CE89, #17814F); }
 .mp-gradient { background: linear-gradient(to right, #80DBFE, #41C4D7); }
-.exp-gradient { background: linear-gradient(to right, #A855F7, #EC4899); }
+.exp-gradient { background: linear-gradient(to right, #F7D663, #E9B858); }
 .card { background-color: rgba(12, 68, 88, 0.9); border: 1px solid #374151; }
 .btn { transition: all 0.2s ease-in-out; }
 .btn:hover:not(:disabled) { transform: translateY(-2px); }
@@ -161,4 +161,8 @@ h1, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here */
 
 .text-mp-blue {
   color: #80DBFE; /* Lighter blue from gradient */
+}
+
+.text-exp-gold {
+  color: #F7D663; /* Lighter gold from gradient */
 }
