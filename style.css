@@ -181,7 +181,7 @@ h1, h2, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here
   transition: all 0.1s ease-out; /* Faster transition for button press */
 
   /* FFTA Style */
-  background: linear-gradient(to bottom, var(--accent-light, #FADDA5), var(--accent-bright, #F3B64B)); /* Use palette variables */
+  background: linear-gradient(to bottom, var(--accent-light, #FADDA5), var(--accent-bright, #F3B64B)) !important; /* Use palette variables */
   border: 1px solid var(--accent-dark, #4C280C);
   border-bottom: 3px solid var(--accent-dark, #4C280C);
   box-shadow: inset 0px 1px 0px 0px var(--accent-light, #FADDA5); /* Top highlight */
