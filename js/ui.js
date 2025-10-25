@@ -211,7 +211,7 @@ export function renderUI() {
     
     recalculatePlayerStats(); // Ensure stats are up-to-date before rendering
 
-    document.getElementById('player-level').textContent = player.level;
+    //document.getElementById('player-level').textContent = player.level;
     document.getElementById('player-name').textContent = player.name;
     document.getElementById('player-hp-bar').style.width = `${(player.hp / player.total_max_hp) * 100}%`;
     document.getElementById('player-hp-text').textContent = `${player.hp} / ${player.total_max_hp}`;
