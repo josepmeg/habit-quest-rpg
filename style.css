@@ -143,7 +143,7 @@ body { font-family: 'Inter', sans-serif; background-color: #111827; color: #F9FA
     overflow: hidden;
 }
 
-h1, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here */
+h1, h2, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here */
   text-shadow:
     -1px -1px 0 #000,
      1px -1px 0 #000,
