@@ -610,54 +610,70 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
     const displayTotalLuck = (player.base_luck || 5) + luckBonus + Math.floor((player.training_streak || 0) / 3);
 
     const attributesHtml = `
-    <div class="grid grid-cols-2 gap-2">
-        <div class="modal-section-background p-2 rounded-md flex justify-between items-center">
+    <div class="grid grid-cols-2 gap-2"> {/* Keep 2 columns overall */}
+        {/* Attack */}
+        <div class="modal-section-background p-1 rounded-md flex justify-between items-center">
             <div class="text-left">
                 <span class="text-xl">⚔️</span>
                 <p class="text-xs text-white-400">Attack</p>
             </div>
-            <p class="font-bold text-white text-right">
-                ${player.total_attack}
-                ${attackBonus > 0 ? `<span class="text-xs text-yellow-400 ml-1">(+${attackBonus})</span>` : ''}
-            </p>
+            <div class="text-right">
+                <p class="font-bold text-white">
+                    ${player.total_attack}
+                    ${attackBonus > 0 ? `<span class="text-xs text-yellow-400 ml-1">(+${attackBonus})</span>` : ''}
+                </p>
+            </div>
         </div>
-        <div class="modal-section-background p-2 rounded-md flex justify-between items-center">
+        <div class="modal-section-background p-1 rounded-md flex justify-between items-center">
              <div class="text-left">
                <span class="text-xl">❤️</span>
-               <p class="text-xs text-white-400">Max HP</p>
+               <p class="text-xs text-white-400">HP</p>
             </div>
-            <p class="font-bold text-white text-right">
-                ${player.total_max_hp}
-                ${hpBonus > 0 ? `<span class="text-xs text-green-400 ml-1">(+${hpBonus})</span>` : ''}
-            </p>
+            <div class="text-right">
+                <p class="font-bold text-white">
+                    ${player.total_max_hp}
+                    ${hpBonus > 0 ? `<span class="text-xs text-green-400 ml-1">(+${hpBonus})</span>` : ''}
+                </p>
+            </div>
         </div>
-        <div class="modal-section-background p-2 rounded-md flex justify-between items-center">
+        <div class="modal-section-background p-1 rounded-md flex justify-between items-center">
              <div class="text-left">
                <span class="text-xl">🔷</span>
-               <p class="text-xs text-white-400">Max MP</p>
+               <p class="text-xs text-white-400">MP</p>
             </div>
-            <p class="font-bold text-white text-right">
-                ${player.max_mp}
-                ${mpBonus > 0 ? `<span class="text-xs text-blue-400 ml-1">(+${mpBonus})</span>` : ''}
-            </p>
+             <div class="text-right">
+                <p class="font-bold text-white">
+                    ${player.max_mp}
+                    ${mpBonus > 0 ? `<span class="text-xs text-blue-400 ml-1">(+${mpBonus})</span>` : ''}
+                </p>
+            </div>
         </div>
-        <div class="modal-section-background p-2 rounded-md flex justify-between items-center">
+        <div class="modal-section-background p-1 rounded-md flex justify-between items-start">
              <div class="text-left">
-               <span class="text-xl">🍀</span>
-               <p class="text-xs text-white-400">Luck</p>
+               <span class="text-xl leading-tight">🍀</span>
+               <div>
+                    <p class="text-xs text-white-400 leading-tight">Luck</p>
+                    <p class="text-xs text-white-400 leading-tight">Streak</p>
+               </div>
             </div>
-            <p class="font-bold text-white text-right">
-                ${displayTotalLuck}
-               ${luckBonus > 0 ? `<span class="text-xs text-blue-400 ml-1">(+${luckBonus})</span>` : ''}
-               <span class="text-xs text-white-400 ml-1">(Streak incl.)</span>
-            </p>
+             <div class="text-right">
+                <p class="font-bold text-white leading-tight">
+                    ${player.total_luck}
+                   ${luckBonus > 0 ? `<span class="text-xs text-blue-400 ml-1">(+${luckBonus})</span>` : ''}
+                </p>
+                <p class="font-bold text-white leading-tight"> {/* Streak value */}
+                    ${Math.floor((player.training_streak || 0) / 3)}
+                </p>
+            </div>
         </div>
-         <div class="modal-section-background p-2 rounded-md col-span-2 flex justify-between items-center">
+         <div class="modal-section-background p-1 rounded-md col-span-2 flex justify-between items-center">
              <div class="text-left">
                  <span class="text-xl">💰</span>
                  <p class="text-xs text-white-400">Gold</p>
              </div>
-             <p class="font-bold text-white text-right">${player.gold}</p>
+             <div class="text-right">
+                <p class="font-bold text-white">${player.gold}</p>
+             </div>
          </div>
     </div>
 `;
