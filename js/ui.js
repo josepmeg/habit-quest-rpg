@@ -611,7 +611,7 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
 
     const attributesHtml = `
     <div class="grid grid-cols-2 gap-2">
-        <div class="modal-section-background p-1 rounded-md flex justify-between items-center">
+        <div class="modal-section-background p-1 rounded-md flex justify-center items-center gap-4">
             <div class="text-left flex items-center gap-1 flex-shrink">
                 <span class="text-xl">⚔️</span>
                 <p class="text-xs text-white-400">Attack</p>
@@ -635,7 +635,7 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
                 </p>
             </div>
         </div>
-        <div class="modal-section-background p-1 rounded-md flex justify-between items-center">
+        <div class="modal-section-background p-1 rounded-md flex justify-center items-center gap-4">
              <div class="text-left flex items-center gap-1 flex-shrink">
                <span class="text-xl">🔷</span>
                <p class="text-xs text-white-400">MP</p>
@@ -647,7 +647,7 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
                 </p>
             </div>
         </div>
-        <div class="modal-section-background p-1 rounded-md flex justify-between items-start">
+        <div class="modal-section-background p-1 rounded-md flex justify-center items-center gap-4">
              <div class="text-left flex items-center gap-1 flex-shrink">
                <span class="text-xl leading-tight">🍀</span>
                <div>
@@ -665,7 +665,7 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
                 </p>
             </div>
         </div>
-         <div class="modal-section-background p-1 rounded-md col-span-2 flex justify-between items-center">
+         <div class="modal-section-background p-1 rounded-md col-span-2 flex justify-center items-center gap-4">
              <div class="text-left flex items-center gap-1 flex-shrink">
                  <span class="text-xl">💰</span>
                  <p class="text-xs text-white-400">Gold</p>
