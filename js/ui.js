@@ -923,19 +923,50 @@ export function toggleInventoryView() {
     }
 }
 
-// Add this placeholder function for now (we'll fill it in later)
 function renderInventoryStatsView() {
     const statsView = document.getElementById('equipment-stats-view');
     if (!statsView) return;
 
-    // Basic placeholder text
+    // Ensure stats are up-to-date before rendering
+    // NOTE: We might need to make recalculatePlayerStats globally accessible
+    // or call it from script.js before calling renderUI if it's not already.
+    // For now, assume stats are calculated.
+    recalculatePlayerStats(); // Make sure this function is callable here or called before renderUI
+
+    const { player } = gameState;
+
+    // Calculate bonuses (duplicate logic for display, ideally recalculatePlayerStats handles this)
+    let hpBonus = 0; let attackBonus = 0; let luckBonus = 0;
+    Object.values(player.equipment).forEach(itemId => {
+         if (itemId) {
+             const item = ALL_ITEMS[itemId];
+             if (item && item.bonus) {
+                 hpBonus += item.bonus.max_hp || 0;
+                 attackBonus += item.bonus.attack || 0;
+                 luckBonus += item.bonus.luck || 0;
+             }
+         }
+     });
+
+    // Generate the HTML using "Total (+Bonus)" format
     statsView.innerHTML = `
         <h5 class="font-bold mb-2 text-center text-yellow-300">Player Stats</h5>
-        <div class="text-sm space-y-1 text-gray-300">
-            <p>HP: ${gameState.player.hp} / ${gameState.player.total_max_hp} (...)</p>
-            <p>MP: ${gameState.player.mp} / ${gameState.player.max_mp} (...)</p>
-            <p>Attack: ${gameState.player.total_attack} (...)</p>
-            <p>Base Luck: ${gameState.player.base_luck} (...)</p>
+        <div class="text-sm space-y-1 text-gray-300 text-left px-4">
+            {/* HP */}
+            <p>HP: ${player.hp} / ${player.total_max_hp}
+               ${hpBonus > 0 ? `<span class="text-xs text-green-400 ml-2">(+${hpBonus})</span>` : ''}
+            </p>
+            {/* MP (Assuming no bonus for now) */}
+            <p>MP: ${player.mp} / ${player.max_mp}</p>
+            {/* Attack */}
+            <p>Attack: ${player.total_attack}
+               ${attackBonus > 0 ? `<span class="text-xs text-yellow-400 ml-2">(+${attackBonus})</span>` : ''}
+            </p>
+             {/* Luck */}
+            <p>Luck: ${player.total_luck}
+               ${luckBonus > 0 ? `<span class="text-xs text-blue-400 ml-2">(+${luckBonus})</span>` : ''}
+            </p>
+            {/* Add other stats like Defense here if implemented */}
         </div>
     `;
 }
