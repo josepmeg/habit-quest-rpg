@@ -816,3 +816,27 @@ export function renderSkillCarousel() {
         `;
     }).join('');
 }
+
+visualView.classList.remove('hidden');
+        toggleBtn.textContent = '📊'; // Change icon back to "Stats"
+        toggleBtn.title = 'Toggle Stats View';
+    }
+}
+
+// Add this placeholder function for now (we'll fill it in later)
+function renderInventoryStatsView() {
+    const statsView = document.getElementById('equipment-stats-view');
+    if (!statsView) return;
+
+    // Basic placeholder text
+    statsView.innerHTML = `
+        <h5 class="font-bold mb-2 text-center text-yellow-300">Player Stats</h5>
+        <div class="text-sm space-y-1 text-gray-300">
+            <p>HP: ${gameState.player.hp} / ${gameState.player.total_max_hp} (...)</p>
+            <p>MP: ${gameState.player.mp} / ${gameState.player.max_mp} (...)</p>
+            <p>Attack: ${gameState.player.total_attack} (...)</p>
+            <p>Base Luck: ${gameState.player.base_luck} (...)</p>
+            {/* We will add the detailed (Base + Equip) breakdown later */}
+        </div>
+    `;
+}
