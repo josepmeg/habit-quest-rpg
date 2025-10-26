@@ -390,6 +390,13 @@ h1, h2, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here
 }
 
 .backpack-tab.active {
-  color: var(--accent-bright, #F3B64B); /* Use gold color for active */
-  border-bottom-color: var(--accent-bright, #F3B64B);
+  /* Use the light teal color for the background */
+  background-color: #41C4D7;
+  /* Change text color to white */
+  color: white;
+  /* Keep the border highlight */
+  border-bottom-color: var(--accent-bright, #F3B64B); /* Keep gold border */
+  /* Add slight rounding to the top corners */
+  border-top-left-radius: 0.375rem; /* rounded-tl-md */
+  border-top-right-radius: 0.375rem; /* rounded-tr-md */
 }
