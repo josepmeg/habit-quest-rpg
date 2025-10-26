@@ -610,43 +610,57 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
     const displayTotalLuck = (player.base_luck || 5) + luckBonus + Math.floor((player.training_streak || 0) / 3);
 
     const attributesHtml = `
-        <div class="grid grid-cols-2 gap-2 text-center">
-            <div class="modal-section-background p-2 rounded-md">
+    <div class="grid grid-cols-2 gap-2">
+        <div class="modal-section-background p-2 rounded-md flex justify-between items-center">
+            <div class="text-left">
                 <span class="text-xl">⚔️</span>
                 <p class="text-xs text-white-400">Attack</p>
-                <p class="font-bold text-white">${player.total_attack}
-                    ${attackBonus > 0 ? `<span class="text-xs text-yellow-400 ml-1">(+${attackBonus})</span>` : ''}
-                </p>
             </div>
-            <div class="modal-section-background p-2 rounded-md">
-                <span class="text-xl">❤️</span>
-                <p class="text-xs text-white-400">HP</p>
-                <p class="font-bold text-white">${player.total_max_hp}
-                    ${hpBonus > 0 ? `<span class="text-xs text-green-400 ml-1">(+${hpBonus})</span>` : ''}
-                </p>
+            <p class="font-bold text-white text-right">
+                ${player.total_attack}
+                ${attackBonus > 0 ? `<span class="text-xs text-yellow-400 ml-1">(+${attackBonus})</span>` : ''}
+            </p>
+        </div>
+        <div class="modal-section-background p-2 rounded-md flex justify-between items-center">
+             <div class="text-left">
+               <span class="text-xl">❤️</span>
+               <p class="text-xs text-white-400">Max HP</p>
             </div>
-            <div class="modal-section-background p-2 rounded-md">
-                <span class="text-xl">🔷</span>
-                <p class="text-xs text-white-400">MP</p>
-                <p class="font-bold text-white">${player.max_mp}
-                    ${mpBonus > 0 ? `<span class="text-xs text-blue-400 ml-1">(+${mpBonus})</span>` : ''}
-                </p>
+            <p class="font-bold text-white text-right">
+                ${player.total_max_hp}
+                ${hpBonus > 0 ? `<span class="text-xs text-green-400 ml-1">(+${hpBonus})</span>` : ''}
+            </p>
+        </div>
+        <div class="modal-section-background p-2 rounded-md flex justify-between items-center">
+             <div class="text-left">
+               <span class="text-xl">🔷</span>
+               <p class="text-xs text-white-400">Max MP</p>
             </div>
-            <div class="modal-section-background p-2 rounded-md">
-                <span class="text-xl">🍀</span>
-                <p class="text-xs text-white-400">Luck</p>
-                <p class="font-bold text-white">${displayTotalLuck}
-                   ${luckBonus > 0 ? `<span class="text-xs text-blue-400 ml-1">(+${luckBonus})</span>` : ''}
-                   <span class="text-xs text-white-400 ml-1">(Streak incl.)</span>
-                </p>
+            <p class="font-bold text-white text-right">
+                ${player.max_mp}
+                ${mpBonus > 0 ? `<span class="text-xs text-blue-400 ml-1">(+${mpBonus})</span>` : ''}
+            </p>
+        </div>
+        <div class="modal-section-background p-2 rounded-md flex justify-between items-center">
+             <div class="text-left">
+               <span class="text-xl">🍀</span>
+               <p class="text-xs text-white-400">Luck</p>
             </div>
-             <div class="modal-section-background p-2 rounded-md col-span-2">
+            <p class="font-bold text-white text-right">
+                ${displayTotalLuck}
+               ${luckBonus > 0 ? `<span class="text-xs text-blue-400 ml-1">(+${luckBonus})</span>` : ''}
+               <span class="text-xs text-white-400 ml-1">(Streak incl.)</span>
+            </p>
+        </div>
+         <div class="modal-section-background p-2 rounded-md col-span-2 flex justify-between items-center">
+             <div class="text-left">
                  <span class="text-xl">💰</span>
                  <p class="text-xs text-white-400">Gold</p>
-                 <p class="font-bold text-white">${player.gold}</p>
              </div>
-        </div>
-    `;
+             <p class="font-bold text-white text-right">${player.gold}</p>
+         </div>
+    </div>
+`;
     attributesContent.innerHTML = attributesHtml;
 }
 
