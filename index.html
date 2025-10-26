@@ -288,36 +288,61 @@
             <div class="space-y-4">
                 <div>
                     <h4 class="font-rpg text-sm text-white-400 mb-2">- EQUIPMENT -</h4>
-                    <div class="flex flex-col md:flex-row gap-4">
-                        <div class="modal-interior-background rounded-md flex-shrink-0 text-center space-y-2 flex flex-col items-center p-4">
+                    <div id="character-equipment-section" class="modal-interior-background rounded-md p-4 relative">
+                        {/* Title and Toggle Button */}
+                        <div class="flex justify-center items-center mb-4 relative">
+                            <h4 class="font-rpg text-sm text-gray-400">--- EQUIPMENT ---</h4>
+                            {/* We'll add the toggle button logic later, placeholder for now */}
+                            <button id="toggle-view-btn" class="absolute right-0 top-0 text-xl" title="Toggle Stats View">📊</button>
+                        </div>
+                    
+                        {/* Visual View (Default) */}
+                        <div id="equipment-visual-view" class="grid grid-cols-[1fr_auto_1fr] gap-4 items-center"> {/* 3 Columns: Left Slots, Sprite, Right Slots */}
+                    
+                            {/* Left Column Slots */}
+                            <div class="space-y-2 flex flex-col items-end">
+                                {/* Slot: Helmet */}
+                                <div id="equip-slot-helmet" class="w-16 h-16 ui-slot-dialog" data-equip-slot="helmet">
+                                    <img id="equipped-helmet-img" src="" alt="Helmet" class="w-10 h-10 pixel-art">
+                                </div>
+                                {/* Slot: Main Hand */}
+                                <div id="equip-slot-mainhand" class="w-16 h-16 ui-slot-dialog" data-equip-slot="mainhand">
+                                    <img id="equipped-mainhand-img" src="" alt="Main Hand" class="w-10 h-10 pixel-art">
+                                </div>
+                                {/* Slot: Necklace */}
+                                <div id="equip-slot-necklace" class="w-16 h-16 ui-slot-dialog" data-equip-slot="necklace">
+                                    <img id="equipped-necklace-img" src="" alt="Necklace" class="w-10 h-10 pixel-art">
+                                </div>
+                            </div>
+                    
+                            {/* Center Column: Player Sprite */}
                             <div class="sprite-box-light-blue">
                                 <img src="assets/sprites/player.png" class="pixel-art w-24 h-24 mx-auto">
-                            </div>    
-                            <p id="inventory-player-name" class="font-bold"></p>
-                        </div>
-                        <div class="flex-grow grid grid-cols-3 gap-4 modal-interior-background rounded-md p-4 justify-items-center">
-                            <div id="equipped-weapon-slot" class="modal-section-background rounded-md p-2 flex items-center gap-2"> {/* CHANGED: flex, items-center, gap-2 */}
-                                {/* Tan Icon Area - Slightly smaller */}
-                                <div class="w-12 h-12 ui-slot-dialog flex-shrink-0"> {/* ADDED flex-shrink-0 */}
-                                    <img id="equipped-mainhand-img" src="" alt="Main Hand" class="w-8 h-8 pixel-art"> {/* Icon size smaller */}
-                                </div>
-                                {/* Text Area */}
-                                <div id="equipped-weapon-text" class="text-left"> {/* ADDED text container */}
-                                    {/* Item Name & Stats will be added here by JS later */}
-                                </div>
                             </div>
-                            
-                            <div id="equipped-armor-slot" class="modal-section-background rounded-md p-2 flex items-center gap-2"> {/* CHANGED: flex, items-center, gap-2 */}
-                                {/* Tan Icon Area - Slightly smaller */}
-                                <div class="w-12 h-12 ui-slot-dialog flex-shrink-0"> {/* ADDED flex-shrink-0 */}
-                                    <img id="equipped-armor-img" src="" alt="Armor" class="w-8 h-8 pixel-art"> {/* Icon size smaller */}
+                    
+                            {/* Right Column Slots */}
+                            <div class="space-y-2 flex flex-col items-start">
+                                {/* Slot: Armor */}
+                                <div id="equip-slot-armor" class="w-16 h-16 ui-slot-dialog" data-equip-slot="armor">
+                                    <img id="equipped-armor-img" src="" alt="Armor" class="w-10 h-10 pixel-art">
                                 </div>
-                                {/* Text Area */}
-                                <div id="equipped-armor-text" class="text-left"> {/* ADDED text container */}
-                                    {/* Item Name & Stats will be added here by JS later */}
+                                {/* Slot: Off Hand */}
+                                <div id="equip-slot-offhand" class="w-16 h-16 ui-slot-dialog" data-equip-slot="offhand">
+                                    <img id="equipped-offhand-img" src="" alt="Off Hand" class="w-10 h-10 pixel-art">
+                                </div>
+                                {/* Slot: Ring */}
+                                <div id="equip-slot-ring" class="w-16 h-16 ui-slot-dialog" data-equip-slot="ring">
+                                    <img id="equipped-ring-img" src="" alt="Ring" class="w-10 h-10 pixel-art">
                                 </div>
                             </div>
                         </div>
+                    
+                        {/* Stats View (Initially Hidden) */}
+                        <div id="equipment-stats-view" class="hidden">
+                            {/* Detailed stats list will be generated here by JS */}
+                            <p class="text-center text-gray-400">(Stats details will appear here)</p>
+                        </div>
+                    
                     </div>
                 </div>
                 <div>
@@ -416,6 +441,7 @@
     <audio id="sfx-level-up" src="assets/sfx/level-up.mp3" preload="auto"></audio>
 </body>
 </html>
+
 
 
 
