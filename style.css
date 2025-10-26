@@ -265,3 +265,11 @@ h1, h2, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here
   align-items: center;
   justify-content: center;
 }
+
+.sprite-box-light-blue {
+  background-color: #41C4D7; /* Light Teal from your palette */
+  padding: 0.5rem; /* Small padding around the sprite */
+  border-radius: 0.375rem; /* rounded-md */
+  border: 1px solid #014D67; /* Optional: Add a darker border */
+  display: inline-block; /* Allows the box to size to the image */
+}
