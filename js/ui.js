@@ -612,11 +612,11 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
     const attributesHtml = `
     <div class="grid grid-cols-2 gap-2">
         <div class="modal-section-background p-1 rounded-md flex justify-between items-center">
-            <div class="text-left">
+            <div class="text-left flex items-center gap-1 flex-shrink">
                 <span class="text-xl">⚔️</span>
                 <p class="text-xs text-white-400">Attack</p>
             </div>
-            <div class="text-right">
+            <div class="text-right flex-shrink">
                 <p class="font-bold text-white">
                     ${player.total_attack}
                     ${attackBonus > 0 ? `<span class="text-xs text-yellow-400 ml-1">(+${attackBonus})</span>` : ''}
@@ -636,11 +636,11 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
             </div>
         </div>
         <div class="modal-section-background p-1 rounded-md flex justify-between items-center">
-             <div class="text-left">
+             <div class="text-left flex items-center gap-1 flex-shrink">
                <span class="text-xl">🔷</span>
                <p class="text-xs text-white-400">MP</p>
             </div>
-             <div class="text-right">
+             <div class="text-right flex-shrink">
                 <p class="font-bold text-white">
                     ${player.max_mp}
                     ${mpBonus > 0 ? `<span class="text-xs text-blue-400 ml-1">(+${mpBonus})</span>` : ''}
@@ -648,14 +648,14 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
             </div>
         </div>
         <div class="modal-section-background p-1 rounded-md flex justify-between items-start">
-             <div class="text-left">
+             <div class="text-left flex items-center gap-1 flex-shrink">
                <span class="text-xl leading-tight">🍀</span>
                <div>
                     <p class="text-xs text-white-400 leading-tight">Luck</p>
                     <p class="text-xs text-white-400 leading-tight">Streak</p>
                </div>
             </div>
-             <div class="text-right">
+             <div class="text-right flex-shrink">
                 <p class="font-bold text-white leading-tight">
                     ${player.total_luck}
                    ${luckBonus > 0 ? `<span class="text-xs text-blue-400 ml-1">(+${luckBonus})</span>` : ''}
@@ -666,11 +666,11 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
             </div>
         </div>
          <div class="modal-section-background p-1 rounded-md col-span-2 flex justify-between items-center">
-             <div class="text-left">
+             <div class="text-left flex items-center gap-1 flex-shrink">
                  <span class="text-xl">💰</span>
                  <p class="text-xs text-white-400">Gold</p>
              </div>
-             <div class="text-right">
+             <div class="text-right flex-shrink">
                 <p class="font-bold text-white">${player.gold}</p>
              </div>
          </div>
