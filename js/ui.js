@@ -817,7 +817,31 @@ export function renderSkillCarousel() {
     }).join('');
 }
 
-visualView.classList.remove('hidden');
+export function toggleInventoryView() {
+    const visualView = document.getElementById('equipment-visual-view');
+    const statsView = document.getElementById('equipment-stats-view');
+    const toggleBtn = document.getElementById('toggle-view-btn');
+
+    if (!visualView || !statsView || !toggleBtn) {
+        console.error("Could not find inventory view elements for toggle.");
+        return;
+    }
+
+    // Check if the visual view is currently shown (i.e., stats view is hidden)
+    const isShowingVisual = statsView.classList.contains('hidden');
+
+    if (isShowingVisual) {
+        // Switch to Stats View
+        visualView.classList.add('hidden');
+        statsView.classList.remove('hidden');
+        toggleBtn.textContent = '👤'; // Change icon to "Player"
+        toggleBtn.title = 'Toggle Visual View';
+        // We'll call a function to render the stats here later
+        renderInventoryStatsView();
+    } else {
+        // Switch back to Visual View
+        statsView.classList.add('hidden');
+        visualView.classList.remove('hidden');
         toggleBtn.textContent = '📊'; // Change icon back to "Stats"
         toggleBtn.title = 'Toggle Stats View';
     }
@@ -836,7 +860,6 @@ function renderInventoryStatsView() {
             <p>MP: ${gameState.player.mp} / ${gameState.player.max_mp} (...)</p>
             <p>Attack: ${gameState.player.total_attack} (...)</p>
             <p>Base Luck: ${gameState.player.base_luck} (...)</p>
-            {/* We will add the detailed (Base + Equip) breakdown later */}
         </div>
     `;
 }
