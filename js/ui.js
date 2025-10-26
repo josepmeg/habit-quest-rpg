@@ -585,37 +585,71 @@ export function renderShop() {
     }).join('');
 }
 
-export function renderAttributes() {
+// Enhanced renderAttributes function
+export function renderAttributes(targetElementId = 'attributes-content') { // Added targetElementId parameter
     const { player } = gameState;
-    const attributesContent = document.getElementById('attributes-content');
-    const totalLuck = (player.base_luck || 5) + Math.floor((player.training_streak || 0) / 3);
+    const attributesContent = document.getElementById(targetElementId);
+    if (!attributesContent) return; // Exit if target element not found
+
+    // --- Calculate Bonuses (copied from renderInventoryStatsView) ---
+    let hpBonus = 0; let mpBonus = 0; let attackBonus = 0; let luckBonus = 0;
+    Object.values(player.equipment).forEach(itemId => {
+         if (itemId) {
+             const item = ALL_ITEMS[itemId];
+             if (item && item.bonus) {
+                 hpBonus += item.bonus.max_hp || 0;
+                 mpBonus += item.bonus.max_mp || 0;
+                 attackBonus += item.bonus.attack || 0;
+                 luckBonus += item.bonus.luck || 0;
+             }
+         }
+     });
+    // --- End Bonus Calculation ---
+
+    // Recalculate total luck including streak for display purposes only
+    const displayTotalLuck = (player.base_luck || 5) + luckBonus + Math.floor((player.training_streak || 0) / 3);
+
     const attributesHtml = `
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-            <div class="card p-2 rounded-md">
-                <span class="text-2xl">⚔️</span>
+        <div class="grid grid-cols-2 gap-2 text-center"> {/* Reduced gap */}
+            {/* Attack */}
+            <div class="modal-section-background p-2 rounded-md"> {/* Use light blue bg */}
+                <span class="text-xl">⚔️</span>
                 <p class="text-xs text-gray-400">Attack</p>
-                <p class="font-bold text-white">${player.total_attack}</p>
+                <p class="font-bold text-white">${player.total_attack}
+                    ${attackBonus > 0 ? `<span class="text-xs text-yellow-400 ml-1">(+${attackBonus})</span>` : ''}
+                </p>
             </div>
-            <div class="card p-2 rounded-md">
-                <span class="text-2xl">❤️</span>
+            {/* Max HP */}
+            <div class="modal-section-background p-2 rounded-md"> {/* Use light blue bg */}
+                <span class="text-xl">❤️</span>
                 <p class="text-xs text-gray-400">Max HP</p>
-                <p class="font-bold text-white">${player.total_max_hp}</p>
+                <p class="font-bold text-white">${player.total_max_hp}
+                    ${hpBonus > 0 ? `<span class="text-xs text-green-400 ml-1">(+${hpBonus})</span>` : ''}
+                </p>
             </div>
-            <div class="card p-2 rounded-md">
-                <span class="text-2xl">🔷</span>
+            {/* Max MP */}
+            <div class="modal-section-background p-2 rounded-md"> {/* Use light blue bg */}
+                <span class="text-xl">🔷</span>
                 <p class="text-xs text-gray-400">Max MP</p>
-                <p class="font-bold text-white">${player.max_mp}</p>
+                <p class="font-bold text-white">${player.max_mp}
+                    ${mpBonus > 0 ? `<span class="text-xs text-blue-400 ml-1">(+${mpBonus})</span>` : ''}
+                </p>
             </div>
-            <div class="card p-2 rounded-md">
-                <span class="text-2xl">🍀</span>
+            {/* Luck */}
+            <div class="modal-section-background p-2 rounded-md"> {/* Use light blue bg */}
+                <span class="text-xl">🍀</span>
                 <p class="text-xs text-gray-400">Luck</p>
-                <p class="font-bold text-white">${totalLuck}</p>
+                <p class="font-bold text-white">${displayTotalLuck}
+                   ${luckBonus > 0 ? `<span class="text-xs text-blue-400 ml-1">(+${luckBonus})</span>` : ''}
+                   <span class="text-xs text-gray-400 ml-1">(Streak incl.)</span>
+                </p>
             </div>
-        </div>
-        <div class="card p-2 rounded-md mt-4 text-center">
-            <span class="text-2xl">💰</span>
-            <p class="text-xs text-gray-400">Gold</p>
-            <p class="font-bold text-white">${player.gold}</p>
+            {/* Gold - Simple display */}
+             <div class="modal-section-background p-2 rounded-md col-span-2"> {/* Span across 2 columns */}
+                 <span class="text-xl">💰</span>
+                 <p class="text-xs text-gray-400">Gold</p>
+                 <p class="font-bold text-white">${player.gold}</p>
+             </div>
         </div>
     `;
     attributesContent.innerHTML = attributesHtml;
@@ -924,44 +958,20 @@ export function toggleInventoryView() {
 }
 
 function renderInventoryStatsView() {
-    const statsView = document.getElementById('equipment-stats-view');
-    if (!statsView) return;
+    const statsViewContainer = document.getElementById('equipment-stats-view');
+    if (!statsViewContainer) return;
 
-    // Ensure stats are up-to-date before rendering
-    // NOTE: We might need to make recalculatePlayerStats globally accessible
-    // or call it from script.js before calling renderUI if it's not already.
-    // For now, assume stats are calculated.
-    recalculatePlayerStats(); // Make sure this function is callable here or called before renderUI
+    // Ensure stats are up-to-date first
+    recalculatePlayerStats();
 
-    const { player } = gameState;
-
-    // Calculate bonuses (duplicate logic for display, ideally recalculatePlayerStats handles this)
-    let hpBonus = 0; let attackBonus = 0; let luckBonus = 0;
-    Object.values(player.equipment).forEach(itemId => {
-         if (itemId) {
-             const item = ALL_ITEMS[itemId];
-             if (item && item.bonus) {
-                 hpBonus += item.bonus.max_hp || 0;
-                 attackBonus += item.bonus.attack || 0;
-                 luckBonus += item.bonus.luck || 0;
-             }
-         }
-     });
-
-    // Generate the HTML using "Total (+Bonus)" format
-    statsView.innerHTML = `
-        <h5 class="font-bold mb-2 text-center text-yellow-300">Player Stats</h5>
-        <div class="text-sm space-y-1 text-gray-300 text-left px-4">
-            <p>HP: ${player.hp} / ${player.total_max_hp}
-               ${hpBonus > 0 ? `<span class="text-xs text-green-400 ml-2">(+${hpBonus})</span>` : ''}
-            </p>
-            <p>MP: ${player.mp} / ${player.max_mp}</p>
-            <p>Attack: ${player.total_attack}
-               ${attackBonus > 0 ? `<span class="text-xs text-yellow-400 ml-2">(+${attackBonus})</span>` : ''}
-            </p>
-            <p>Luck: ${player.total_luck}
-               ${luckBonus > 0 ? `<span class="text-xs text-blue-400 ml-2">(+${luckBonus})</span>` : ''}
-            </p>
+    // Create a title and a target div for renderAttributes
+    statsViewContainer.innerHTML = `
+        <div class="modal-section-background rounded-md mb-2"> {/* Light blue title background */}
+            <h5 class="font-bold p-2 text-center text-white">Player Stats</h5> {/* White title text */}
         </div>
+        <div id="inventory-stats-target"></div> {/* Target for renderAttributes */}
     `;
+
+    // Call renderAttributes, telling it where to put the stats
+    renderAttributes('inventory-stats-target');
 }
