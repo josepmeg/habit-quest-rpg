@@ -645,9 +645,10 @@ function setupEventListeners() {
     if (tabsContainer) {
         tabsContainer.addEventListener('click', (e) => {
             if (e.target.matches('.backpack-tab')) {
-                activeInventoryTab = e.target.dataset.category;
-                ui.renderInventory(); // Re-render inventory to apply filter
-                // Update active tab style (handled in renderInventory now)
+                const category = e.target.dataset.category;
+                // ONLY call the function in ui.js
+                ui.setActiveInventoryTab(category);
+                // DO NOT try to access or set activeInventoryTab here
             }
         });
     }
