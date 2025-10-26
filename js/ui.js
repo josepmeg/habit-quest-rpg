@@ -402,10 +402,12 @@ export function renderInventory() {
 
             if (itemDetails.type === 'potion') {
                 buttonText = 'Use';
-                buttonClass = 'use-item-btn bg-green-600 hover:bg-green-700';
+                //buttonClass = 'use-item-btn bg-green-600 hover:bg-green-700';
+                buttonClass = 'use-item-btn btn-use-3d';
             } else if (isEquippable) {
                 buttonText = isEquipped ? 'Equipped' : 'Equip';
-                buttonClass = isEquipped ? 'bg-gray-500 cursor-not-allowed' : 'equip-item-btn bg-blue-600 hover:bg-blue-700';
+                //buttonClass = isEquipped ? 'bg-gray-500 cursor-not-allowed' : 'equip-item-btn bg-blue-600 hover:bg-blue-700';
+                buttonClass = 'equip-item-btn btn-equip-3d';
                 buttonDisabled = isEquipped ? 'disabled' : '';
             }
             // --- End Button Logic ---
