@@ -381,6 +381,11 @@ export function renderHistory(year, month) {
     }
 }
 
+export function setActiveInventoryTab(category) {
+    activeInventoryTab = category;
+    renderInventory(); // Re-render the inventory immediately
+}
+
 export function renderInventory() {
     const inventoryContent = document.getElementById('inventory-content');
     const tabsContainer = document.getElementById('backpack-tabs');
