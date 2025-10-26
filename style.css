@@ -326,11 +326,11 @@ h1, h2, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here
   color: white; /* Keep text white */
 
   /* FFTA Blue Style (Using Menu Blues) */
-  background: linear-gradient(to bottom, var(--menu-blue-1, #016090), var(--menu-blue-2, #0C4458)); /* Lighter to Darker Blue */
-  border: 1px solid #002D40; /* Derived darker blue */
-  border-bottom: 3px solid #002D40; /* Darker blue */
-  box-shadow: inset 0px 1px 0px 0px var(--menu-blue-1, #016090); /* Lighter Blue Highlight */
-  text-shadow: 1px 1px 0px #002D40; /* Dark blue text shadow */
+  background: linear-gradient(to bottom, #9AE6B4, #48BB78); /* Light Green -> Medium Green */
+  border: 1px solid #2F855A; /* Dark Green */
+  border-bottom: 3px solid #2F855A; /* Dark Green */
+  box-shadow: inset 0px 1px 0px 0px #9AE6B4; /* Light Green Highlight */
+  text-shadow: 1px 1px 0px #2F855A; /* Dark Green text shadow */
 }
 
 .btn-equip-3d:hover:not(:disabled) {
