@@ -952,21 +952,16 @@ function renderInventoryStatsView() {
     statsView.innerHTML = `
         <h5 class="font-bold mb-2 text-center text-yellow-300">Player Stats</h5>
         <div class="text-sm space-y-1 text-gray-300 text-left px-4">
-            {/* HP */}
             <p>HP: ${player.hp} / ${player.total_max_hp}
                ${hpBonus > 0 ? `<span class="text-xs text-green-400 ml-2">(+${hpBonus})</span>` : ''}
             </p>
-            {/* MP (Assuming no bonus for now) */}
             <p>MP: ${player.mp} / ${player.max_mp}</p>
-            {/* Attack */}
             <p>Attack: ${player.total_attack}
                ${attackBonus > 0 ? `<span class="text-xs text-yellow-400 ml-2">(+${attackBonus})</span>` : ''}
             </p>
-             {/* Luck */}
             <p>Luck: ${player.total_luck}
                ${luckBonus > 0 ? `<span class="text-xs text-blue-400 ml-2">(+${luckBonus})</span>` : ''}
             </p>
-            {/* Add other stats like Defense here if implemented */}
         </div>
     `;
 }
