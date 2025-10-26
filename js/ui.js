@@ -95,31 +95,42 @@ export function recalculatePlayerStats() {
 }
 
 export function renderEquippedItems() {
-    const { player } = gameState;
-    document.getElementById('inventory-player-name').textContent = player.name;
+    const equipment = gameState.player.equipment;
+    // Define all the slot IDs and their corresponding equipment types
+    const slots = [
+        { id: 'equipped-mainhand-img', type: 'weapon' },
+        { id: 'equipped-offhand-img', type: 'offhand' }, // Assuming 'offhand' type exists for items
+        { id: 'equipped-armor-img', type: 'armor' },
+        { id: 'equipped-helmet-img', type: 'helmet' },
+        { id: 'equipped-ring-img', type: 'ring' },
+        { id: 'equipped-necklace-img', type: 'necklace' },
+    ];
 
-    for (const slot in player.equipment) {
-        const slotElement = document.getElementById(`equipped-${slot}-slot`);
-        const itemId = player.equipment[slot];
-        
-        if (itemId) {
-            const item = ALL_ITEMS[itemId];
-            const bonusText = Object.entries(item.bonus).map(([stat, value]) => `+${value} ${stat.replace('_', ' ')}`).join(', ');
-            slotElement.innerHTML = `
-                <div class="flex items-center gap-4">
-                    <div class="icon-background flex-shrink-0">
-                        <img src="${item.image}" class="w-6 h-6 pixel-art">
-                    </div>
-                    <div>
-                        <p class="font-bold text-white">${item.name}</p>
-                        <p class="text-sm text-green-400">${bonusText.toUpperCase()}</p>
-                    </div>
-                </div>
-            `;
-        } else {
-            slotElement.innerHTML = `<p class="text-gray-500 p-4 text-center">-${slot.charAt(0).toUpperCase() + slot.slice(1)} Slot Empty-</p>`;
+    slots.forEach(slot => {
+        const imgElement = document.getElementById(slot.id);
+        if (!imgElement) {
+            // console.warn(`Image element not found for slot ID: ${slot.id}`); // Optional: Add for debugging
+            return; // Skip if the image element doesn't exist
         }
-    }
+
+        const itemId = equipment[slot.type]; // Get the equipped item ID (e.g., 'worn-sword')
+        if (itemId) {
+            const itemDetails = ALL_ITEMS[itemId]; // Find item details
+            if (itemDetails) {
+                imgElement.src = itemDetails.icon || itemDetails.image;
+                imgElement.alt = itemDetails.name;
+                imgElement.classList.remove('hidden'); // Make sure image is visible
+            } else {
+                imgElement.src = ''; // Clear image if item details not found
+                imgElement.alt = `Empty ${slot.type} slot`;
+                imgElement.classList.add('hidden'); // Hide image if no item/details
+            }
+        } else {
+            imgElement.src = ''; // Clear image if slot is empty
+            imgElement.alt = `Empty ${slot.type} slot`;
+            imgElement.classList.add('hidden'); // Hide image if slot is empty
+        }
+    });
 }
 
 export function renderSkillTree() {
