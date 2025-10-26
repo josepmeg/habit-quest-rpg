@@ -287,7 +287,7 @@
             </div>
             <div class="space-y-4">
                 <div>
-                    <h4 class="font-rpg text-sm text-gray-400 mb-2">--- CHARACTER & EQUIPMENT ---</h4>
+                    <h4 class="font-rpg text-sm text-white-400 mb-2">--- CHARACTER & EQUIPMENT ---</h4>
                     <div class="flex flex-col md:flex-row gap-4">
                         <div class="modal-interior-background rounded-md flex-shrink-0 text-center space-y-2 flex flex-col items-center p-4">
                             <div class="sprite-box-light-blue">
@@ -296,7 +296,13 @@
                             <p id="inventory-player-name" class="font-bold"></p>
                         </div>
                         <div class="flex-grow grid grid-cols-3 gap-4 modal-interior-background rounded-md p-4 justify-items-center">
-                            <div id="equipped-weapon-slot" class="card p-2 rounded-md"></div>
+                            <div id="equipped-weapon-slot"
+                                 class="modal-section-background w-24 h-24 flex flex-col items-center justify-center p-2 rounded-md"> {/* MODIFIED CLASSES */}
+                                <span class="text-xs text-gray-400 mb-1">Main</span> {/* ADDED LABEL */}
+                                <div class="w-16 h-16 ui-slot-dialog"> {/* ADDED INNER DIV for tan circle */}
+                                    <img id="equipped-mainhand-img" src="" alt="Main Hand" class="w-10 h-10 pixel-art"> {/* Existing/New Image */}
+                                </div>
+                            </div>
                             <div id="equipped-armor-slot" class="card p-2 rounded-md"></div>
                         </div>
                     </div>
@@ -397,6 +403,7 @@
     <audio id="sfx-level-up" src="assets/sfx/level-up.mp3" preload="auto"></audio>
 </body>
 </html>
+
 
 
 
