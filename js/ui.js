@@ -610,16 +610,14 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
     const displayTotalLuck = (player.base_luck || 5) + luckBonus + Math.floor((player.training_streak || 0) / 3);
 
     const attributesHtml = `
-        <div class="grid grid-cols-2 gap-2 text-center"> {/* Reduced gap */}
-            {/* Attack */}
-            <div class="modal-section-background p-2 rounded-md"> {/* Use light blue bg */}
+        <div class="grid grid-cols-2 gap-2 text-center">
+            <div class="modal-section-background p-2 rounded-md">
                 <span class="text-xl">⚔️</span>
                 <p class="text-xs text-gray-400">Attack</p>
                 <p class="font-bold text-white">${player.total_attack}
                     ${attackBonus > 0 ? `<span class="text-xs text-yellow-400 ml-1">(+${attackBonus})</span>` : ''}
                 </p>
             </div>
-            {/* Max HP */}
             <div class="modal-section-background p-2 rounded-md"> {/* Use light blue bg */}
                 <span class="text-xl">❤️</span>
                 <p class="text-xs text-gray-400">Max HP</p>
@@ -627,7 +625,6 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
                     ${hpBonus > 0 ? `<span class="text-xs text-green-400 ml-1">(+${hpBonus})</span>` : ''}
                 </p>
             </div>
-            {/* Max MP */}
             <div class="modal-section-background p-2 rounded-md"> {/* Use light blue bg */}
                 <span class="text-xl">🔷</span>
                 <p class="text-xs text-gray-400">Max MP</p>
@@ -635,8 +632,7 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
                     ${mpBonus > 0 ? `<span class="text-xs text-blue-400 ml-1">(+${mpBonus})</span>` : ''}
                 </p>
             </div>
-            {/* Luck */}
-            <div class="modal-section-background p-2 rounded-md"> {/* Use light blue bg */}
+            <div class="modal-section-background p-2 rounded-md">
                 <span class="text-xl">🍀</span>
                 <p class="text-xs text-gray-400">Luck</p>
                 <p class="font-bold text-white">${displayTotalLuck}
@@ -644,8 +640,7 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
                    <span class="text-xs text-gray-400 ml-1">(Streak incl.)</span>
                 </p>
             </div>
-            {/* Gold - Simple display */}
-             <div class="modal-section-background p-2 rounded-md col-span-2"> {/* Span across 2 columns */}
+             <div class="modal-section-background p-2 rounded-md col-span-2">
                  <span class="text-xl">💰</span>
                  <p class="text-xs text-gray-400">Gold</p>
                  <p class="font-bold text-white">${player.gold}</p>
