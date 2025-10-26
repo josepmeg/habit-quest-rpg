@@ -297,19 +297,25 @@
                         </div>
                         <div class="flex-grow grid grid-cols-3 gap-4 modal-interior-background rounded-md p-4 justify-items-center">
                             <div id="equipped-weapon-slot"
-                                 class="modal-section-background w-24 h-24 flex flex-col items-center justify-center p-2 rounded-md"> {/* MODIFIED CLASSES */}
-                                <span class="text-xs text-gray-400 mb-1">Main</span> {/* ADDED LABEL */}
-                                <div class="w-16 h-16 ui-slot-dialog"> {/* ADDED INNER DIV for tan circle */}
-                                    <img id="equipped-mainhand-img" src="" alt="Main Hand" class="w-10 h-10 pixel-art"> {/* Existing/New Image */}
+                                 class="modal-section-background w-24 h-24 flex flex-col items-center justify-center p-2 rounded-md">
+                                <span class="text-xs text-white-400 mb-1">Main</span>
+                                <div class="w-16 h-16 ui-slot-dialog">
+                                    <img id="equipped-mainhand-img" src="" alt="Main Hand" class="w-10 h-10 pixel-art">
                                 </div>
                             </div>
-                            <div id="equipped-armor-slot" class="card p-2 rounded-md"></div>
+                            <div id="equipped-armor-slot"
+                                 class="modal-section-background w-24 h-24 flex flex-col items-center justify-center p-2 rounded-md"> {/* MODIFIED CLASSES */}
+                                <span class="text-xs text-white-400 mb-1">Armor</span> {/* CHANGED LABEL */}
+                                <div class="w-16 h-16 ui-slot-dialog"> {/* ADDED INNER DIV */}
+                                    <img id="equipped-armor-img" src="" alt="Armor" class="w-10 h-10 pixel-art"> {/* Existing/New Image */}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <h4 class="font-rpg text-sm text-gray-400 mb-2">--- BACKPACK ---</h4>
-                    <div id="inventory-content" class="modal-interior-background p-2 rounded-md space-y-2 text-gray-300 min-h-[150px] max-h-[30vh] overflow-y-auto">
+                    <h4 class="font-rpg text-sm text-white-400 mb-2">--- BACKPACK ---</h4>
+                    <div id="inventory-content" class="modal-interior-background p-2 rounded-md space-y-2 text-white-400 min-h-[150px] max-h-[30vh] overflow-y-auto">
                     </div>
                 </div>
             </div>
@@ -403,6 +409,7 @@
     <audio id="sfx-level-up" src="assets/sfx/level-up.mp3" preload="auto"></audio>
 </body>
 </html>
+
 
 
 
