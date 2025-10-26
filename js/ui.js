@@ -389,6 +389,20 @@ export function setActiveInventoryTab(category) {
 export function renderInventory() {
     const inventoryContent = document.getElementById('inventory-content');
     const tabsContainer = document.getElementById('backpack-tabs');
+    // --- Update Active Tab Style ---
+    if (tabsContainer) {
+        // 1. Find ALL tab buttons within the container
+        tabsContainer.querySelectorAll('.backpack-tab').forEach(tab => {
+            // 2. Check if this tab's category matches the active one
+            if (tab.dataset.category === activeInventoryTab) {
+                // 3. If it matches, ADD the 'active' class
+                tab.classList.add('active');
+            } else {
+                // 4. If it doesn't match, REMOVE the 'active' class
+                tab.classList.remove('active');
+            }
+        });
+    }
     // --- End Tab Style Update ---
 
     // --- Filter Inventory ---
