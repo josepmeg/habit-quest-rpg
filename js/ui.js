@@ -618,16 +618,16 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
                     ${attackBonus > 0 ? `<span class="text-xs text-yellow-400 ml-1">(+${attackBonus})</span>` : ''}
                 </p>
             </div>
-            <div class="modal-section-background p-2 rounded-md"> {/* Use light blue bg */}
+            <div class="modal-section-background p-2 rounded-md">
                 <span class="text-xl">❤️</span>
-                <p class="text-xs text-white-400">Max HP</p>
+                <p class="text-xs text-white-400">HP</p>
                 <p class="font-bold text-white">${player.total_max_hp}
                     ${hpBonus > 0 ? `<span class="text-xs text-green-400 ml-1">(+${hpBonus})</span>` : ''}
                 </p>
             </div>
-            <div class="modal-section-background p-2 rounded-md"> {/* Use light blue bg */}
+            <div class="modal-section-background p-2 rounded-md">
                 <span class="text-xl">🔷</span>
-                <p class="text-xs text-white-400">Max MP</p>
+                <p class="text-xs text-white-400">MP</p>
                 <p class="font-bold text-white">${player.max_mp}
                     ${mpBonus > 0 ? `<span class="text-xs text-blue-400 ml-1">(+${mpBonus})</span>` : ''}
                 </p>
