@@ -627,6 +627,14 @@ function setupEventListeners() {
             ui.renderHistory(calendarView.year, calendarView.month);
         });
     }
+
+    // === Inventory View Toggle ===  <-- Good place to add it here
+    const toggleViewBtn = document.getElementById('toggle-view-btn');
+    if (toggleViewBtn) {
+        toggleViewBtn.addEventListener('click', () => {
+            ui.toggleInventoryView();
+        });
+    }
     
     // === Core Game Actions & The Rest of the Function ... ===
     /* OLD Attack buttons
