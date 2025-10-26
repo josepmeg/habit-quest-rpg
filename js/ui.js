@@ -389,19 +389,6 @@ export function setActiveInventoryTab(category) {
 export function renderInventory() {
     const inventoryContent = document.getElementById('inventory-content');
     const tabsContainer = document.getElementById('backpack-tabs');
-
-    // --- Update Active Tab Style ---
-    if (tabsContainer) {
-        tabsContainer.addEventListener('click', (e) => {
-            // Check if a tab button was clicked
-            if (e.target.matches('.backpack-tab')) {
-                // Get the category from the button's data attribute
-                const category = e.target.dataset.category;
-                // Call the function in ui.js to handle the state change and re-render
-                ui.setActiveInventoryTab(category);
-            }
-        });
-    }
     // --- End Tab Style Update ---
 
     // --- Filter Inventory ---
