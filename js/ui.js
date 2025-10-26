@@ -401,7 +401,7 @@ export function renderInventory() {
 
             // --- NEW HTML STRUCTURE FOR EACH ITEM ROW ---
             return `
-              <div class="flex items-center gap-3 p-2 border-b border-gray-700 last:border-b-0">
+              <div class="flex items-center gap-3 p-2 modal-section-background rounded-md mb-2">
                 <div class="w-12 h-12 ui-slot-dialog flex-shrink-0">
                   <img src="${itemDetails.icon || itemDetails.image}" alt="${itemDetails.name}" class="w-8 h-8 pixel-art">
                 </div>
