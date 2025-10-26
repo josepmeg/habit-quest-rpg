@@ -376,12 +376,12 @@ export function renderInventory() {
     } else {
         inventoryContent.innerHTML = gameState.player.inventory.map(itemData => {
             // Find item details using ALL_ITEMS array (assuming it's imported)
-            const itemDetails = ALL_ITEMS.find(i => i.id === itemData.id);
+            const itemDetails = ALL_ITEMS[itemData.id];
             if (!itemDetails) {
                 console.warn(`Item details not found for ID: ${itemData.id}`);
                 return ''; // Skip rendering if item details are missing
             }
-
+            itemDetails.id = itemData.id;
             // --- Button Logic (checking equipped status) ---
             const isEquippable = ['weapon', 'armor', 'helmet', 'ring', 'necklace', 'offhand'].includes(itemDetails.type); // Added new types
             const isEquipped = Object.values(gameState.player.equipment).includes(itemDetails.id);
