@@ -257,10 +257,9 @@ h1, h2, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here
 .ui-slot-dialog {
   background-color: #D7AF7B; /* Dialog Light Tan */
   border: 2px solid #5B3D1B;  /* Dialog Dark Brown */
-  border-radius: 9999px;     /* Keep it fully rounded */
-  /* Add padding if needed for icons */
-  padding: 0.5rem;
-  /* Ensure content centers if used for icons */
+  border-radius: 9999px;     /* Keep rounded */
+  /* Keep padding and flex properties for icon centering */
+  padding: 0.5rem; /* Adjust if needed */
   display: flex;
   align-items: center;
   justify-content: center;
