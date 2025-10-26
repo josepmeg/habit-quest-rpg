@@ -72,27 +72,42 @@ export function populateTaskLists() {
     `;
 }
 
+// In ui.js (Make sure ALL_ITEMS is imported or accessible)
 export function recalculatePlayerStats() {
-    const { player } = gameState;
-    
-    let totalAttack = player.attack;
-    let totalMaxHp = player.max_hp;
+    const player = gameState.player;
+    if (!player) return; // Add safety check
 
-    for (const slot in player.equipment) {
-        const itemId = player.equipment[slot];
+    // Start with base stats
+    let current_total_max_hp = player.base_max_hp || 100; // Use base_max_hp
+    let current_total_attack = player.base_attack || 5; // Use base_attack
+    let current_max_mp = player.base_max_mp || 50; // Use base_max_mp
+    let current_total_luck = player.base_luck || 5; // Use base_luck
+    // Add other base stats here (e.g., base_defense)
+
+    // Calculate bonuses from equipment
+    Object.values(player.equipment).forEach(itemId => { // Use Object.values for simplicity
         if (itemId) {
             const item = ALL_ITEMS[itemId];
             if (item && item.bonus) {
-                if (item.bonus.attack) totalAttack += item.bonus.attack;
-                if (item.bonus.max_hp) totalMaxHp += item.bonus.max_hp;
+                current_total_max_hp += item.bonus.max_hp || 0;
+                current_max_mp += item.bonus.max_mp || 0; // Add MP bonus
+                current_total_attack += item.bonus.attack || 0;
+                current_total_luck += item.bonus.luck || 0;
+                // Add other bonuses (e.g., defense)
             }
         }
-    }
+    });
 
-    player.total_attack = totalAttack;
-    player.total_max_hp = totalMaxHp;
+    // Update the player's total stats in gameState
+    player.total_max_hp = current_total_max_hp;
+    player.max_mp = current_max_mp; // Update total max_mp
+    player.total_attack = current_total_attack;
+    player.total_luck = current_total_luck;
+    // Update other total stats (e.g., player.total_defense)
 
+    // Ensure current HP/MP don't exceed new maxes
     player.hp = Math.min(player.hp, player.total_max_hp);
+    player.mp = Math.min(player.mp, player.max_mp);
 }
 
 export function renderEquippedItems() {
