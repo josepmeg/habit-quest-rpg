@@ -272,3 +272,42 @@ h1, h2, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here
   border: 1px solid #014D67; /* Optional: Add a darker border */
   display: inline-block; /* Allows the box to size to the image */
 }
+
+.btn-close-3d {
+  /* Base Button Styles */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.1s ease-out;
+  border-radius: 0.375rem; /* rounded-md, or adjust if you want it round */
+  padding: 0.25rem 0.5rem; /* Small padding for just the 'X' */
+
+  /* FFTA Red Style */
+  background: linear-gradient(to bottom, #EAA8A3, #CF706B); /* Light to Main Red */
+  border: 1px solid #6F2924; /* Dark Red */
+  border-bottom: 3px solid #6F2924; /* Dark Red */
+  box-shadow: inset 0px 1px 0px 0px #EAA8A3; /* Light Red Highlight */
+
+  /* Text Style (White 'X' with black outline) */
+  color: white;
+  font-size: 1.5rem; /* Adjust size of 'X' */
+  line-height: 1; /* Ensure tight line height */
+  font-weight: bold;
+  text-shadow:
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000;
+}
+
+.btn-close-3d:hover {
+  filter: brightness(1.1);
+}
+
+.btn-close-3d:active {
+  border-bottom-width: 1px;
+  transform: translateY(2px);
+  filter: brightness(0.9);
+  box-shadow: inset 0px 1px 0px 0px rgba(0,0,0,0.2);
+}
