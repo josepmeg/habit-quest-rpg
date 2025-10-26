@@ -372,30 +372,52 @@ export function renderHistory(year, month) {
 export function renderInventory() {
     const inventoryContent = document.getElementById('inventory-content');
     if (!gameState.player.inventory || gameState.player.inventory.length === 0) {
-        inventoryContent.innerHTML = `<p class="text-gray-400">Your bag is empty.</p>`;
+        inventoryContent.innerHTML = `<p class="text-gray-400 p-4 text-center">Your bag is empty.</p>`; // Added padding/centering
     } else {
-        inventoryContent.innerHTML = gameState.player.inventory.map(item => {
-            const itemDetails = ALL_ITEMS[item.id];
-            let buttonHtml = '';
-            if (itemDetails.type === 'potion') {
-                buttonHtml = `<button class="use-item-btn btn bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-3 rounded-md" data-item-id="${item.id}">Use</button>`;
-            } else if (['weapon', 'armor'].includes(itemDetails.type)) {
-                buttonHtml = `<button class="equip-item-btn btn bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded-md" data-item-id="${item.id}">Equip</button>`;
+        inventoryContent.innerHTML = gameState.player.inventory.map(itemData => {
+            // Find item details using ALL_ITEMS array (assuming it's imported)
+            const itemDetails = ALL_ITEMS.find(i => i.id === itemData.id);
+            if (!itemDetails) {
+                console.warn(`Item details not found for ID: ${itemData.id}`);
+                return ''; // Skip rendering if item details are missing
             }
+
+            // --- Button Logic (checking equipped status) ---
+            const isEquippable = ['weapon', 'armor', 'helmet', 'ring', 'necklace', 'offhand'].includes(itemDetails.type); // Added new types
+            const isEquipped = Object.values(gameState.player.equipment).includes(itemDetails.id);
+            let buttonText = '';
+            let buttonClass = '';
+            let buttonDisabled = '';
+
+            if (itemDetails.type === 'potion') {
+                buttonText = 'Use';
+                buttonClass = 'use-item-btn bg-green-600 hover:bg-green-700';
+            } else if (isEquippable) {
+                buttonText = isEquipped ? 'Equipped' : 'Equip';
+                buttonClass = isEquipped ? 'bg-gray-500 cursor-not-allowed' : 'equip-item-btn bg-blue-600 hover:bg-blue-700';
+                buttonDisabled = isEquipped ? 'disabled' : '';
+            }
+            // --- End Button Logic ---
+
+            // --- NEW HTML STRUCTURE FOR EACH ITEM ROW ---
             return `
-                <div class="card p-3 rounded-md flex justify-between items-center">
-                    <div class="flex items-center gap-4">
-                        <div class="icon-background">
-                            <img src="${itemDetails.image}" class="w-6 h-6 pixel-art">
-                        </div>
-                        <div>
-                            <p>${itemDetails.name} (x${item.quantity || 1})</p>
-                            <p class="text-sm text-gray-400">${itemDetails.description}</p>
-                        </div>
-                    </div>
-                    ${buttonHtml}
+              <div class="flex items-center gap-3 p-2 border-b border-gray-700 last:border-b-0"> {/* Row container */}
+                <div class="w-12 h-12 ui-slot-dialog flex-shrink-0"> {/* Apply style here */}
+                  <img src="${itemDetails.icon || itemDetails.image}" alt="${itemDetails.name}" class="w-8 h-8 pixel-art"> {/* Use itemDetails.icon first */}
                 </div>
+                <div class="flex-grow text-left">
+                  <p class="font-bold text-white">${itemDetails.name} <span class="text-xs text-gray-400">(x${itemData.quantity || 1})</span></p>
+                  <p class="text-xs text-gray-400">${itemDetails.description || 'No description.'}</p>
+                </div>
+                ${buttonText ? `
+                <button class="btn text-white text-xs font-bold py-1 px-2 rounded ${buttonClass}" data-item-id="${itemDetails.id}" ${buttonDisabled}>
+                  ${buttonText}
+                </button>
+                ` : ''}
+              </div>
             `;
+            // --- END NEW STRUCTURE ---
+
         }).join('');
     }
 }
