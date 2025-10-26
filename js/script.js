@@ -3,6 +3,8 @@ import { gameState, loadGameData, saveGameData, importData } from './gameState.j
 import * as db from './database.js';
 import * as ui from './ui.js';
 
+let activeInventoryTab = 'potion'; // Default to 'potion'
+
 // === TOP-LEVEL STATE VARIABLES ===
 let calendarView = {
     year: new Date().getFullYear(),
@@ -637,6 +639,18 @@ function setupEventListeners() {
     if (toggleViewBtn) {
         toggleViewBtn.addEventListener('click', () => {
             ui.toggleInventoryView();
+        });
+    }
+
+    // === Backpack ===  <-- Good place to add it here
+    const tabsContainer = document.getElementById('backpack-tabs');
+    if (tabsContainer) {
+        tabsContainer.addEventListener('click', (e) => {
+            if (e.target.matches('.backpack-tab')) {
+                activeInventoryTab = e.target.dataset.category;
+                ui.renderInventory(); // Re-render inventory to apply filter
+                // Update active tab style (handled in renderInventory now)
+            }
         });
     }
     
