@@ -3,8 +3,6 @@ import { gameState, loadGameData, saveGameData, importData } from './gameState.j
 import * as db from './database.js';
 import * as ui from './ui.js';
 
-let activeInventoryTab = 'potion'; // Default to 'potion'
-
 // === TOP-LEVEL STATE VARIABLES ===
 let calendarView = {
     year: new Date().getFullYear(),
