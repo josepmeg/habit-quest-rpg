@@ -296,18 +296,25 @@
                             <p id="inventory-player-name" class="font-bold"></p>
                         </div>
                         <div class="flex-grow grid grid-cols-3 gap-4 modal-interior-background rounded-md p-4 justify-items-center">
-                            <div id="equipped-weapon-slot"
-                                 class="modal-section-background w-24 h-24 flex flex-col items-center justify-center p-2 rounded-md">
-                                <span class="text-xs text-white-400 mb-1">Main</span>
-                                <div class="w-16 h-16 ui-slot-dialog">
-                                    <img id="equipped-mainhand-img" src="" alt="Main Hand" class="w-10 h-10 pixel-art">
+                            <div id="equipped-weapon-slot" class="modal-section-background rounded-md p-2 flex items-center gap-2"> {/* CHANGED: flex, items-center, gap-2 */}
+                                {/* Tan Icon Area - Slightly smaller */}
+                                <div class="w-12 h-12 ui-slot-dialog flex-shrink-0"> {/* ADDED flex-shrink-0 */}
+                                    <img id="equipped-mainhand-img" src="" alt="Main Hand" class="w-8 h-8 pixel-art"> {/* Icon size smaller */}
+                                </div>
+                                {/* Text Area */}
+                                <div id="equipped-weapon-text" class="text-left"> {/* ADDED text container */}
+                                    {/* Item Name & Stats will be added here by JS later */}
                                 </div>
                             </div>
-                            <div id="equipped-armor-slot"
-                                 class="modal-section-background w-24 h-24 flex flex-col items-center justify-center p-2 rounded-md"> {/* MODIFIED CLASSES */}
-                                <span class="text-xs text-white-400 mb-1">Armor</span> {/* CHANGED LABEL */}
-                                <div class="w-16 h-16 ui-slot-dialog"> {/* ADDED INNER DIV */}
-                                    <img id="equipped-armor-img" src="" alt="Armor" class="w-10 h-10 pixel-art"> {/* Existing/New Image */}
+                            
+                            <div id="equipped-armor-slot" class="modal-section-background rounded-md p-2 flex items-center gap-2"> {/* CHANGED: flex, items-center, gap-2 */}
+                                {/* Tan Icon Area - Slightly smaller */}
+                                <div class="w-12 h-12 ui-slot-dialog flex-shrink-0"> {/* ADDED flex-shrink-0 */}
+                                    <img id="equipped-armor-img" src="" alt="Armor" class="w-8 h-8 pixel-art"> {/* Icon size smaller */}
+                                </div>
+                                {/* Text Area */}
+                                <div id="equipped-armor-text" class="text-left"> {/* ADDED text container */}
+                                    {/* Item Name & Stats will be added here by JS later */}
                                 </div>
                             </div>
                         </div>
@@ -409,6 +416,7 @@
     <audio id="sfx-level-up" src="assets/sfx/level-up.mp3" preload="auto"></audio>
 </body>
 </html>
+
 
 
 
