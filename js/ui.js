@@ -3,6 +3,7 @@ import { SHOP_ITEMS, ALL_ITEMS, SPECIAL_ATTACK, ALL_BOSSES, ALL_SKILLS } from '.
 
 let notificationQueue = [];
 let isNotificationVisible = false;
+let activeInventoryTab = 'potion';
 
 export function applySettings() {
     if (gameState.player.settings && gameState.player.settings.background) {
