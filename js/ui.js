@@ -624,11 +624,11 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
             </div>
         </div>
         <div class="modal-section-background p-1 rounded-md flex justify-center items-center gap-4">
-             <div class="text-left">
+             <div class="text-left flex items-center gap-1 flex-shrink">
                <span class="text-xl">❤️</span>
                <p class="text-xs text-white-400">HP</p>
             </div>
-            <div class="text-right">
+            <div class="text-right flex-shrink">
                 <p class="font-bold text-white">
                     ${player.total_max_hp}
                     ${hpBonus > 0 ? `<span class="text-xs text-green-400 ml-1">(+${hpBonus})</span>` : ''}
@@ -991,7 +991,7 @@ function renderInventoryStatsView() {
     // Create a title and a target div for renderAttributes
     statsViewContainer.innerHTML = `
         <div class="modal-section-background rounded-md mb-2">
-            <h5 class="font-bold py-0.5 px-1 text-center text-white">Player Stats</h5>
+            <h5 class="font-bold py-1 px-2 text-center text-white">Player Stats</h5>
         </div>
         <div id="inventory-stats-target"></div>
     `;
