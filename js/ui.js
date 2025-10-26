@@ -991,7 +991,7 @@ function renderInventoryStatsView() {
     // Create a title and a target div for renderAttributes
     statsViewContainer.innerHTML = `
         <div class="modal-section-background rounded-md mb-2">
-            <h5 class="font-bold p-2 text-center text-white">Player Stats</h5>
+            <h5 class="font-bold p-1 text-center text-white">Player Stats</h5>
         </div>
         <div id="inventory-stats-target"></div>
     `;
