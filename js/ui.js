@@ -392,11 +392,13 @@ export function renderInventory() {
 
     // --- Update Active Tab Style ---
     if (tabsContainer) {
-        tabsContainer.querySelectorAll('.backpack-tab').forEach(tab => {
-            if (tab.dataset.category === activeInventoryTab) {
-                tab.classList.add('active');
-            } else {
-                tab.classList.remove('active');
+        tabsContainer.addEventListener('click', (e) => {
+            // Check if a tab button was clicked
+            if (e.target.matches('.backpack-tab')) {
+                // Get the category from the button's data attribute
+                const category = e.target.dataset.category;
+                // Call the function in ui.js to handle the state change and re-render
+                ui.setActiveInventoryTab(category);
             }
         });
     }
