@@ -610,8 +610,7 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
     const displayTotalLuck = (player.base_luck || 5) + luckBonus + Math.floor((player.training_streak || 0) / 3);
 
     const attributesHtml = `
-    <div class="grid grid-cols-2 gap-2"> {/* Keep 2 columns overall */}
-        {/* Attack */}
+    <div class="grid grid-cols-2 gap-2">
         <div class="modal-section-background p-1 rounded-md flex justify-between items-center">
             <div class="text-left">
                 <span class="text-xl">⚔️</span>
@@ -661,7 +660,7 @@ export function renderAttributes(targetElementId = 'attributes-content') { // Ad
                     ${player.total_luck}
                    ${luckBonus > 0 ? `<span class="text-xs text-blue-400 ml-1">(+${luckBonus})</span>` : ''}
                 </p>
-                <p class="font-bold text-white leading-tight"> {/* Streak value */}
+                <p class="font-bold text-white leading-tight">
                     ${Math.floor((player.training_streak || 0) / 3)}
                 </p>
             </div>
