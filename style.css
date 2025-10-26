@@ -344,11 +344,11 @@ h1, h2, h3, h4, p, span, li, button, label, input, select { /* Ensure h1 is here
   box-shadow: inset 0px 1px 0px 0px rgba(0,0,0,0.2);
 }
 
-/* Disabled State (Copied from renderInventory logic) */
 .btn-equip-3d:disabled {
-    background: var(--gray-dark); /* Use a gray for disabled */
-    border-color: var(--gray-dark);
-    opacity: 0.5;
+    background: #555; /* Solid medium gray */
+    border-color: #444; /* Darker gray border */
+    color: #aaa; /* Lighter gray text */
+    opacity: 1; /* Remove transparency */
     cursor: not-allowed;
     filter: none;
     transform: none;
