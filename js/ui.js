@@ -382,55 +382,72 @@ export function renderHistory(year, month) {
 
 export function renderInventory() {
     const inventoryContent = document.getElementById('inventory-content');
-    if (!gameState.player.inventory || gameState.player.inventory.length === 0) {
-        inventoryContent.innerHTML = `<p class="text-gray-400 p-4 text-center">Your bag is empty.</p>`; // Added padding/centering
-    } else {
-        inventoryContent.innerHTML = gameState.player.inventory.map(itemData => {
-            // Find item details using ALL_ITEMS array (assuming it's imported)
-            const itemDetails = ALL_ITEMS[itemData.id];
-            if (!itemDetails) {
-                console.warn(`Item details not found for ID: ${itemData.id}`);
-                return ''; // Skip rendering if item details are missing
-            }
-            itemDetails.id = itemData.id;
-            // --- Button Logic (checking equipped status) ---
-            const isEquippable = ['weapon', 'armor', 'helmet', 'ring', 'necklace', 'offhand'].includes(itemDetails.type); // Added new types
-            const isEquipped = Object.values(gameState.player.equipment).includes(itemDetails.id);
-            let buttonText = '';
-            let buttonClass = '';
-            let buttonDisabled = '';
+    const tabsContainer = document.getElementById('backpack-tabs');
 
-            if (itemDetails.type === 'potion') {
-                buttonText = 'Use';
-                //buttonClass = 'use-item-btn bg-green-600 hover:bg-green-700';
-                buttonClass = 'use-item-btn btn-use-3d';
-            } else if (isEquippable) {
-                buttonText = isEquipped ? 'Equipped' : 'Equip';
-                //buttonClass = isEquipped ? 'bg-gray-500 cursor-not-allowed' : 'equip-item-btn bg-blue-600 hover:bg-blue-700';
-                buttonClass = 'equip-item-btn btn-equip-3d';
-                buttonDisabled = isEquipped ? 'disabled' : '';
+    // --- Update Active Tab Style ---
+    if (tabsContainer) {
+        tabsContainer.querySelectorAll('.backpack-tab').forEach(tab => {
+            if (tab.dataset.category === activeInventoryTab) {
+                tab.classList.add('active');
+            } else {
+                tab.classList.remove('active');
+            }
+        });
+    }
+    // --- End Tab Style Update ---
+
+    // --- Filter Inventory ---
+    const filteredInventory = gameState.player.inventory.filter(itemData => {
+        const itemDetails = ALL_ITEMS[itemData.id];
+        if (!itemDetails) return false;
+
+        // Define categories for items
+        if (activeInventoryTab === 'potion' && itemDetails.type === 'potion') return true;
+        if (activeInventoryTab === 'weapon' && itemDetails.type === 'weapon') return true; // Assuming 'weapon' includes main/offhand for now
+        if (activeInventoryTab === 'armor' && (itemDetails.type === 'armor' || itemDetails.type === 'helmet')) return true; // Group armor/helmet
+        if (activeInventoryTab === 'accessory' && (itemDetails.type === 'ring' || itemDetails.type === 'necklace')) return true; // Group accessories
+
+        return false; // Don't show if no match
+    });
+    // --- End Filter ---
+
+    if (!filteredInventory || filteredInventory.length === 0) {
+        inventoryContent.innerHTML = `<p class="text-white-400 p-4 text-center">No ${activeInventoryTab} items.</p>`;
+    } else {
+        inventoryContent.innerHTML = filteredInventory.map(itemData => { // Use filteredInventory
+            const itemDetails = ALL_ITEMS[itemData.id];
+            itemDetails.id = itemData.id; // Add ID back
+
+            // --- Button Logic (Remains the same) ---
+            const isEquippable = ['weapon', 'armor', 'helmet', 'ring', 'necklace', 'offhand'].includes(itemDetails.type);
+            const isEquipped = Object.values(gameState.player.equipment).includes(itemDetails.id);
+            let buttonText = ''; 
+            let buttonClass = ''; 
+            let buttonDisabled = '';
+            if (itemDetails.type === 'potion') { 
+                buttonText = 'Use'; 
+                buttonClass = 'use-item-btn btn-use-3d'; 
+            }
+            else if (isEquippable) { 
+                buttonText = isEquipped ? 'Equipped' : 'Equip'; 
+                buttonClass = 'equip-item-btn btn-equip-3d'; 
+                buttonDisabled = isEquipped ? 'disabled' : ''; 
             }
             // --- End Button Logic ---
 
-            // --- NEW HTML STRUCTURE FOR EACH ITEM ROW ---
+            // --- HTML Structure (Remains the same) ---
             return `
               <div class="flex items-center gap-3 p-2 modal-section-background rounded-md mb-2">
                 <div class="w-12 h-12 ui-slot-dialog flex-shrink-0">
                   <img src="${itemDetails.icon || itemDetails.image}" alt="${itemDetails.name}" class="w-8 h-8 pixel-art">
                 </div>
                 <div class="flex-grow text-left">
-                  <p class="font-bold text-white">${itemDetails.name} <span class="text-xs text-gray-400">(x${itemData.quantity || 1})</span></p>
-                  <p class="text-xs text-gray-400">${itemDetails.description || 'No description.'}</p>
+                  <p class="font-bold text-white">${itemDetails.name} <span class="text-xs text-white-400">(x${itemData.quantity || 1})</span></p>
+                  <p class="text-xs text-white-400">${itemDetails.description || 'No description.'}</p>
                 </div>
-                ${buttonText ? `
-                <button class="btn text-white text-xs font-bold py-1 px-2 rounded ${buttonClass}" data-item-id="${itemDetails.id}" ${buttonDisabled}>
-                  ${buttonText}
-                </button>
-                ` : ''}
+                ${buttonText ? `<button class="btn text-white text-xs font-bold py-1 px-2 rounded ${buttonClass}" data-item-id="${itemDetails.id}" ${buttonDisabled}>${buttonText}</button>` : ''}
               </div>
             `;
-            // --- END NEW STRUCTURE ---
-
         }).join('');
     }
 }
