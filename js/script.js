@@ -335,8 +335,12 @@ function handleEquipItem(itemId) {
 }
 
 function handlePurchase(itemId) {
+    console.log("Attempting to purchase:", itemId); // <-- ADD THIS LINE
     const itemToBuy = db.SHOP_ITEMS.find(item => item.id === itemId);
-    if (!itemToBuy) return;
+    if (!itemToBuy) {
+        console.error("Item not found in SHOP_ITEMS:", itemId); // Optional: Add error log here
+        return;
+    }
     if (gameState.player.gold >= itemToBuy.cost) {
         gameState.player.gold -= itemToBuy.cost;
         addItemToInventory(itemToBuy.id);
