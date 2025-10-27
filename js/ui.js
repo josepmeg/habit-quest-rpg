@@ -8,8 +8,13 @@ let activeInventoryTab = 'potion';
 export function applySettings() {
     if (gameState.player.settings && gameState.player.settings.background) {
         const bgNumber = gameState.player.settings.background;
-        const imageUrl = `assets/backgrounds/background ${bgNumber}.jpg`;
-        document.body.style.backgroundImage = `url('${imageUrl}')`;
+        const imageUrl = `assets/backgrounds/background ${bgNumber}.jpg`; 
+        const mainContent = document.getElementById('main-content');
+        if (mainContent) {
+           mainContent.style.backgroundImage = `url('${imageUrl}')`;
+        } else {
+           console.error("Element #main-content not found for background."); 
+        }
     }
 }
 
