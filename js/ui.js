@@ -111,40 +111,44 @@ export function recalculatePlayerStats() {
 }
 
 export function renderEquippedItems() {
-    const equipment = gameState.player.equipment;
-    // Define all the slot IDs and their corresponding equipment types
+    const equipment = gameState.player.equipment || {}; // Ensure equipment object exists
+
+    // Define all the slot types and their corresponding image element IDs
     const slots = [
-        { id: 'equipped-mainhand-img', type: 'weapon' },
-        { id: 'equipped-offhand-img', type: 'offhand' }, // Assuming 'offhand' type exists for items
-        { id: 'equipped-armor-img', type: 'armor' },
-        { id: 'equipped-helmet-img', type: 'helmet' },
-        { id: 'equipped-ring-img', type: 'ring' },
-        { id: 'equipped-necklace-img', type: 'necklace' },
+        { type: 'weapon', imgId: 'equipped-mainhand-img' }, // Main Hand uses 'weapon' type
+        { type: 'offhand', imgId: 'equipped-offhand-img' },
+        { type: 'armor', imgId: 'equipped-armor-img' },
+        { type: 'helmet', imgId: 'equipped-helmet-img' },
+        { type: 'ring', imgId: 'equipped-ring-img' },
+        { type: 'necklace', imgId: 'equipped-necklace-img' },
     ];
 
     slots.forEach(slot => {
-        const imgElement = document.getElementById(slot.id);
+        const imgElement = document.getElementById(slot.imgId);
         if (!imgElement) {
-            // console.warn(`Image element not found for slot ID: ${slot.id}`); // Optional: Add for debugging
-            return; // Skip if the image element doesn't exist
+            // console.warn(`Image element not found for slot ID: ${slot.imgId}`);
+            return; // Skip if the image element doesn't exist in HTML
         }
 
-        const itemId = equipment[slot.type]; // Get the equipped item ID (e.g., 'worn-sword')
+        const itemId = equipment[slot.type]; // Get the equipped item ID (e.g., 'worn-sword') from gameState
+        
         if (itemId) {
-            const itemDetails = ALL_ITEMS[itemId]; // Find item details
+            const itemDetails = ALL_ITEMS[itemId]; // Find item details in database
             if (itemDetails) {
-                imgElement.src = itemDetails.icon || itemDetails.image;
+                imgElement.src = itemDetails.icon || itemDetails.image; // Use icon first, fallback to image
                 imgElement.alt = itemDetails.name;
                 imgElement.classList.remove('hidden'); // Make sure image is visible
             } else {
-                imgElement.src = ''; // Clear image if item details not found
-                imgElement.alt = `Empty ${slot.type} slot`;
-                imgElement.classList.add('hidden'); // Hide image if no item/details
+                // Item ID exists in equipment, but not found in ALL_ITEMS (data mismatch)
+                imgElement.src = '';
+                imgElement.alt = `Unknown Item (${itemId})`;
+                imgElement.classList.add('hidden');
             }
         } else {
-            imgElement.src = ''; // Clear image if slot is empty
+            // No item equipped in this slot
+            imgElement.src = ''; // Clear image
             imgElement.alt = `Empty ${slot.type} slot`;
-            imgElement.classList.add('hidden'); // Hide image if slot is empty
+            imgElement.classList.add('hidden'); // Hide the image element if slot is empty
         }
     });
 }
